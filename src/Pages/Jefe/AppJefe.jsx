@@ -1,0 +1,23 @@
+import { Navigate, Route, Routes } from "react-router-dom";
+import { Dashboard } from "./Dashboard";
+import { Cliente } from "./Cliente";
+import { Vehiculo } from "./Vehiculo";
+import { Orden } from "./Orden";
+import { Inventario } from "./Inventario";
+import { Usuarios } from "./Usuarios";
+
+export const AppJefe = () => {
+  return (
+    <>
+      <Routes>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/cliente" element={<Cliente />} />
+        <Route path="/vehiculo" element={<Vehiculo />} />
+        <Route path="/orden" element={<Orden />} />
+        <Route path="/inventario" element={<Inventario />} />
+        <Route path="/usuarios" element={<Usuarios />} />
+        <Route path="/*" element={<Navigate to="/jefe/dashboard" />} />
+      </Routes>
+    </>
+  );
+};

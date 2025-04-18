@@ -1,14 +1,14 @@
 import { Header } from "../../Components/Layout/Header";
 import { SidebarJefe } from "../../Components/Layout/SidebarJefe";
-import { ListaClientes } from "./components/ListaClientes";
+import { ListaVehiculos } from "./components/ListarVehiculos";
 
-export const Cliente = () => {
+export const Vehiculo = () => {
   return (
     <>
       <SidebarJefe>
         <Header />
         <div className="mt-5">
-          <ListaClientes />
+          <ListaVehiculos />
         </div>
       </SidebarJefe>
     </>
