@@ -1,10 +1,30 @@
+import { Button, Modal, Form } from "react-bootstrap";
+import { useState } from "react";
+import { ModalCrearOrden } from "./ModalCrearOrden";
+
 export const ListaOrdenes = () => {
+  const [showModal, setShowModal] = useState(false);
+  // Manejar apertura/cierre del modal
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
+
   return (
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>Órdenes</h2>
-        <button className="btn btn-dark">+ Nueva Orden</button>
+        <Button
+          className="btn btn-dark"
+          type="button"
+          variant="primary"
+          onClick={handleShow}
+        >
+          + Nueva Orden
+        </Button>
       </div>
+
+      {/* Modal para crear nueva orden */}
+      <ModalCrearOrden showModal={showModal} handleClose={handleClose} />
+
       <div className="mb-3">
         <input
           type="text"

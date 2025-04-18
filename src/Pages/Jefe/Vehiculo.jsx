@@ -6,8 +6,7 @@ export const Vehiculo = () => {
   return (
     <>
       <SidebarJefe>
-        <Header />
-        <div className="mt-5">
+        <div className="mt-5 animate__animated">
           <ListaVehiculos />
         </div>
       </SidebarJefe>

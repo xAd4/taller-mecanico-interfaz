@@ -1,10 +1,22 @@
+import { useState } from "react";
+import { Button } from "react-bootstrap";
+import { ModalCrearUsuario } from "./ModalCrearUsuario";
+
 export const ListaUsuarios = () => {
+  const [showModal, setShowModal] = useState(false);
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
   return (
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>Usuarios</h2>
-        <button className="btn btn-dark">+ Nuevo Usuario</button>
+        <Button className="btn btn-dark" onClick={handleShow}>
+          + Nuevo Usuario
+        </Button>
       </div>
+
+      <ModalCrearUsuario showModal={showModal} handleClose={handleClose} />
+
       <div className="mb-3">
         <input
           type="text"

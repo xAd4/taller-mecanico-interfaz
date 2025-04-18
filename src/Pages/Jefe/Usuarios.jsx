@@ -5,8 +5,7 @@ import { ListaUsuarios } from "./components/ListaUsuarios";
 export const Usuarios = () => {
   return (
     <SidebarJefe>
-      <Header />
-      <div className="mt-5">
+      <div className="mt-5 animate__animated">
         <ListaUsuarios />
       </div>
     </SidebarJefe>

@@ -6,9 +6,9 @@ export const Orden = () => {
   return (
     <>
       <SidebarJefe>
-        <Header />
-        <div className="mt-5"></div>
-        <ListaOrdenes />
+        <div className="mt-5 animate__animated">
+          <ListaOrdenes />
+        </div>
       </SidebarJefe>
     </>
   );

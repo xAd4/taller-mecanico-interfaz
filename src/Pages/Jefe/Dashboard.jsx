@@ -7,17 +7,15 @@ export const Dashboard = () => {
   return (
     <>
       <SidebarJefe>
-        <Header />
-        <div className="container mt-4">
-          <h1 className="text-center mb-4">Dashboard</h1>
-          <h3 className="text-center text-muted mb-5">
-            Bienvenido al Dashboard del Jefe de Taller
-          </h3>
-          <Estadisticas />
-        </div>
+        <div className="animate__animated animate__fadeIn">
+          <div className="container mt-4">
+            <h1 className="text-center mb-4">Dashboard</h1>
+            <Estadisticas />
+          </div>
 
-        <div className="mt-5">
-          <OrdenesRecientes />
+          <div className="mt-5">
+            <OrdenesRecientes />
+          </div>
         </div>
       </SidebarJefe>
     </>

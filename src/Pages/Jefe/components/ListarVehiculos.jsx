@@ -1,10 +1,27 @@
+import { useState } from "react";
+import { Button, Modal, Form } from "react-bootstrap";
+import { ModalCrearVehiculo } from "./ModalCrearVehiculo";
+
 export const ListaVehiculos = () => {
+  const [showModal, setShowModal] = useState(false);
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
   return (
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h2>Vehículos</h2>
-        <button className="btn btn-dark">+ Nuevo Vehículo</button>
+        <Button className="btn btn-dark" onClick={handleShow}>
+          + Nuevo Vehículo
+        </Button>
       </div>
+
+      {/* Modal para crear nuevo vehículo */}
+      <ModalCrearVehiculo
+        showModal={showModal}
+        handleShow={handleShow}
+        handleClose={handleClose}
+      />
+
       <div className="mb-3">
         <input
           type="text"

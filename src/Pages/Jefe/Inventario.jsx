@@ -6,7 +6,6 @@ export const Inventario = () => {
   return (
     <>
       <SidebarJefe>
-        <Header />
         <div className="mt-5">
           <ListaProductos />
         </div>
