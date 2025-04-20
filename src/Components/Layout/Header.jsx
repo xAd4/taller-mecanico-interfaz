@@ -42,6 +42,7 @@ export const Header = () => {
                 { to: "/jefe/cliente", icon: "people", text: "Clientes" },
                 { to: "/jefe/vehiculo", icon: "car-front", text: "Vehículos" },
                 { to: "/jefe/orden", icon: "clipboard-check", text: "Órdenes" },
+                { to: "/jefe/tarea", icon: "person-workspace", text: "Tareas" },
                 {
                   to: "/jefe/inventario",
                   icon: "box-seam",

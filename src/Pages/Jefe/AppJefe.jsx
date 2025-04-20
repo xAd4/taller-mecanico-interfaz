@@ -5,6 +5,7 @@ import { Vehiculo } from "./Vehiculo";
 import { Orden } from "./Orden";
 import { Inventario } from "./Inventario";
 import { Usuarios } from "./Usuarios";
+import { Tarea } from "./Tarea";
 
 export const AppJefe = () => {
   return (
@@ -14,6 +15,7 @@ export const AppJefe = () => {
         <Route path="/cliente" element={<Cliente />} />
         <Route path="/vehiculo" element={<Vehiculo />} />
         <Route path="/orden" element={<Orden />} />
+        <Route path="/tarea" element={<Tarea />} />
         <Route path="/inventario" element={<Inventario />} />
         <Route path="/usuarios" element={<Usuarios />} />
         <Route path="/*" element={<Navigate to="/jefe/dashboard" />} />
