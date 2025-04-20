@@ -2,10 +2,18 @@ import { useState } from "react";
 import { Button, Form, Stack, Badge } from "react-bootstrap";
 import { ModalCrearProducto } from "./ModalCrearProducto";
 import { ModalEliminarProducto } from "./ModalEliminarProducto";
+import { ModalActualizarProducto } from "./ModalActualizarProducto";
 
 export const ListaProductos = () => {
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [selectedProducto, setSelectedProducto] = useState(null);
+
+  const handleUpdate = (updatedData) => {
+    console.log("Datos actualizados:", updatedData);
+    // Aquí iría la lógica para hacer el PUT o PATCH a la API
+  };
 
   const handleDelete = () => {
     console.log("Cliente eliminado");
@@ -22,7 +30,6 @@ export const ListaProductos = () => {
       marca: "Mobil",
       stock: 50,
       precio: 25.0,
-      minimoStock: 20,
     },
     {
       id: 2,
@@ -32,7 +39,6 @@ export const ListaProductos = () => {
       marca: "Bosch",
       stock: 30,
       precio: 15.0,
-      minimoStock: 15,
     },
   ];
 
@@ -157,6 +163,10 @@ export const ListaProductos = () => {
                           variant="outline-primary"
                           size="sm"
                           className="d-flex align-items-center gap-2"
+                          onClick={() => {
+                            setSelectedProducto(producto);
+                            setShowUpdateModal(true);
+                          }}
                         >
                           <i className="bi bi-pencil"></i>
                           <span className="d-none d-lg-inline">Editar</span>
@@ -213,6 +223,14 @@ export const ListaProductos = () => {
         showModal={showDeleteModal}
         handleClose={() => setShowDeleteModal(false)}
         handleDelete={handleDelete}
+      />
+
+      {/* Modal de actualización */}
+      <ModalActualizarProducto
+        showModal={showUpdateModal}
+        handleClose={() => setShowUpdateModal(false)}
+        handleUpdate={handleUpdate}
+        productoData={selectedProducto}
       />
     </div>
   );

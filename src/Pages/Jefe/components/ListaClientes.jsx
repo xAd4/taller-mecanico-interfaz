@@ -2,10 +2,18 @@ import { useState } from "react";
 import { Button, Form, Stack } from "react-bootstrap";
 import { ModalCrearCliente } from "./ModalCrearCliente";
 import { ModalEliminarCliente } from "./ModalEliminarCliente";
+import { ModalActualizarCliente } from "./ModalActualizarCliente";
 
 export const ListaClientes = () => {
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [selectedCliente, setSelectedCliente] = useState(null);
+
+  const handleUpdate = (updatedData) => {
+    console.log("Datos actualizados:", updatedData);
+    // Aquí iría la lógica para hacer el PUT o PATCH a la API
+  };
 
   const handleDelete = () => {
     console.log("Cliente eliminado");
@@ -125,6 +133,10 @@ export const ListaClientes = () => {
                         variant="outline-primary"
                         size="sm"
                         className="d-flex align-items-center gap-2"
+                        onClick={() => {
+                          setSelectedCliente(cliente);
+                          setShowUpdateModal(true);
+                        }}
                       >
                         <i className="bi bi-pencil"></i>
                         <span className="d-none d-md-inline">Editar</span>
@@ -178,6 +190,14 @@ export const ListaClientes = () => {
         showModal={showDeleteModal}
         handleClose={() => setShowDeleteModal(false)}
         handleDelete={handleDelete}
+      />
+
+      {/* Modal de actualización */}
+      <ModalActualizarCliente
+        showModal={showUpdateModal}
+        handleClose={() => setShowUpdateModal(false)}
+        handleUpdate={handleUpdate}
+        clienteData={selectedCliente}
       />
     </div>
   );

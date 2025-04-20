@@ -2,10 +2,18 @@ import { useState } from "react";
 import { Button, Form, Stack } from "react-bootstrap";
 import { ModalCrearVehiculo } from "./ModalCrearVehiculo";
 import { ModalEliminarVehiculo } from "./ModalEliminarVehiculo";
+import { ModalActualizarVehiculo } from "./ModalActualizarVehiculo";
 
 export const ListaVehiculos = () => {
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [selectedVehiculo, setSelectedVehiculo] = useState(null);
+
+  const handleUpdate = (updatedData) => {
+    console.log("Datos actualizados:", updatedData);
+    // Aquí iría la lógica para hacer el PUT o PATCH a la API
+  };
 
   const handleDelete = () => {
     console.log("Vehiculo eliminado");
@@ -137,6 +145,10 @@ export const ListaVehiculos = () => {
                         variant="outline-primary"
                         size="sm"
                         className="d-flex align-items-center gap-2"
+                        onClick={() => {
+                          setSelectedVehiculo(vehiculo);
+                          setShowUpdateModal(true);
+                        }}
                       >
                         <i className="bi bi-pencil"></i>
                         <span className="d-none d-md-inline">Editar</span>
@@ -191,6 +203,13 @@ export const ListaVehiculos = () => {
         showModal={showDeleteModal}
         handleClose={() => setShowDeleteModal(false)}
         handleDelete={handleDelete}
+      />
+      {/* Modal de actualización */}
+      <ModalActualizarVehiculo
+        showModal={showUpdateModal}
+        handleClose={() => setShowUpdateModal(false)}
+        handleUpdate={handleUpdate}
+        vehiculoData={selectedVehiculo}
       />
     </div>
   );

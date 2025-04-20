@@ -2,10 +2,18 @@ import { useState } from "react";
 import { Button, Form, Stack, Badge } from "react-bootstrap";
 import { ModalCrearUsuario } from "./ModalCrearUsuario";
 import { ModalEliminarUsuario } from "./ModalEliminarUsuario";
+import { ModalActualizarUsuario } from "./ModalActualizarUsuario";
 
 export const ListaUsuarios = () => {
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [selectedUsuario, setSelectedUsuario] = useState(null);
+
+  const handleUpdate = (updatedData) => {
+    console.log("Datos actualizados:", updatedData);
+    // Aquí iría la lógica para hacer el PUT o PATCH a la API
+  };
 
   const handleDelete = () => {
     console.log("Cliente eliminado");
@@ -154,6 +162,10 @@ export const ListaUsuarios = () => {
                         variant="outline-primary"
                         size="sm"
                         className="d-flex align-items-center gap-2"
+                        onClick={() => {
+                          setSelectedUsuario(usuario);
+                          setShowUpdateModal(true);
+                        }}
                       >
                         <i className="bi bi-pencil"></i>
                         <span className="d-none d-md-inline">Editar</span>
@@ -208,6 +220,13 @@ export const ListaUsuarios = () => {
         showModal={showDeleteModal}
         handleClose={() => setShowDeleteModal(false)}
         handleDelete={handleDelete}
+      />
+      {/* Modal de actualización */}
+      <ModalActualizarUsuario
+        showModal={showUpdateModal}
+        handleClose={() => setShowUpdateModal(false)}
+        handleUpdate={handleUpdate}
+        usuarioData={selectedUsuario}
       />
     </div>
   );

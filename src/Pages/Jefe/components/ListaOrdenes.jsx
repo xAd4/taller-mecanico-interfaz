@@ -2,10 +2,18 @@ import { useState } from "react";
 import { Button, Form, Stack, Badge } from "react-bootstrap";
 import { ModalCrearOrden } from "./ModalCrearOrden";
 import { ModalEliminarOrden } from "./ModalEliminarOrden";
+import { ModalActualizarOrden } from "./ModalActualizarOrden";
 
 export const ListaOrdenes = () => {
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [selectedOrden, setSelectedOrden] = useState(null);
+
+  const handleUpdate = (updatedData) => {
+    console.log("Datos actualizados:", updatedData);
+    // Aquí iría la lógica para hacer el PUT o PATCH a la API
+  };
 
   const handleDelete = () => {
     console.log("Orden eliminada");
@@ -155,6 +163,10 @@ export const ListaOrdenes = () => {
                         variant="outline-primary"
                         size="sm"
                         className="d-flex align-items-center gap-2"
+                        onClick={() => {
+                          setSelectedOrden(orden);
+                          setShowUpdateModal(true);
+                        }}
                       >
                         <i className="bi bi-pencil"></i>
                         <span className="d-none d-lg-inline">Editar</span>
@@ -217,6 +229,13 @@ export const ListaOrdenes = () => {
         showModal={showDeleteModal}
         handleClose={() => setShowDeleteModal(false)}
         handleDelete={handleDelete}
+      />
+      {/* Modal de actualización */}
+      <ModalActualizarOrden
+        showModal={showUpdateModal}
+        handleClose={() => setShowUpdateModal(false)}
+        handleUpdate={handleUpdate}
+        ordenData={selectedOrden}
       />
     </div>
   );

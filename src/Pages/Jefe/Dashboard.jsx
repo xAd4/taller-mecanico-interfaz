@@ -2,7 +2,7 @@ import { Header } from "../../Components/Layout/Header";
 import { SidebarJefe } from "../../Components/Layout/SidebarJefe";
 import { Estadisticas } from "./components/Estadisticas";
 import { OrdenesRecientes } from "./components/OrdenesRecientes";
-import "./styles/Dashboard.css";
+import "../styles/Dashboard.css";
 
 export const Dashboard = () => {
   return (
