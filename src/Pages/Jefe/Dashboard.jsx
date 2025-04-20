@@ -2,6 +2,7 @@ import { Header } from "../../Components/Layout/Header";
 import { SidebarJefe } from "../../Components/Layout/SidebarJefe";
 import { Estadisticas } from "./components/Estadisticas";
 import { OrdenesRecientes } from "./components/OrdenesRecientes";
+import "./styles/Dashboard.css";
 
 export const Dashboard = () => {
   return (
@@ -9,7 +10,7 @@ export const Dashboard = () => {
       <SidebarJefe>
         <div className="animate__animated animate__fadeIn">
           <div className="container mt-4">
-            <h1 className="text-center mb-4">Dashboard</h1>
+            <h1 className="text-center mb-4">Dashboard del Jefe</h1>
             <Estadisticas />
           </div>
 

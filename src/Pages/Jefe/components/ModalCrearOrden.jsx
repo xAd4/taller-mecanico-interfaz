@@ -135,7 +135,7 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
             <Button variant="secondary" onClick={handleClose}>
               Cancelar
             </Button>
-            <Button className="btn btn-dark" variant="primary" type="submit">
+            <Button className="btn btn-success" variant="primary" type="submit">
               Guardar Cambios
             </Button>
           </Modal.Footer>

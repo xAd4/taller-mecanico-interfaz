@@ -1,80 +1,243 @@
 import { useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Form, Stack, Badge } from "react-bootstrap";
 import { ModalCrearUsuario } from "./ModalCrearUsuario";
+import { ModalEliminarUsuario } from "./ModalEliminarUsuario";
 
 export const ListaUsuarios = () => {
   const [showModal, setShowModal] = useState(false);
-  const handleClose = () => setShowModal(false);
-  const handleShow = () => setShowModal(true);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const handleDelete = () => {
+    console.log("Cliente eliminado");
+    setShowDeleteModal(false);
+    // Aquí iría la lógica para hacer el DELETE a la API
+  };
+
+  const usuarios = [
+    {
+      id: 1,
+      nombre: "Juan Pérez",
+      email: "juan.perez@email.com",
+      rol: "Jefe",
+      avatar: "JP",
+      ultimoAcceso: "Hoy",
+    },
+    {
+      id: 2,
+      nombre: "María López",
+      email: "maria.lopez@email.com",
+      rol: "Mecánico",
+      avatar: "ML",
+      ultimoAcceso: "Ayer",
+    },
+  ];
+
+  const getRolColor = (rol) => {
+    switch (rol.toLowerCase()) {
+      case "jefe":
+        return "primary";
+      case "mecánico":
+        return "warning";
+      case "admin":
+        return "danger";
+      default:
+        return "secondary";
+    }
+  };
+
   return (
-    <div className="container mt-4">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>Usuarios</h2>
-        <Button className="btn btn-dark" onClick={handleShow}>
-          + Nuevo Usuario
+    <div className="container-fluid px-4 py-3 animate__animated animate__fadeIn">
+      {/* Header */}
+      <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
+        <div>
+          <h1 className="h2 mb-1 fw-bold text-primary">Gestión de Usuarios</h1>
+          <p className="text-muted mb-0">Administración de acceso y permisos</p>
+        </div>
+        <Button
+          variant="primary"
+          onClick={() => setShowModal(true)}
+          className="d-flex align-items-center gap-2"
+        >
+          <i className="bi bi-person-add"></i>
+          Nuevo Usuario
         </Button>
       </div>
 
-      <ModalCrearUsuario showModal={showModal} handleClose={handleClose} />
-
-      <div className="mb-3">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Buscar usuarios..."
-        />
+      {/* Buscador */}
+      <div className="mb-4">
+        <div className="input-group input-group-lg shadow-sm">
+          <span className="input-group-text bg-white border-end-0">
+            <i className="bi bi-search text-muted"></i>
+          </span>
+          <Form.Control
+            type="search"
+            placeholder="Buscar usuarios..."
+            className="border-start-0"
+          />
+        </div>
       </div>
-      <table className="table table-hover shadow-sm">
-        <thead className="table-light">
-          <tr>
-            <th scope="col">Nombre</th>
-            <th scope="col">Email</th>
-            <th scope="col">Rol</th>
-            <th scope="col">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Juan Pérez</td>
-            <td>juan.perez@email.com</td>
-            <td>Jefe</td>
-            <td>
-              <button className="btn btn-outline-primary btn-sm me-2">
-                Editar
-              </button>
-              <button className="btn btn-outline-danger btn-sm me-2">
-                Borrar
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>María López</td>
-            <td>maria.lopez@email.com</td>
-            <td>Mecanico</td>
-            <td>
-              <button className="btn btn-outline-primary btn-sm me-2">
-                Editar
-              </button>
-              <button className="btn btn-outline-danger btn-sm me-2">
-                Borrar
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      {/* <nav aria-label="Page navigation example">
-        <ul className="pagination justify-content-center mt-4">
-          <li className="page-item active">
-            <button className="page-link">1</button>
-          </li>
-          <li className="page-item">
-            <button className="page-link">2</button>
-          </li>
-          <li className="page-item">
-            <button className="page-link">3</button>
-          </li>
-        </ul>
-      </nav> */}
+
+      {/* Tabla Responsive */}
+      <div className="card shadow-sm border-0 overflow-hidden">
+        <div className="table-responsive rounded-3">
+          <table className="table table-hover align-middle mb-0">
+            <thead className="bg-primary text-white">
+              <tr>
+                <th scope="col" className="ps-4">
+                  Usuario
+                </th>
+                <th scope="col">Contacto</th>
+                <th scope="col">Rol</th>
+                <th scope="col">Actividad</th>
+                <th scope="col" className="text-end pe-4">
+                  Acciones
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {usuarios.map((usuario) => (
+                <tr key={usuario.id} className="transition-all">
+                  <td className="ps-4">
+                    <div className="d-flex align-items-center gap-3">
+                      <div className="avatar-circle bg-light text-dark">
+                        {usuario.avatar}
+                      </div>
+                      <div>
+                        <h6 className="mb-0 fw-semibold">{usuario.nombre}</h6>
+                        <small className="text-muted">
+                          @{usuario.nombre.toLowerCase().replace(" ", "")}
+                        </small>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="d-flex flex-column">
+                      <a
+                        href={`mailto:${usuario.email}`}
+                        className="text-decoration-none"
+                      >
+                        {usuario.email}
+                      </a>
+                      <small className="text-muted">
+                        Último acceso: {usuario.ultimoAcceso}
+                      </small>
+                    </div>
+                  </td>
+                  <td>
+                    <Badge
+                      bg={getRolColor(usuario.rol)}
+                      className="text-capitalize"
+                    >
+                      <i
+                        className={`bi ${
+                          usuario.rol === "Jefe"
+                            ? "bi-shield-shaded"
+                            : "bi-tools"
+                        } me-2`}
+                      ></i>
+                      {usuario.rol}
+                    </Badge>
+                  </td>
+                  <td>
+                    <div className="d-flex align-items-center gap-2">
+                      <div className="activity-dot bg-success"></div>
+                      <small>Activo</small>
+                    </div>
+                  </td>
+                  <td className="pe-4">
+                    <Stack
+                      direction="horizontal"
+                      gap={2}
+                      className="justify-content-end"
+                    >
+                      <Button
+                        variant="outline-primary"
+                        size="sm"
+                        className="d-flex align-items-center gap-2"
+                      >
+                        <i className="bi bi-pencil"></i>
+                        <span className="d-none d-md-inline">Editar</span>
+                      </Button>
+                      <Button
+                        variant="outline-danger"
+                        size="sm"
+                        className="d-flex align-items-center gap-2"
+                        onClick={() => setShowDeleteModal(true)}
+                      >
+                        <i className="bi bi-trash"></i>
+                        <span className="d-none d-md-inline">Borrar</span>
+                      </Button>
+                    </Stack>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="d-flex justify-content-center mt-4">
+        <nav aria-label="Page navigation">
+          <ul className="pagination pagination-lg">
+            <li className="page-item disabled">
+              <button className="page-link">Anterior</button>
+            </li>
+            <li className="page-item active">
+              <button className="page-link">1</button>
+            </li>
+            <li className="page-item">
+              <button className="page-link">2</button>
+            </li>
+            <li className="page-item">
+              <button className="page-link">3</button>
+            </li>
+            <li className="page-item">
+              <button className="page-link">Siguiente</button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      {/* Modal */}
+      <ModalCrearUsuario
+        showModal={showModal}
+        handleClose={() => setShowModal(false)}
+      />
+      {/* Modal de eliminación */}
+      <ModalEliminarUsuario
+        showModal={showDeleteModal}
+        handleClose={() => setShowDeleteModal(false)}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 };
+
+// Estilos adicionales en CSS
+const styles = `
+  .avatar-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    border: 2px solid #dee2e6;
+  }
+  
+  .activity-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  
+  .transition-all {
+    transition: all 0.2s ease;
+  }
+`;
+
+// Agregar estilos al documento
+const styleSheet = document.createElement("style");
+styleSheet.innerText = styles;
+document.head.appendChild(styleSheet);

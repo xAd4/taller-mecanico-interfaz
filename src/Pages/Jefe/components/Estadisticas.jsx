@@ -1,32 +1,38 @@
 export const Estadisticas = () => {
+  const stats = [
+    {
+      title: "Órdenes Activas",
+      value: 54,
+      icon: "clipboard-check",
+      trend: "up",
+    },
+    { title: "Clientes Registrados", value: 102, icon: "people", trend: "up" },
+    {
+      title: "Vehículos en Sistema",
+      value: 106,
+      icon: "car-front",
+      trend: "steady",
+    },
+  ];
+
   return (
-    <>
-      <div className="row">
-        <div className="col-md-4 mb-4">
-          <div className="card shadow-sm" style={{ borderRadius: "10px" }}>
-            <div className="card-body text-center">
-              <h5 className="card-title">Ordenes Activas</h5>
-              <p className="card-text text-muted">54</p>
-            </div>
+    <div className="stats-grid">
+      {stats.map((stat, index) => (
+        <div key={index} className="stat-card">
+          <div className="card-icon">
+            <i className={`bi bi-${stat.icon}`}></i>
+          </div>
+          <div className="card-content">
+            <h3>{stat.value}</h3>
+            <p>{stat.title}</p>
+          </div>
+          <div className={`trend ${stat.trend}`}>
+            <i
+              className={`bi bi-arrow-${stat.trend === "up" ? "up" : "right"}`}
+            ></i>
           </div>
         </div>
-        <div className="col-md-4 mb-4">
-          <div className="card shadow-sm" style={{ borderRadius: "10px" }}>
-            <div className="card-body text-center">
-              <h5 className="card-title">Clientes</h5>
-              <p className="card-text text-muted">102</p>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-4 mb-4">
-          <div className="card shadow-sm" style={{ borderRadius: "10px" }}>
-            <div className="card-body text-center">
-              <h5 className="card-title">Vehiculos</h5>
-              <p className="card-text text-muted">106</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+      ))}
+    </div>
   );
 };
