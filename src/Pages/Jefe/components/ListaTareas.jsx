@@ -1,9 +1,25 @@
 import { useState } from "react";
 import { Button, Form, Stack, Badge } from "react-bootstrap";
-//import { ModalCrearTarea } from "./ModalCrearTarea";
+import { ModalCrearTarea } from "./ModalCrearTarea";
+import { ModalEliminarTarea } from "./ModalEliminarTarea";
+import { ModalActualizarTarea } from "./ModalActualizarTarea";
 
 export const ListaTareas = () => {
-  //const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [selectedTarea, setSelectedTarea] = useState(null);
+
+  const handleDelete = () => {
+    console.log("Cliente eliminado");
+    setShowDeleteModal(false);
+    // Aquí iría la lógica para hacer el DELETE a la API
+  };
+
+  const handleUpdate = (updatedData) => {
+    console.log("Datos actualizados:", updatedData);
+    // Aquí iría la lógica para hacer el PUT o PATCH a la API
+  };
 
   const tareas = [
     {
@@ -38,7 +54,7 @@ export const ListaTareas = () => {
   };
 
   return (
-    <div className="container-fluid px-4 py-3">
+    <div className="container-fluid px-4 py-3 animate__animated animate__fadeIn">
       {/* Header */}
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
         <div>
@@ -47,7 +63,7 @@ export const ListaTareas = () => {
         </div>
         <Button
           variant="primary"
-          //onClick={() => setShowModal(true)}
+          onClick={() => setShowModal(true)}
           className="d-flex align-items-center gap-2"
         >
           <i className="bi bi-clipboard-plus"></i>
@@ -129,6 +145,10 @@ export const ListaTareas = () => {
                         variant="outline-primary"
                         size="sm"
                         className="d-flex align-items-center gap-2"
+                        onClick={() => {
+                          setSelectedTarea(tarea);
+                          setShowUpdateModal(true);
+                        }}
                       >
                         <i className="bi bi-pencil"></i>
                         <span className="d-none d-md-inline">Editar</span>
@@ -137,6 +157,7 @@ export const ListaTareas = () => {
                         variant="outline-danger"
                         size="sm"
                         className="d-flex align-items-center gap-2"
+                        onClick={() => setShowDeleteModal(true)}
                       >
                         <i className="bi bi-trash"></i>
                         <span className="d-none d-md-inline">Eliminar</span>
@@ -149,18 +170,47 @@ export const ListaTareas = () => {
           </table>
         </div>
       </div>
-      {/* Empty State */}
-      {tareas.length === 0 && (
-        <div className="text-center py-5">
-          <i className="bi bi-clipboard-x fs-1 text-muted"></i>
-          <p className="text-muted mt-3">No hay tareas registradas</p>
-        </div>
-      )}
-      {/* Modal
+
+      <div className="d-flex justify-content-center mt-4">
+        <nav aria-label="Page navigation">
+          <ul className="pagination pagination-lg">
+            <li className="page-item disabled">
+              <button className="page-link">Anterior</button>
+            </li>
+            <li className="page-item active">
+              <button className="page-link">1</button>
+            </li>
+            <li className="page-item">
+              <button className="page-link">2</button>
+            </li>
+            <li className="page-item">
+              <button className="page-link">3</button>
+            </li>
+            <li className="page-item">
+              <button className="page-link">Siguiente</button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      {/* Modal */}
       <ModalCrearTarea
         showModal={showModal}
         handleClose={() => setShowModal(false)}
-      /> */}
+      />
+      {/* Modal de eliminación */}
+      <ModalEliminarTarea
+        showModal={showDeleteModal}
+        handleClose={() => setShowDeleteModal(false)}
+        handleDelete={handleDelete}
+      />
+      {/* Modal de actualización */}
+      <ModalActualizarTarea
+        showModal={showUpdateModal}
+        handleClose={() => setShowUpdateModal(false)}
+        handleUpdate={handleUpdate}
+        tareaData={selectedTarea}
+      />
     </div>
   );
 };
