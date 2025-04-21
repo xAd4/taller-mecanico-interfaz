@@ -11,7 +11,7 @@ import {
   ButtonGroup,
 } from "react-bootstrap";
 
-export const ListaTareasAsignadas = () => {
+export const ListaTareasAsignadas = ({ tasks, components, materials }) => {
   const [expandedTaskId, setExpandedTaskId] = useState(null);
   const [activeTab, setActiveTab] = useState("components");
 
@@ -20,119 +20,23 @@ export const ListaTareasAsignadas = () => {
     setActiveTab("components");
   };
 
-  const tasks = [
-    {
-      id: 1,
-      vehicleName: "Toyota Corolla",
-      licensePlate: "ABC-123",
-      client: "Juan Pérez",
-      status: "En progreso",
-      deadline: "2023-05-15",
-      technician: "Carlos Rodríguez",
-      description: "Revisión general y cambio de aceite",
-      priority: "Alta",
-      components: {
-        trenDelantero: [
-          {
-            conv: "Amortiguadores delanteros",
-            comba: "Requiere cambio",
-            avance: "Desgaste excesivo",
-            rotulas: "Desgaste excesivo",
-            punteros: "Desgaste excesivo",
-            bujes: "Desgaste excesivo",
-            caja_direccion: "Desgaste excesivo",
-            conv2: "Desgaste excesivo",
-            comba2: "Desgaste excesivo",
-            avance2: "Desgaste excesivo",
-            amort: "Desgaste excesivo",
-          },
-        ],
-        trenTrasero: [
-          {
-            conv: "Amortiguadores traseros",
-            comba: "Requiere cambio",
-            brazos_susp: "",
-            articulaciones: "",
-            conv2: "",
-            comba2: "",
-            amort: "",
-          },
-        ],
-        frenos: [
-          {
-            delanteros: "Pastillas de freno",
-            traseros: "Desgaste crítico",
-            estacionamiento: "Cambio inmediato",
-            numero_cricket: "Cambio inmediato",
-          },
-        ],
-        estadoNeumaticos: [
-          {
-            delanteros_derechos: "Neumático delantero izquierdo",
-            delanteros_izquierdos: "50% vida útil",
-            traseros_derechos: "",
-            traseros_izquierdos: "",
-          },
-        ],
-      },
-      materials: [
-        {
-          id: 1,
-          name: "Aceite de motor 5W-30",
-          quantity: 5,
-          price: 12.5,
-          total: 62.5,
-        },
-        {
-          id: 2,
-          name: "Filtro de aceite",
-          quantity: 1,
-          price: 8.75,
-          total: 8.75,
-        },
-        {
-          id: 3,
-          name: "Amortiguadores delanteros",
-          quantity: 2,
-          price: 85.0,
-          total: 170.0,
-        },
-        {
-          id: 4,
-          name: "Amortiguadores traseros",
-          quantity: 2,
-          price: 75.0,
-          total: 150.0,
-        },
-        {
-          id: 5,
-          name: "Pastillas de freno",
-          quantity: 1,
-          price: 45.0,
-          total: 45.0,
-        },
-      ],
-      totalPrice: 436.25,
-    },
-  ];
-
-  const getStatusBadge = (status) => {
-    const statusConfig = {
-      "en progreso": { bg: "primary", icon: "gear-wide-connected" },
-      pendiente: { bg: "warning", icon: "clock-history" },
-      completado: { bg: "success", icon: "check-circle" },
-      default: { bg: "secondary", icon: "question-circle" },
+  const filterComponentsByTask = (taskId) => {
+    return {
+      trenDelantero: components.trenDelantero.filter(
+        (item) => item.tarea_id === taskId
+      ),
+      trenTrasero: components.trenTrasero.filter(
+        (item) => item.tarea_id === taskId
+      ),
+      frenos: components.frenos.filter((item) => item.tarea_id === taskId),
+      estadoNeumaticos: components.estadoNeumaticos.filter(
+        (item) => item.tarea_id === taskId
+      ),
     };
+  };
 
-    const { bg, icon } =
-      statusConfig[status.toLowerCase()] || statusConfig.default;
-
-    return (
-      <Badge bg={bg} className="d-flex align-items-center gap-2">
-        <i className={`bi bi-${icon}`}></i>
-        {status}
-      </Badge>
-    );
+  const filterMaterialsByTask = (taskId) => {
+    return materials.filter((material) => material.tarea_id === taskId);
   };
 
   const renderComponentSection = (title, items, icon) => (
@@ -150,40 +54,45 @@ export const ListaTareasAsignadas = () => {
                   <strong className="text-capitalize">
                     {key.replace(/_/g, " ")}:
                   </strong>
-                  <span className="ms-2">{value}</span>
+                  <span className="ms-2">{value.toString()}</span>
                 </div>
               </Col>
             )
         )}
       </Row>
+      <Button>Editar</Button>
+      <Button>Borrar</Button>
+      <hr />
     </div>
   );
 
-  const renderMaterials = (materials, totalPrice) => (
+  const renderMaterials = (materials) => (
     <div className="mt-4">
       <Table striped bordered hover responsive className="shadow-sm">
         <thead className="bg-primary text-white">
           <tr>
-            <th>Material</th>
+            <th>Producto ID</th>
             <th className="text-center">Cantidad</th>
-            <th className="text-end">P. Unitario</th>
-            <th className="text-end">Total</th>
+            <th className="text-center">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {materials.map((material) => (
-            <tr key={material.id}>
-              <td>{material.name}</td>
-              <td className="text-center">{material.quantity}</td>
-              <td className="text-end">${material.price.toFixed(2)}</td>
-              <td className="text-end">${material.total.toFixed(2)}</td>
+          {materials.map((material, idx) => (
+            <tr key={idx}>
+              <td>{material.producto_id}</td>
+              <td className="text-center">{material.cantidad}</td>
+              <td>
+                <Button>Editar</Button>
+                <Button>Borrar</Button>
+              </td>
             </tr>
           ))}
-          <tr className="fw-bold">
-            <td colSpan="3" className="text-end">
-              Total General
+          {/* campo de precio total */}
+          <tr>
+            <td colSpan="2" className="text-end fw-bold">
+              Precio Total:
             </td>
-            <td className="text-end">${totalPrice.toFixed(2)}</td>
+            <td className="text-center fw-bold">70$</td>
           </tr>
         </tbody>
       </Table>
@@ -200,102 +109,106 @@ export const ListaTareasAsignadas = () => {
         </Badge>
       </div>
 
-      {tasks.map((task) => (
-        <Card key={task.id} className="mb-3 shadow-lg hover-shadow">
-          <Card.Header
-            className="d-flex justify-content-between align-items-center bg-light cursor-pointer"
-            onClick={() => toggleTask(task.id)}
-          >
-            <Stack gap={2}>
-              <div className="d-flex align-items-center gap-3">
-                <i className="bi bi-car-front fs-4 text-primary"></i>
-                <div>
-                  <h5 className="mb-0">{task.vehicleName}</h5>
-                  <small className="text-muted">
-                    {task.licensePlate} • {task.client}
-                  </small>
-                </div>
-              </div>
-              <div className="d-flex gap-2">
-                <Badge bg="dark" className="d-flex align-items-center gap-1">
-                  <i className="bi bi-person-workspace"></i>
-                  {task.technician}
-                </Badge>
-                <Badge
-                  bg={task.priority === "Alta" ? "danger" : "warning"}
-                  className="text-capitalize"
-                >
-                  {task.priority}
-                </Badge>
-              </div>
-            </Stack>
-            <Stack gap={2} className="align-items-end">
-              {getStatusBadge(task.status)}
-              <small className="text-muted">
-                <i className="bi bi-calendar-check me-2"></i>
-                {task.deadline}
-              </small>
-            </Stack>
-          </Card.Header>
+      {tasks.map((task) => {
+        const taskComponents = filterComponentsByTask(task.id);
+        const taskMaterials = filterMaterialsByTask(task.id);
 
-          <Collapse in={expandedTaskId === task.id}>
-            <Card.Body>
-              <p className="lead">{task.description}</p>
+        return (
+          <>
+            <Card key={task.id} className="mb-3 shadow-lg hover-shadow">
+              <Card.Header
+                className="d-flex justify-content-between align-items-center bg-light cursor-pointer"
+                onClick={() => toggleTask(task.id)}
+              >
+                <Stack gap={2}>
+                  <div className="d-flex align-items-center gap-3">
+                    <i className="bi bi-car-front fs-4 text-primary"></i>
+                    <div>
+                      <h5 className="mb-0">Orden #{task.orden_id}</h5>
+                      <h6 className="mb-0">
+                        Notifacion al cliente: {task.notificacion_al_cliente}
+                      </h6>
+                      <small className="text-muted">
+                        Mecánico: {task.mecanico_id}
+                      </small>
+                    </div>
+                  </div>
+                  <div className="d-flex gap-2">
+                    <Badge
+                      bg="dark"
+                      className="d-flex align-items-center gap-1"
+                    >
+                      <i className="bi bi-person-workspace"></i>
+                      {task.estado_de_trabajo}
+                    </Badge>
+                  </div>
+                </Stack>
+              </Card.Header>
 
-              <div className="mb-4">
-                <ButtonGroup aria-label="Basic example">
-                  <Button
-                    variant={
-                      activeTab === "components" ? "primary" : "outline-primary"
-                    }
-                    onClick={() => setActiveTab("components")}
-                  >
-                    <i className="bi bi-gear-wide-connected me-2"></i>
-                    Detalles Técnicos
-                  </Button>
-                  <Button
-                    variant={
-                      activeTab === "materials" ? "primary" : "outline-primary"
-                    }
-                    onClick={() => setActiveTab("materials")}
-                  >
-                    <i className="bi bi-box-seam me-2"></i>
-                    Materiales
-                  </Button>
-                </ButtonGroup>
-              </div>
+              <Collapse in={expandedTaskId === task.id}>
+                <Card.Body>
+                  <p className="lead">{task.detalles_de_tarea}</p>
 
-              {activeTab === "components" && (
-                <div className="technical-details">
-                  {renderComponentSection(
-                    "Tren Delantero",
-                    task.components.trenDelantero,
-                    "pc-horizontal"
-                  )}
-                  {renderComponentSection(
-                    "Tren Trasero",
-                    task.components.trenTrasero,
-                    "pc"
-                  )}
-                  {renderComponentSection(
-                    "Sistema de Frenos",
-                    task.components.frenos,
-                    "brake-front"
-                  )}
-                  {renderComponentSection(
-                    "Estado de Neumáticos",
-                    task.components.estadoNeumaticos,
-                    "truck-front"
-                  )}
-                </div>
-              )}
+                  <div className="mb-4">
+                    <ButtonGroup aria-label="Basic example">
+                      <Button
+                        variant={
+                          activeTab === "components"
+                            ? "primary"
+                            : "outline-primary"
+                        }
+                        onClick={() => setActiveTab("components")}
+                      >
+                        <i className="bi bi-gear-wide-connected me-2"></i>
+                        Componentes
+                      </Button>
+                      <Button
+                        variant={
+                          activeTab === "materials"
+                            ? "primary"
+                            : "outline-primary"
+                        }
+                        onClick={() => setActiveTab("materials")}
+                      >
+                        <i className="bi bi-box-seam me-2"></i>
+                        Materiales
+                      </Button>
+                    </ButtonGroup>
+                  </div>
 
-              {activeTab === "materials" &&
-                renderMaterials(task.materials, task.totalPrice)}
-            </Card.Body>
-          </Collapse>
-        </Card>
-      ))}
+                  {activeTab === "components" && (
+                    <div className="technical-details">
+                      {renderComponentSection(
+                        "Tren Delantero",
+                        taskComponents.trenDelantero,
+                        "pc-horizontal"
+                      )}
+                      {renderComponentSection(
+                        "Tren Trasero",
+                        taskComponents.trenTrasero,
+                        "pc"
+                      )}
+                      {renderComponentSection(
+                        "Sistema de Frenos",
+                        taskComponents.frenos,
+                        "brake-front"
+                      )}
+                      {renderComponentSection(
+                        "Estado de Neumáticos",
+                        taskComponents.estadoNeumaticos,
+                        "truck-front"
+                      )}
+                    </div>
+                  )}
+
+                  {activeTab === "materials" && renderMaterials(taskMaterials)}
+                </Card.Body>
+              </Collapse>
+            </Card>
+            <Button className="mb-5">Editar</Button>
+          </>
+        );
+      })}
     </div>
   );
 };

@@ -8,7 +8,7 @@ export const Dashboard = () => {
     <SidebarMecanico>
       <div className="animate__animated animate__fadeIn">
         <div className="container mt-4">
-          <h1 className="text-center mb-4">Panel del Mecánico</h1>
+          <h1 className="text-center mb-4">Dashboard del Mecánico</h1>
           <EstadisticasMecanico />
         </div>
 
