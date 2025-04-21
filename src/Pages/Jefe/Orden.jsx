@@ -1,15 +1,14 @@
-import { Header } from "../../Components/Layout/Header";
-import { SidebarJefe } from "../../Components/Layout/SidebarJefe";
+import { Layout } from "./components/common/Layout";
 import { ListaOrdenes } from "./components/ListaOrdenes";
 
 export const Orden = () => {
   return (
     <>
-      <SidebarJefe>
+      <Layout>
         <div className="mt-5 animate__animated">
           <ListaOrdenes />
         </div>
-      </SidebarJefe>
+      </Layout>
     </>
   );
 };

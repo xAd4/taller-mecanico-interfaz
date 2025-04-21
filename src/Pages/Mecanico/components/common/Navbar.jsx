@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
-import "../../Pages/styles/Header.css";
+import "../../../styles/Navbar.css";
 
-export const HeaderMecanico = () => {
+export const Navbar = () => {
   return (
     <header className="navbar-main bg-gradient-primary">
       <nav className="navbar navbar-expand-lg navbar-dark">
@@ -19,7 +19,7 @@ export const HeaderMecanico = () => {
             </span>
           </NavLink>
 
-          {/* Toggler */}
+          {/* Toggle */}
           <button
             className="navbar-toggler"
             type="button"
@@ -40,14 +40,9 @@ export const HeaderMecanico = () => {
                   text: "Dashboard",
                 },
                 {
-                  to: "/mecanico/tareas2",
+                  to: "/mecanico/tareas",
                   icon: "person-workspace",
                   text: "Tareas",
-                },
-                {
-                  to: "/mecanico/tareas/completadas",
-                  icon: "person-workspace",
-                  text: "Tareas completadas",
                 },
                 {
                   to: "/jefe/dashboard",

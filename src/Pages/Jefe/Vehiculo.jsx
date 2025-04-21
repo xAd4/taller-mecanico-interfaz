@@ -1,15 +1,14 @@
-import { Header } from "../../Components/Layout/Header";
-import { SidebarJefe } from "../../Components/Layout/SidebarJefe";
+import { Layout } from "./components/common/Layout";
 import { ListaVehiculos } from "./components/ListarVehiculos";
 
 export const Vehiculo = () => {
   return (
     <>
-      <SidebarJefe>
+      <Layout>
         <div className="mt-5 animate__animated">
           <ListaVehiculos />
         </div>
-      </SidebarJefe>
+      </Layout>
     </>
   );
 };

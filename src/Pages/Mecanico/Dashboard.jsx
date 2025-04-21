@@ -1,11 +1,11 @@
 import { EstadisticasMecanico } from "./components/EstadisticasMecanico";
 import { TareasAsignadas } from "./components/TareasAsignadas";
-import "../styles/DashboardMecanico.css";
-import { SidebarMecanico } from "../../Components/Layout/SidebarMecanico";
+import { Layout } from "./components/common/Layout";
+import "./Dashboard.css";
 
 export const Dashboard = () => {
   return (
-    <SidebarMecanico>
+    <Layout>
       <div className="animate__animated animate__fadeIn">
         <div className="container mt-4">
           <h1 className="text-center mb-4">Dashboard del Mecánico</h1>
@@ -16,6 +16,6 @@ export const Dashboard = () => {
           <TareasAsignadas />
         </div>
       </div>
-    </SidebarMecanico>
+    </Layout>
   );
 };

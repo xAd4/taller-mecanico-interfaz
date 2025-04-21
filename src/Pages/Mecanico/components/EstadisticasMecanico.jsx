@@ -1,4 +1,3 @@
-// EstadisticasMecanico.jsx
 export const EstadisticasMecanico = () => {
   const stats = [
     {

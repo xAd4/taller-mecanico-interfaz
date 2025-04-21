@@ -1,214 +1,271 @@
 import { useState } from "react";
-import {
-  Badge,
-  Button,
-  Card,
-  Collapse,
-  Table,
-  Row,
-  Col,
-  Stack,
-  ButtonGroup,
-} from "react-bootstrap";
+import { Button, Badge, Table, Stack, Row, Col } from "react-bootstrap";
+import { ModalActualizarTarea } from "./ModalActualizarTarea";
 
-export const ListaTareasAsignadas = ({ tasks, components, materials }) => {
-  const [expandedTaskId, setExpandedTaskId] = useState(null);
-  const [activeTab, setActiveTab] = useState("components");
+export const ListaTareasAsignadas = () => {
+  const [activeTab, setActiveTab] = useState("delantero");
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [selectedTarea, setSelectedTarea] = useState(null);
 
-  const toggleTask = (taskId) => {
-    setExpandedTaskId(expandedTaskId === taskId ? null : taskId);
-    setActiveTab("components");
+  const handleUpdate = (updatedData) => {
+    console.log("Datos actualizados:", updatedData);
+    // Aquí iría la lógica para hacer el PUT o PATCH a la API
   };
 
-  const filterComponentsByTask = (taskId) => {
-    return {
-      trenDelantero: components.trenDelantero.filter(
-        (item) => item.tarea_id === taskId
-      ),
-      trenTrasero: components.trenTrasero.filter(
-        (item) => item.tarea_id === taskId
-      ),
-      frenos: components.frenos.filter((item) => item.tarea_id === taskId),
-      estadoNeumaticos: components.estadoNeumaticos.filter(
-        (item) => item.tarea_id === taskId
-      ),
-    };
-  };
+  const tareas = [
+    {
+      id: 1,
+      estado_de_trabajo: "Pendiente",
+      detalles_de_tarea:
+        "Lorem ipsum dolorsit, amet consectetur adipisicing elit. Itaque, quas ullammaxime soluta fugiat atque id unde temporibus culpaperspiciatis labore illum quia nesciunt corporis eos estaliquid natus quis!.",
+      notificacion_al_cliente:
+        " Eaque, nisi sintquam enim provident tempore hic aliquid vitae magnamassumenda, repellat doloribus illum tempora minima porro!Debitis necessitatibus veritatis praesentium?",
+    },
+  ];
 
-  const filterMaterialsByTask = (taskId) => {
-    return materials.filter((material) => material.tarea_id === taskId);
-  };
-
-  const renderComponentSection = (title, items, icon) => (
-    <div className="mb-4">
-      <h5 className="d-flex align-items-center gap-2 text-primary">
-        <i className={`bi bi-${icon}`}></i>
-        {title}
-      </h5>
-      <Row>
-        {Object.entries(items[0]).map(
-          ([key, value], idx) =>
-            value && (
-              <Col key={idx} md={6} lg={4} className="mb-2">
-                <div className="bg-light p-3 rounded">
-                  <strong className="text-capitalize">
-                    {key.replace(/_/g, " ")}:
-                  </strong>
-                  <span className="ms-2">{value.toString()}</span>
-                </div>
-              </Col>
-            )
-        )}
-      </Row>
-      <Button>Editar</Button>
-      <Button>Borrar</Button>
-      <hr />
-    </div>
+  const renderStatusIcon = (status) => (
+    <span className={`fs-5 ${status ? "text-success" : "text-danger"}`}>
+      {status ? (
+        <i className="bi bi-check-circle-fill" />
+      ) : (
+        <i className="bi bi-x-circle-fill" />
+      )}
+    </span>
   );
 
-  const renderMaterials = (materials) => (
-    <div className="mt-4">
-      <Table striped bordered hover responsive className="shadow-sm">
-        <thead className="bg-primary text-white">
-          <tr>
-            <th>Producto ID</th>
-            <th className="text-center">Cantidad</th>
-            <th className="text-center">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {materials.map((material, idx) => (
-            <tr key={idx}>
-              <td>{material.producto_id}</td>
-              <td className="text-center">{material.cantidad}</td>
-              <td>
-                <Button>Editar</Button>
-                <Button>Borrar</Button>
-              </td>
-            </tr>
-          ))}
-          {/* campo de precio total */}
-          <tr>
-            <td colSpan="2" className="text-end fw-bold">
-              Precio Total:
-            </td>
-            <td className="text-center fw-bold">70$</td>
-          </tr>
-        </tbody>
-      </Table>
-    </div>
+  const TabButton = ({ id, title, icon }) => (
+    <Button
+      variant={activeTab === id ? "primary" : "outline-primary"}
+      onClick={() => setActiveTab(id)}
+      className="d-flex align-items-center gap-2"
+    >
+      <i className={`bi bi-${icon}`}></i>
+      {title}
+    </Button>
   );
 
   return (
-    <div className="container-fluid px-4 py-3">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1 className="h2 fw-bold text-primary">Tareas Asignadas</h1>
-        <Badge bg="light" text="dark" className="fs-6">
-          <i className="bi bi-list-task me-2"></i>
-          {tasks.length} Tareas
-        </Badge>
+    <>
+      <div className="container-fluid px-4 py-3 animate__animated animate__fadeIn">
+        <div className="container-fluid px-4 py-3">
+          {/* Encabezado principal */}
+          <div className="d-flex justify-content-between align-items-center mb-4">
+            <h1 className="h2 fw-bold text-primary">
+              <i className="bi bi-clipboard-check me-2"></i>
+              Detalles de la Tarea #1
+            </h1>
+            <Badge bg="light" text="dark" className="fs-6">
+              <i className="bi bi-car-front me-2"></i>
+              Toyota Corolla - ABC123
+            </Badge>
+          </div>
+
+          {/* Información adicional de la tarea */}
+          <div className="card shadow-sm mb-4">
+            {tareas.map((tarea) => (
+              <div className="card-body" key={tarea.id}>
+                <Row>
+                  <Col md={6}>
+                    <p className="mb-2">
+                      <strong>Estado de trabajo actual:</strong>{" "}
+                      {tarea.estado_de_trabajo}
+                    </p>
+                    <p className="mb-2">
+                      <strong>Detalles de la tarea:</strong>{" "}
+                      {tarea.detalles_de_tarea}
+                    </p>
+                  </Col>
+                  <Col md={6}>
+                    <p className="mb-2">
+                      <strong>Notificación al cliente:</strong>{" "}
+                      {tarea.notificacion_al_cliente}
+                    </p>
+                  </Col>
+                </Row>
+                {/* Botón Editar */}
+                <div className="text-end mt-3">
+                  <Button
+                    variant="primary"
+                    onClick={() => {
+                      setSelectedTarea(tarea);
+                      setShowUpdateModal(true);
+                    }}
+                  >
+                    <i className="bi bi-pencil-square me-2"></i>
+                    Editar
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Botones de navegación */}
+          <div className="mb-4">
+            <Stack direction="horizontal" gap={3} className="flex-wrap">
+              <TabButton
+                id="delantero"
+                title="Tren Delantero"
+                icon="gear-wide-connected"
+              />
+              <TabButton id="trasero" title="Tren Trasero" icon="gear" />
+              <TabButton id="frenos" title="Frenos" icon="brake-front" />
+              <TabButton id="neumaticos" title="Neumáticos" icon="tire" />
+              <TabButton id="productos" title="Productos" icon="box-seam" />
+            </Stack>
+          </div>
+        </div>
+        {/* Contenido de las pestañas */}
+        {activeTab === "delantero" && (
+          <Table striped bordered hover responsive className="shadow-sm">
+            <thead className="bg-primary text-white">
+              <tr>
+                <th>Componente</th>
+                <th>Conv</th>
+                <th>Comba</th>
+                <th>Avance</th>
+                <th>Rótulas</th>
+                <th>Punteros</th>
+                <th>Bujes</th>
+                <th>Caja Dirección</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Estado</td>
+                <td className="text-center">{renderStatusIcon(true)}</td>
+                <td className="text-center">{renderStatusIcon(true)}</td>
+                <td className="text-center">{renderStatusIcon(true)}</td>
+                <td className="text-center">{renderStatusIcon(false)}</td>
+                <td className="text-center">{renderStatusIcon(true)}</td>
+                <td className="text-center">{renderStatusIcon(false)}</td>
+                <td className="text-center">{renderStatusIcon(true)}</td>
+              </tr>
+            </tbody>
+          </Table>
+        )}
+
+        {activeTab === "trasero" && (
+          <Table striped bordered hover responsive className="shadow-sm">
+            {/* Similar estructura para Tren Trasero */}
+          </Table>
+        )}
+
+        {activeTab === "frenos" && (
+          <Table striped bordered hover responsive className="shadow-sm">
+            <thead className="bg-primary text-white">
+              <tr>
+                <th>Componente</th>
+                <th>Delanteros</th>
+                <th>Traseros</th>
+                <th>Estacionamiento</th>
+                <th>N° Cricket</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Estado</td>
+                <td className="text-center">{renderStatusIcon(true)}</td>
+                <td className="text-center">{renderStatusIcon(true)}</td>
+                <td className="text-center">{renderStatusIcon(false)}</td>
+                <td className="text-center">{renderStatusIcon(false)}</td>
+              </tr>
+            </tbody>
+          </Table>
+        )}
+
+        {activeTab === "neumaticos" && (
+          <Table striped bordered hover responsive className="shadow-sm">
+            {/* Estructura para Neumáticos */}
+          </Table>
+        )}
+
+        {activeTab === "productos" && (
+          <div className="card shadow-sm">
+            <div className="card-body">
+              <h5 className="card-title mb-4">
+                <i className="bi bi-box-seam me-2"></i>
+                Productos Utilizados
+              </h5>
+              <Table hover className="mb-0">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th className="text-end">Cantidad</th>
+                    <th className="text-end">P. Unitario</th>
+                    <th className="text-end">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Mexlub 4T</td>
+                    <td className="text-end">12</td>
+                    <td className="text-end">$8.00</td>
+                    <td className="text-end fw-bold">$96.00</td>
+                  </tr>
+                  {/* Más filas */}
+                </tbody>
+                <tfoot className="fw-bold">
+                  <tr>
+                    <td colSpan="3" className="text-end">
+                      Total General
+                    </td>
+                    <td className="text-end">$96.00</td>
+                  </tr>
+                </tfoot>
+              </Table>
+            </div>
+          </div>
+        )}
+
+        {/* Sección de estado general */}
+        <div className="mt-4 p-4 bg-light rounded-3 shadow-sm">
+          <Row className="align-items-center">
+            {/* Información del estado general */}
+            <Col md={8}>
+              <h5 className="mb-3 d-flex align-items-center gap-2">
+                <i className="bi bi-info-circle text-primary"></i>
+                Estado General de la Tarea
+              </h5>
+              <p className="mb-2">
+                <strong>Estado actual:</strong>{" "}
+                <Badge bg="danger" className="text-capitalize">
+                  Pendiente
+                </Badge>
+              </p>
+              <p className="mb-2">
+                <strong>Última actualización:</strong> 21 de abril de 2025,
+                10:30 AM
+              </p>
+              <p className="mb-0">
+                <strong>Responsable:</strong> Carlos Rodríguez
+              </p>
+            </Col>
+
+            {/* Botones de acción */}
+            <Col md={4} className="text-md-end mt-3 mt-md-0">
+              <Button variant="secondary" className="me-2">
+                <i className="bi bi-hourglass-split me-2"></i>
+                Marcar como en proceso
+              </Button>
+              <Button variant="warning" className="me-2 mt-3">
+                <i className="bi bi-currency-dollar"></i>
+                Marcar como pendiente por pagar
+              </Button>
+              <Button variant="success" className="mt-3">
+                <i className="bi bi-check-circle me-2"></i>
+                Marcar como completado
+              </Button>
+            </Col>
+          </Row>
+        </div>
+        {/* Modal Actualizar Tarea */}
+        <ModalActualizarTarea
+          showModal={showUpdateModal}
+          handleClose={() => setShowUpdateModal(false)}
+          handleUpdate={handleUpdate}
+          tareaData={selectedTarea}
+        />
       </div>
-
-      {tasks.map((task) => {
-        const taskComponents = filterComponentsByTask(task.id);
-        const taskMaterials = filterMaterialsByTask(task.id);
-
-        return (
-          <>
-            <Card key={task.id} className="mb-3 shadow-lg hover-shadow">
-              <Card.Header
-                className="d-flex justify-content-between align-items-center bg-light cursor-pointer"
-                onClick={() => toggleTask(task.id)}
-              >
-                <Stack gap={2}>
-                  <div className="d-flex align-items-center gap-3">
-                    <i className="bi bi-car-front fs-4 text-primary"></i>
-                    <div>
-                      <h5 className="mb-0">Orden #{task.orden_id}</h5>
-                      <h6 className="mb-0">
-                        Notifacion al cliente: {task.notificacion_al_cliente}
-                      </h6>
-                      <small className="text-muted">
-                        Mecánico: {task.mecanico_id}
-                      </small>
-                    </div>
-                  </div>
-                  <div className="d-flex gap-2">
-                    <Badge
-                      bg="dark"
-                      className="d-flex align-items-center gap-1"
-                    >
-                      <i className="bi bi-person-workspace"></i>
-                      {task.estado_de_trabajo}
-                    </Badge>
-                  </div>
-                </Stack>
-              </Card.Header>
-
-              <Collapse in={expandedTaskId === task.id}>
-                <Card.Body>
-                  <p className="lead">{task.detalles_de_tarea}</p>
-
-                  <div className="mb-4">
-                    <ButtonGroup aria-label="Basic example">
-                      <Button
-                        variant={
-                          activeTab === "components"
-                            ? "primary"
-                            : "outline-primary"
-                        }
-                        onClick={() => setActiveTab("components")}
-                      >
-                        <i className="bi bi-gear-wide-connected me-2"></i>
-                        Componentes
-                      </Button>
-                      <Button
-                        variant={
-                          activeTab === "materials"
-                            ? "primary"
-                            : "outline-primary"
-                        }
-                        onClick={() => setActiveTab("materials")}
-                      >
-                        <i className="bi bi-box-seam me-2"></i>
-                        Materiales
-                      </Button>
-                    </ButtonGroup>
-                  </div>
-
-                  {activeTab === "components" && (
-                    <div className="technical-details">
-                      {renderComponentSection(
-                        "Tren Delantero",
-                        taskComponents.trenDelantero,
-                        "pc-horizontal"
-                      )}
-                      {renderComponentSection(
-                        "Tren Trasero",
-                        taskComponents.trenTrasero,
-                        "pc"
-                      )}
-                      {renderComponentSection(
-                        "Sistema de Frenos",
-                        taskComponents.frenos,
-                        "brake-front"
-                      )}
-                      {renderComponentSection(
-                        "Estado de Neumáticos",
-                        taskComponents.estadoNeumaticos,
-                        "truck-front"
-                      )}
-                    </div>
-                  )}
-
-                  {activeTab === "materials" && renderMaterials(taskMaterials)}
-                </Card.Body>
-              </Collapse>
-            </Card>
-            <Button className="mb-5">Editar</Button>
-          </>
-        );
-      })}
-    </div>
+    </>
   );
 };

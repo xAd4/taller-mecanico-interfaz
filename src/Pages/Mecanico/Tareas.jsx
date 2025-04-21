@@ -1,12 +1,12 @@
 import { Layout } from "./components/common/Layout";
-import { ListaTareas } from "./components/ListaTareas";
+import { ListaTareasAsignadas } from "./components/ListaTareasAsignadas";
 
-export const Tarea = () => {
+export const Tareas = () => {
   return (
     <>
       <Layout>
         <div className="mt-5">
-          <ListaTareas />
+          <ListaTareasAsignadas />
         </div>
       </Layout>
     </>

@@ -1,11 +1,11 @@
-import { Header } from "./Header";
+import { Navbar } from "./Navbar";
 
-export const SidebarJefe = ({ children }) => {
+export const Layout = ({ children }) => {
   return (
     <>
       {/** Main Content */}
       <div>
-        <Header />
+        <Navbar />
         {children}
       </div>
     </>

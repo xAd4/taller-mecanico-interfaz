@@ -1,15 +1,14 @@
-import { Header } from "../../Components/Layout/Header";
-import { SidebarJefe } from "../../Components/Layout/SidebarJefe";
+import { Layout } from "./components/common/Layout";
 import { ListaProductos } from "./components/ListaProductos";
 
 export const Inventario = () => {
   return (
     <>
-      <SidebarJefe>
+      <Layout>
         <div className="mt-5">
           <ListaProductos />
         </div>
-      </SidebarJefe>
+      </Layout>
     </>
   );
 };

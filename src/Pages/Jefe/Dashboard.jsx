@@ -1,13 +1,12 @@
-import { Header } from "../../Components/Layout/Header";
-import { SidebarJefe } from "../../Components/Layout/SidebarJefe";
 import { Estadisticas } from "./components/Estadisticas";
 import { OrdenesRecientes } from "./components/OrdenesRecientes";
-import "../styles/Dashboard.css";
+import "./Dashboard.css";
+import { Layout } from "./components/common/Layout";
 
 export const Dashboard = () => {
   return (
     <>
-      <SidebarJefe>
+      <Layout>
         <div className="animate__animated animate__fadeIn">
           <div className="container mt-4">
             <h1 className="text-center mb-4">Dashboard del Jefe</h1>
@@ -18,7 +17,7 @@ export const Dashboard = () => {
             <OrdenesRecientes />
           </div>
         </div>
-      </SidebarJefe>
+      </Layout>
     </>
   );
 };

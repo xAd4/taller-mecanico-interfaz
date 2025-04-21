@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
-import "../../Pages/styles/Header.css";
+import "../../../styles/Navbar.css";
 
-export const Header = () => {
+export const Navbar = () => {
   return (
     <header className="navbar-main bg-gradient-primary">
       <nav className="navbar navbar-expand-lg navbar-dark">

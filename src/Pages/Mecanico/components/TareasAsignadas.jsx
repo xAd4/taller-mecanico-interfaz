@@ -62,7 +62,7 @@ export const TareasAsignadas = () => {
               </div>
               <div className="order-meta">
                 <button className="btn btn-details me-2">
-                  <NavLink to="/mecanico/tareas2">
+                  <NavLink to="/mecanico/tareas">
                     <i className="bi bi-card-checklist"></i> Detalles
                   </NavLink>
                 </button>
