@@ -53,6 +53,11 @@ export const Header = () => {
                   icon: "person-badge",
                   text: "Usuarios",
                 },
+                {
+                  to: "/mecanico/dashboard",
+                  icon: "speedometer2",
+                  text: "Mecanico",
+                },
               ].map((item, index) => (
                 <li className="nav-item mx-2" key={index}>
                   <NavLink

@@ -40,9 +40,19 @@ export const HeaderMecanico = () => {
                   text: "Dashboard",
                 },
                 {
-                  to: "/mecanico/tareas",
+                  to: "/mecanico/tareas2",
                   icon: "person-workspace",
                   text: "Tareas",
+                },
+                {
+                  to: "/mecanico/tareas/completadas",
+                  icon: "person-workspace",
+                  text: "Tareas completadas",
+                },
+                {
+                  to: "/jefe/dashboard",
+                  icon: "speedometer2",
+                  text: "Jefe",
                 },
               ].map((item, index) => (
                 <li className="nav-item mx-2" key={index}>
