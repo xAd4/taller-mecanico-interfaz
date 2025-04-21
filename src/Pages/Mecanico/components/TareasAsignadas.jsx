@@ -1,3 +1,5 @@
+import { NavLink } from "react-router-dom";
+
 export const TareasAsignadas = () => {
   const tasks = [
     {
@@ -41,11 +43,6 @@ export const TareasAsignadas = () => {
                 >
                   {task.estado}
                 </span>
-                <span
-                  className={`priority-badge ${task.prioridad.toLowerCase()}`}
-                >
-                  {task.prioridad}
-                </span>
               </div>
             </div>
             <div className="order-body">
@@ -65,10 +62,9 @@ export const TareasAsignadas = () => {
               </div>
               <div className="order-meta">
                 <button className="btn btn-details me-2">
-                  <i className="bi bi-card-checklist"></i> Detalles
-                </button>
-                <button className="btn btn-outline-primary">
-                  <i className="bi bi-chat"></i> Contactar
+                  <NavLink to="/mecanico/tareas2">
+                    <i className="bi bi-card-checklist"></i> Detalles
+                  </NavLink>
                 </button>
               </div>
             </div>

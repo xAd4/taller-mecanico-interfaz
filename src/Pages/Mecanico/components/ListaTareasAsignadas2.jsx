@@ -1,8 +1,27 @@
 import { useState } from "react";
 import { Button, Badge, Table, Stack, Row, Col } from "react-bootstrap";
+import { ModalActualizarTarea } from "./ModalActualizarTarea";
 
 export const ListaTareasAsignadas2 = () => {
   const [activeTab, setActiveTab] = useState("delantero");
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [selectedTarea, setSelectedTarea] = useState(null);
+
+  const handleUpdate = (updatedData) => {
+    console.log("Datos actualizados:", updatedData);
+    // Aquí iría la lógica para hacer el PUT o PATCH a la API
+  };
+
+  const tareas = [
+    {
+      id: 1,
+      estado_de_trabajo: "Pendiente",
+      detalles_de_tarea:
+        "Lorem ipsum dolorsit, amet consectetur adipisicing elit. Itaque, quas ullammaxime soluta fugiat atque id unde temporibus culpaperspiciatis labore illum quia nesciunt corporis eos estaliquid natus quis!.",
+      notificacion_al_cliente:
+        " Eaque, nisi sintquam enim provident tempore hic aliquid vitae magnamassumenda, repellat doloribus illum tempora minima porro!Debitis necessitatibus veritatis praesentium?",
+    },
+  ];
 
   const renderStatusIcon = (status) => (
     <span className={`fs-5 ${status ? "text-success" : "text-danger"}`}>
@@ -27,7 +46,7 @@ export const ListaTareasAsignadas2 = () => {
 
   return (
     <>
-      <div className="container-fluid px-4 py-3">
+      <div className="container-fluid px-4 py-3 animate__animated animate__fadeIn">
         <div className="container-fluid px-4 py-3">
           {/* Encabezado principal */}
           <div className="d-flex justify-content-between align-items-center mb-4">
@@ -43,37 +62,41 @@ export const ListaTareasAsignadas2 = () => {
 
           {/* Información adicional de la tarea */}
           <div className="card shadow-sm mb-4">
-            <div className="card-body">
-              <Row>
-                <Col md={6}>
-                  <p className="mb-2">
-                    <strong>Estado de trabajo actual:</strong> Pendiente
-                  </p>
-                  <p className="mb-2">
-                    <strong>Detalles de la tarea:</strong> Lorem ipsum dolor
-                    sit, amet consectetur adipisicing elit. Itaque, quas ullam
-                    maxime soluta fugiat atque id unde temporibus culpa
-                    perspiciatis labore illum quia nesciunt corporis eos est
-                    aliquid natus quis!.
-                  </p>
-                </Col>
-                <Col md={6}>
-                  <p className="mb-2">
-                    <strong>Notificación al cliente:</strong> Eaque, nisi sint
-                    quam enim provident tempore hic aliquid vitae magnam
-                    assumenda, repellat doloribus illum tempora minima porro!
-                    Debitis necessitatibus veritatis praesentium?
-                  </p>
-                </Col>
-              </Row>
-              {/* Botón Editar */}
-              <div className="text-end mt-3">
-                <Button variant="primary">
-                  <i className="bi bi-pencil-square me-2"></i>
-                  Editar
-                </Button>
+            {tareas.map((tarea) => (
+              <div className="card-body" key={tarea.id}>
+                <Row>
+                  <Col md={6}>
+                    <p className="mb-2">
+                      <strong>Estado de trabajo actual:</strong>{" "}
+                      {tarea.estado_de_trabajo}
+                    </p>
+                    <p className="mb-2">
+                      <strong>Detalles de la tarea:</strong>{" "}
+                      {tarea.detalles_de_tarea}
+                    </p>
+                  </Col>
+                  <Col md={6}>
+                    <p className="mb-2">
+                      <strong>Notificación al cliente:</strong>{" "}
+                      {tarea.notificacion_al_cliente}
+                    </p>
+                  </Col>
+                </Row>
+                {/* Botón Editar */}
+                <div className="text-end mt-3">
+                  <Button
+                    variant="primary"
+                    onClick={() => {
+                      setSelectedTarea(tarea);
+                      setShowUpdateModal(true);
+                    }}
+                  >
+                    <i className="bi bi-pencil-square me-2"></i>
+                    Editar
+                  </Button>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
 
           {/* Botones de navegación */}
@@ -235,6 +258,13 @@ export const ListaTareasAsignadas2 = () => {
             </Col>
           </Row>
         </div>
+        {/* Modal Actualizar Tarea */}
+        <ModalActualizarTarea
+          showModal={showUpdateModal}
+          handleClose={() => setShowUpdateModal(false)}
+          handleUpdate={handleUpdate}
+          tareaData={selectedTarea}
+        />
       </div>
     </>
   );
