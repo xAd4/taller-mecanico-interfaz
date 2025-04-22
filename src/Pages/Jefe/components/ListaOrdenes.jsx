@@ -34,16 +34,48 @@ export const ListaOrdenes = () => {
       fechaPrometida: "2025-04-10",
       cambios: "Cambio de aceite y filtros",
       estado: "En proceso",
-    },
-    {
-      id: 2,
-      clienteId: 54321,
-      vehiculoId: 49876,
-      datosExtras: "Reparación de frenos",
-      fechaRecepcion: "2025-04-05",
-      fechaPrometida: "2025-04-15",
-      cambios: "Revisión de frenos y suspensión",
-      estado: "Pendiente",
+      cliente: {
+        id: 1,
+        nombre: "Cliente numero 2",
+        apellido: "Apellido de Cliente numero 2",
+        email: "cliente@test.com",
+        dni: "45678910",
+        rut: "78945610",
+        telefono: "1234578944",
+        domicilio: "Domicilio del cliente numero 2",
+      },
+      vehiculo: {
+        id: 1,
+        modelo: "Renault",
+        marca: "Twingo",
+        color: "Rojo",
+        matricula: "AB456CR",
+        kilometraje: null,
+        numero_de_serie: null,
+        numero_de_motor: null,
+        fecha_de_compra: null,
+        created_at: "2025-04-22T17:27:30.000000Z",
+        updated_at: "2025-04-22T17:27:30.000000Z",
+      },
+      mecanico: {
+        id: 1,
+        orden_id: 1,
+        mecanico_id: 1,
+        estado_de_trabajo: "pendiente",
+        detalles_de_tarea: "El mecanico 1 tiene que hacer cosas",
+        notificacion_al_cliente: "Esto lo dice el mecanico",
+        created_at: "2025-04-22T17:31:04.000000Z",
+        updated_at: "2025-04-22T17:31:04.000000Z",
+        mecanico: {
+          id: 1,
+          name: "Angel Estarita JEFE",
+          email: "jefe@test.com",
+          email_verified_at: null,
+          created_at: "2025-04-17T13:55:18.000000Z",
+          updated_at: "2025-04-17T13:55:18.000000Z",
+          rol: "jefe",
+        },
+      },
     },
   ];
 
@@ -85,6 +117,7 @@ export const ListaOrdenes = () => {
           <table className="table table-hover align-middle mb-0">
             <thead className="bg-primary text-white">
               <tr>
+                <th scope="col">ID</th>
                 <th scope="col" className="ps-4">
                   Cliente
                 </th>
@@ -104,8 +137,20 @@ export const ListaOrdenes = () => {
                     <div className="d-flex align-items-center gap-3">
                       <i className="bi bi-person-circle fs-4 text-muted"></i>
                       <div>
+                        <h6 className="mb-0 fw-semibold">#{orden.id}</h6>
+                        <small className="text-muted">ID de Orden</small>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="ps-4">
+                    <div className="d-flex align-items-center gap-3">
+                      <i className="bi bi-person-circle fs-4 text-muted"></i>
+                      <div>
                         <h6 className="mb-0 fw-semibold">#{orden.clienteId}</h6>
-                        <small className="text-muted">Cliente</small>
+                        <h6 className="mb-0 fw-semibold">
+                          {orden.cliente.nombre}
+                        </h6>
+                        <small className="text-muted">ID de Cliente</small>
                       </div>
                     </div>
                   </td>
@@ -116,7 +161,10 @@ export const ListaOrdenes = () => {
                         <h6 className="mb-0 fw-semibold">
                           #{orden.vehiculoId}
                         </h6>
-                        <small className="text-muted">Vehículo</small>
+                        <h6 className="mb-0 fw-semibold">
+                          {orden.vehiculo.marca}
+                        </h6>
+                        <small className="text-muted">ID de Vehículo</small>
                       </div>
                     </div>
                   </td>
