@@ -6,7 +6,7 @@ import { es } from "date-fns/locale";
 
 export const DetallesOrden = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  // const { id } = useParams();
   const { state } = useLocation();
   const orden = state?.orden;
 
@@ -49,12 +49,6 @@ export const DetallesOrden = () => {
         {/* Encabezado */}
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h1 className="h2 mb-0">Orden #{orden.id}</h1>
-          <Badge
-            bg={orden.estado === "En proceso" ? "warning" : "secondary"}
-            className="text-capitalize fs-6"
-          >
-            {orden.estado}
-          </Badge>
         </div>
 
         {/* Sección principal */}
