@@ -3,12 +3,15 @@ import { Button, Form, Stack, Badge } from "react-bootstrap";
 import { ModalCrearTarea } from "./ModalCrearTarea";
 import { ModalEliminarTarea } from "./ModalEliminarTarea";
 import { ModalActualizarTarea } from "./ModalActualizarTarea";
+import { useNavigate } from "react-router-dom";
 
 export const ListaTareas = () => {
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedTarea, setSelectedTarea] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleDelete = () => {
     console.log("Cliente eliminado");
@@ -161,6 +164,19 @@ export const ListaTareas = () => {
                       >
                         <i className="bi bi-trash"></i>
                         <span className="d-none d-md-inline">Eliminar</span>
+                      </Button>
+                      <Button
+                        variant="outline-success"
+                        size="sm"
+                        className="d-flex align-items-center gap-2"
+                        onClick={() =>
+                          navigate(`/jefe/tarea/${tarea.id}`, {
+                            state: { tarea },
+                          })
+                        }
+                      >
+                        <i className="bi bi-eye"></i>
+                        <span className="d-none d-lg-inline">Detalles</span>
                       </Button>
                     </Stack>
                   </td>

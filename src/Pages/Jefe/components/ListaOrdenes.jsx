@@ -3,12 +3,15 @@ import { Button, Form, Stack, Badge } from "react-bootstrap";
 import { ModalCrearOrden } from "./ModalCrearOrden";
 import { ModalEliminarOrden } from "./ModalEliminarOrden";
 import { ModalActualizarOrden } from "./ModalActualizarOrden";
+import { useNavigate } from "react-router-dom";
 
 export const ListaOrdenes = () => {
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedOrden, setSelectedOrden] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleUpdate = (updatedData) => {
     console.log("Datos actualizados:", updatedData);
@@ -184,6 +187,11 @@ export const ListaOrdenes = () => {
                         variant="outline-success"
                         size="sm"
                         className="d-flex align-items-center gap-2"
+                        onClick={() =>
+                          navigate(`/jefe/orden/${orden.id}`, {
+                            state: { orden },
+                          })
+                        }
                       >
                         <i className="bi bi-eye"></i>
                         <span className="d-none d-lg-inline">Detalles</span>

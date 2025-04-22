@@ -6,6 +6,8 @@ import { Orden } from "./Orden";
 import { Inventario } from "./Inventario";
 import { Usuarios } from "./Usuarios";
 import { Tarea } from "./Tarea";
+import { DetallesTarea } from "./components/DetallesTarea";
+import { DetallesOrden } from "./components/DetallesOrden";
 
 export const AppJefe = () => {
   return (
@@ -15,7 +17,9 @@ export const AppJefe = () => {
         <Route path="/cliente" element={<Cliente />} />
         <Route path="/vehiculo" element={<Vehiculo />} />
         <Route path="/orden" element={<Orden />} />
+        <Route path="/orden/:id" element={<DetallesOrden />} />
         <Route path="/tarea" element={<Tarea />} />
+        <Route path="/tarea/:id" element={<DetallesTarea />} />
         <Route path="/inventario" element={<Inventario />} />
         <Route path="/usuarios" element={<Usuarios />} />
         <Route path="/*" element={<Navigate to="/jefe/dashboard" />} />
