@@ -8,7 +8,7 @@ export const Navbar = () => {
         <div className="container-fluid px-4">
           {/* Brand */}
           <NavLink
-            to="/mecanico/dashboard"
+            to="/jefe/dashboard"
             className="navbar-brand d-flex align-items-center"
           >
             <div className="brand-logo me-2">
@@ -19,7 +19,7 @@ export const Navbar = () => {
             </span>
           </NavLink>
 
-          {/* Toggle */}
+          {/* Toggler */}
           <button
             className="navbar-toggler"
             type="button"
@@ -35,14 +35,24 @@ export const Navbar = () => {
             <ul className="navbar-nav mx-auto">
               {[
                 {
-                  to: "/mecanico/dashboard",
+                  to: "/",
                   icon: "speedometer2",
-                  text: "Dashboard",
+                  text: "Inicio",
                 },
                 {
-                  to: "/mecanico/tareas",
+                  to: "/login",
                   icon: "person-workspace",
-                  text: "Tareas",
+                  text: "Ingresa como empleado",
+                },
+                {
+                  to: "/mecanico/dashboard",
+                  icon: "person-workspace",
+                  text: "Mecanico",
+                },
+                {
+                  to: "/jefe/dashboard",
+                  icon: "person-workspace",
+                  text: "Jefe",
                 },
               ].map((item, index) => (
                 <li className="nav-item mx-2" key={index}>
@@ -62,12 +72,6 @@ export const Navbar = () => {
             </ul>
 
             {/* User Section */}
-            <div className="d-flex align-items-center">
-              <button className="btn btn-logout">
-                <i className="bi bi-box-arrow-right me-2"></i>
-                Cerrar Sesión
-              </button>
-            </div>
           </div>
         </div>
       </nav>

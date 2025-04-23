@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Button, Form, Stack, Badge } from "react-bootstrap";
+import { Button, Form, Stack, Badge, Table } from "react-bootstrap";
 import { ModalCrearProducto } from "./ModalCrearProducto";
 import { ModalEliminarProducto } from "./ModalEliminarProducto";
 import { ModalActualizarProducto } from "./ModalActualizarProducto";
+import { ModalActualizarCategoria } from "./ModalActualizarCategoria";
+import { ModalCrearCategoria } from "./ModalCrearCategoria";
 
 export const ListaProductos = () => {
   const [showModal, setShowModal] = useState(false);
@@ -10,13 +12,23 @@ export const ListaProductos = () => {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedProducto, setSelectedProducto] = useState(null);
 
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const [showCreateCategoryModal, setShowCreateCategoryModal] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
   const handleUpdate = (updatedData) => {
     console.log("Datos actualizados:", updatedData);
     // Aquí iría la lógica para hacer el PUT o PATCH a la API
   };
 
+  const handleCreateCategory = (newCategory) => {
+    console.log("Nueva categoría creada:", newCategory);
+    setShowCreateCategoryModal(false);
+    // Aquí iría la lógica para hacer el POST a la API
+  };
+
   const handleDelete = () => {
-    console.log("Cliente eliminado");
+    console.log("Elemento eliminado");
     setShowDeleteModal(false);
     // Aquí iría la lógica para hacer el DELETE a la API
   };
@@ -42,10 +54,16 @@ export const ListaProductos = () => {
     },
   ];
 
-  const getEstadoStock = (stock, minimo) => {
-    if (stock === 0) return { texto: "Agotado", color: "danger" };
-    if (stock <= minimo) return { texto: "Bajo stock", color: "warning" };
-    return { texto: "Disponible", color: "success" };
+  const categorias = [
+    { nombre: "Aceites", disponibilidad: true },
+    { nombre: "Filtros", disponibilidad: true },
+    { nombre: "Lubricantes", disponibilidad: false },
+  ];
+
+  const getEstadoDisponibilidad = (disponibilidad) => {
+    return disponibilidad
+      ? { texto: "Disponible", color: "success" }
+      : { texto: "No disponible", color: "danger" };
   };
 
   return (
@@ -58,31 +76,87 @@ export const ListaProductos = () => {
           </h1>
           <p className="text-muted mb-0">Gestión de stock y precios</p>
         </div>
-        <Button
-          variant="primary"
-          onClick={() => setShowModal(true)}
-          className="d-flex align-items-center gap-2"
-        >
-          <i className="bi bi-box-seam"></i>
-          Nuevo Producto
-        </Button>
-      </div>
-
-      {/* Buscador */}
-      <div className="mb-4">
-        <div className="input-group input-group-lg shadow-sm">
-          <span className="input-group-text bg-white border-end-0">
-            <i className="bi bi-search text-muted"></i>
-          </span>
-          <Form.Control
-            type="search"
-            placeholder="Buscar productos..."
-            className="border-start-0"
-          />
+        <div className="d-flex gap-2">
+          <Button
+            variant="primary"
+            onClick={() => setShowModal(true)}
+            className="d-flex align-items-center gap-2"
+          >
+            <i className="bi bi-box-seam"></i>
+            Nuevo Producto
+          </Button>
+          <Button
+            variant="success"
+            onClick={() => setShowCreateCategoryModal(true)}
+            className="d-flex align-items-center gap-2"
+          >
+            <i className="bi bi-folder-plus"></i>
+            Nueva Categoría
+          </Button>
         </div>
       </div>
 
-      {/* Tabla Responsive */}
+      {/* Tabla de Categorías */}
+      <div className="card shadow-sm border-0 overflow-hidden mb-4">
+        <div className="card-header bg-primary text-white">
+          <h3 className="h5 mb-0">Categorías Disponibles</h3>
+        </div>
+        <div className="table-responsive">
+          <Table striped bordered hover className="mb-0">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Disponibilidad</th>
+                <th className="text-end">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {categorias.map((categoria, index) => {
+                const estado = getEstadoDisponibilidad(
+                  categoria.disponibilidad
+                );
+
+                return (
+                  <tr key={index}>
+                    <td>{categoria.nombre}</td>
+                    <td>
+                      <Badge bg={estado.color} className="text-capitalize">
+                        {estado.texto}
+                      </Badge>
+                    </td>
+                    <td className="text-end">
+                      <Stack direction="horizontal" gap={2}>
+                        <Button
+                          variant="outline-primary"
+                          size="sm"
+                          onClick={() => {
+                            setSelectedCategory(categoria);
+                            setShowCategoryModal(true);
+                          }}
+                        >
+                          <i className="bi bi-pencil"></i> Editar
+                        </Button>
+                        <Button
+                          variant="outline-danger"
+                          size="sm"
+                          onClick={() => {
+                            setSelectedCategory(categoria);
+                            setShowDeleteModal(true);
+                          }}
+                        >
+                          <i className="bi bi-trash"></i> Borrar
+                        </Button>
+                      </Stack>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        </div>
+      </div>
+
+      {/* Tabla Responsive de Productos */}
       <div className="card shadow-sm border-0 overflow-hidden">
         <div className="table-responsive rounded-3">
           <table className="table table-hover align-middle mb-0">
@@ -107,10 +181,7 @@ export const ListaProductos = () => {
             </thead>
             <tbody>
               {productos.map((producto) => {
-                const estado = getEstadoStock(
-                  producto.stock,
-                  producto.minimoStock
-                );
+                const estado = getEstadoDisponibilidad(producto.stock > 0);
 
                 return (
                   <tr key={producto.id} className="transition-all">
@@ -190,47 +261,36 @@ export const ListaProductos = () => {
         </div>
       </div>
 
-      <div className="d-flex justify-content-center mt-4">
-        <nav aria-label="Page navigation">
-          <ul className="pagination pagination-lg">
-            <li className="page-item disabled">
-              <button className="page-link">Anterior</button>
-            </li>
-            <li className="page-item active">
-              <button className="page-link">1</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">2</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">3</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">Siguiente</button>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
-      {/* Modal */}
+      {/* Modales */}
       <ModalCrearProducto
         showModal={showModal}
         handleClose={() => setShowModal(false)}
       />
 
-      {/* Modal de eliminación */}
       <ModalEliminarProducto
         showModal={showDeleteModal}
         handleClose={() => setShowDeleteModal(false)}
         handleDelete={handleDelete}
       />
 
-      {/* Modal de actualización */}
       <ModalActualizarProducto
         showModal={showUpdateModal}
         handleClose={() => setShowUpdateModal(false)}
         handleUpdate={handleUpdate}
         productoData={selectedProducto}
+      />
+
+      <ModalActualizarCategoria
+        showModal={showCategoryModal}
+        handleClose={() => setShowCategoryModal(false)}
+        handleUpdate={handleUpdate}
+        categoriaData={selectedCategory}
+      />
+
+      <ModalCrearCategoria
+        showModal={showCreateCategoryModal}
+        handleClose={() => setShowCreateCategoryModal(false)}
+        handleCreate={handleCreateCategory}
       />
     </div>
   );

@@ -1,3 +1,11 @@
+import { Layout } from "./components/common/Layout";
+
 export const LandingPage = () => {
-  return <div>LandingPage</div>;
+  return (
+    <>
+      <Layout>
+        <h1>LandingPage</h1>
+      </Layout>
+    </>
+  );
 };
