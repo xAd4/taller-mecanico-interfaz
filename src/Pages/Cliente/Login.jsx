@@ -20,6 +20,7 @@ export const Login = () => {
           style={{
             padding: "2rem",
           }}
+          className="animate__animated animate__fadeIn"
         >
           <Container>
             <Row className="justify-content-center mt-5">
