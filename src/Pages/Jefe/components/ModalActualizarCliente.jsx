@@ -53,7 +53,6 @@ export const ModalActualizarCliente = ({
               name="nombre"
               value={formData.nombre}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3">
@@ -63,11 +62,10 @@ export const ModalActualizarCliente = ({
               name="email"
               value={formData.email}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>RUT (Opcional)</Form.Label>
+            <Form.Label>RUT</Form.Label>
             <Form.Control
               type="text"
               name="rut"
@@ -82,11 +80,10 @@ export const ModalActualizarCliente = ({
               name="telefono"
               value={formData.telefono}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Domicilio (Opcional)</Form.Label>
+            <Form.Label>Domicilio</Form.Label>
             <Form.Control
               type="text"
               name="direccion"

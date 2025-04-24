@@ -5,12 +5,12 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
   const [formData, setFormData] = useState({
     cliente_id: "",
     vehiculo_id: "",
-    datos_extras: "",
+    detalles_de_trabajos_a_realizar: "",
     recepcion: "",
     prometido: "",
     cambio_de_aceite: "",
     cambio_de_filtro: "",
-    detalles: "",
+    detalles_de_entrada_del_vehiculo: "",
   });
 
   // Manejar cambios en el formulario
@@ -50,9 +50,8 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
             <Form.Group className="mb-3">
               <Form.Label>Cliente ID</Form.Label>
               <Form.Control
-                type="text"
+                type="number"
                 name="cliente_id"
-                placeholder="Coloca el numero de ID del cliente"
                 value={formData.cliente_id}
                 onChange={handleInputChange}
                 required
@@ -61,21 +60,20 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
             <Form.Group className="mb-3">
               <Form.Label>Vehículo ID</Form.Label>
               <Form.Control
-                type="text"
+                type="number"
                 name="vehiculo_id"
-                placeholder="Coloca el numero de ID del vehiculo"
                 value={formData.vehiculo_id}
                 onChange={handleInputChange}
                 required
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Datos Extras</Form.Label>
+              <Form.Label>Detalles de trabajos a realizar</Form.Label>
               <Form.Control
-                type="text"
-                name="datos_extras"
-                placeholder="Coloca los datos extras del vehiculo al entrar al taller"
-                value={formData.datos_extras}
+                as="textarea"
+                rows={3}
+                name="detalles_de_trabajos_a_realizar"
+                value={formData.detalles_de_trabajos_a_realizar}
                 onChange={handleInputChange}
               />
             </Form.Group>
@@ -99,33 +97,30 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Cambio de Aceite</Form.Label>
-              <Form.Control
-                type="number"
+              <Form.Check
+                type="checkbox"
                 name="cambio_de_aceite"
-                placeholder="Coloca 0 si es falso. Coloca 1 si es verdadero"
-                value={formData.cambio_de_aceite}
+                label="Cambio de aceite"
+                checked={formData.cambio_de_aceite}
                 onChange={handleInputChange}
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Cambio de Filtro</Form.Label>
-              <Form.Control
-                type="number"
+              <Form.Check
+                type="checkbox"
                 name="cambio_de_filtro"
-                placeholder="Coloca 0 si es falso. Coloca 1 si es verdadero"
-                value={formData.cambio_de_filtro}
+                label="Cambio de filtro"
+                checked={formData.cambio_de_filtro}
                 onChange={handleInputChange}
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Detalles</Form.Label>
+              <Form.Label>Detalles de entrada de vehiculo</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
-                name="detalles"
-                placeholder="Detalles para dar al mecanico"
-                value={formData.detalles}
+                name="detalles_de_entrada_del_vehiculo"
+                value={formData.detalles_de_entrada_del_vehiculo}
                 onChange={handleInputChange}
               />
             </Form.Group>

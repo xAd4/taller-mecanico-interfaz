@@ -1,7 +1,8 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../../../styles/Navbar.css";
 
 export const Navbar = () => {
+  const navigate = useNavigate();
   return (
     <header className="navbar-main bg-gradient-primary">
       <nav className="navbar navbar-expand-lg navbar-dark">
@@ -63,7 +64,7 @@ export const Navbar = () => {
 
             {/* User Section */}
             <div className="d-flex align-items-center">
-              <button className="btn btn-logout">
+              <button className="btn btn-logout" onClick={() => navigate("/")}>
                 <i className="bi bi-box-arrow-right me-2"></i>
                 Cerrar Sesión
               </button>

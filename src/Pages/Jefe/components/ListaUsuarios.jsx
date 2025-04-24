@@ -27,16 +27,12 @@ export const ListaUsuarios = () => {
       nombre: "Juan Pérez",
       email: "juan.perez@email.com",
       rol: "Jefe",
-      avatar: "JP",
-      ultimoAcceso: "Hoy",
     },
     {
       id: 2,
       nombre: "María López",
       email: "maria.lopez@email.com",
       rol: "Mecánico",
-      avatar: "ML",
-      ultimoAcceso: "Ayer",
     },
   ];
 
@@ -91,12 +87,12 @@ export const ListaUsuarios = () => {
           <table className="table table-hover align-middle mb-0">
             <thead className="bg-primary text-white">
               <tr>
+                <th scope="col">ID</th>
                 <th scope="col" className="ps-4">
                   Usuario
                 </th>
                 <th scope="col">Contacto</th>
                 <th scope="col">Rol</th>
-                <th scope="col">Actividad</th>
                 <th scope="col" className="text-end pe-4">
                   Acciones
                 </th>
@@ -105,16 +101,11 @@ export const ListaUsuarios = () => {
             <tbody>
               {usuarios.map((usuario) => (
                 <tr key={usuario.id} className="transition-all">
+                  <td># {usuario.id}</td>
                   <td className="ps-4">
                     <div className="d-flex align-items-center gap-3">
-                      <div className="avatar-circle bg-light text-dark">
-                        {usuario.avatar}
-                      </div>
                       <div>
                         <h6 className="mb-0 fw-semibold">{usuario.nombre}</h6>
-                        <small className="text-muted">
-                          @{usuario.nombre.toLowerCase().replace(" ", "")}
-                        </small>
                       </div>
                     </div>
                   </td>
@@ -126,9 +117,6 @@ export const ListaUsuarios = () => {
                       >
                         {usuario.email}
                       </a>
-                      <small className="text-muted">
-                        Último acceso: {usuario.ultimoAcceso}
-                      </small>
                     </div>
                   </td>
                   <td>
@@ -146,19 +134,14 @@ export const ListaUsuarios = () => {
                       {usuario.rol}
                     </Badge>
                   </td>
-                  <td>
-                    <div className="d-flex align-items-center gap-2">
-                      <div className="activity-dot bg-success"></div>
-                      <small>Activo</small>
-                    </div>
-                  </td>
+
                   <td className="pe-4">
                     <Stack
                       direction="horizontal"
                       gap={2}
                       className="justify-content-end"
                     >
-                      <Button
+                      {/* <Button
                         variant="outline-primary"
                         size="sm"
                         className="d-flex align-items-center gap-2"
@@ -169,7 +152,7 @@ export const ListaUsuarios = () => {
                       >
                         <i className="bi bi-pencil"></i>
                         <span className="d-none d-md-inline">Editar</span>
-                      </Button>
+                      </Button> */}
                       <Button
                         variant="outline-danger"
                         size="sm"
@@ -222,12 +205,12 @@ export const ListaUsuarios = () => {
         handleDelete={handleDelete}
       />
       {/* Modal de actualización */}
-      <ModalActualizarUsuario
+      {/* <ModalActualizarUsuario
         showModal={showUpdateModal}
         handleClose={() => setShowUpdateModal(false)}
         handleUpdate={handleUpdate}
         usuarioData={selectedUsuario}
-      />
+      /> */}
     </div>
   );
 };

@@ -23,17 +23,19 @@ export const ListaOrdenes = () => {
     setShowDeleteModal(false);
     // Aquí iría la lógica para hacer el DELETE a la API
   };
-
   const ordenes = [
     {
       id: 1,
       clienteId: 12345,
       vehiculoId: 67890,
-      datosExtras: "Revisión general",
+      detalleDeTrabajosARealizar:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores ut natus dolorum accusantium molestiae qui tenetur vel nemo ratione, in modi voluptates similique blanditiis, illo et quos quod, tempora harum.",
       fechaRecepcion: "2025-04-01",
       fechaPrometida: "2025-04-10",
-      cambios: "Cambio de aceite y filtros",
-      estado: "En proceso",
+      cambioDeAceite: true,
+      cambioDeFiltro: false,
+      detallesDeEntradaDelVehiculo:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores ut natus dolorum accusantium molestiae qui tenetur vel nemo ratione, in modi voluptates similique blanditiis, illo et quos quod, tempora harum.",
       cliente: {
         id: 1,
         nombre: "Cliente numero 2",
@@ -50,10 +52,10 @@ export const ListaOrdenes = () => {
         marca: "Twingo",
         color: "Rojo",
         matricula: "AB456CR",
-        kilometraje: null,
-        numero_de_serie: null,
-        numero_de_motor: null,
-        fecha_de_compra: null,
+        kilometraje: "145785",
+        numero_de_serie: "",
+        numero_de_motor: "",
+        fecha_de_compra: "",
         created_at: "2025-04-22T17:27:30.000000Z",
         updated_at: "2025-04-22T17:27:30.000000Z",
       },
@@ -122,9 +124,10 @@ export const ListaOrdenes = () => {
                   Cliente
                 </th>
                 <th scope="col">Vehículo</th>
-                <th scope="col">Detalles</th>
+                <th scope="col">Trabajos a realizar</th>
                 <th scope="col">Fechas</th>
-                <th scope="col">Estado</th>
+                <th scope="col">Cambio de filtros y aceite</th>
+                <th scope="col">Detalles de entrada del vehiculo</th>
                 <th scope="col" className="text-end pe-4">
                   Acciones
                 </th>
@@ -137,8 +140,8 @@ export const ListaOrdenes = () => {
                     <div className="d-flex align-items-center gap-3">
                       <i className="bi bi-person-circle fs-4 text-muted"></i>
                       <div>
-                        <h6 className="mb-0 fw-semibold">#{orden.id}</h6>
-                        <small className="text-muted">ID de Orden</small>
+                        <h6 className="mb-0 fw-semibold">{orden.id}</h6>
+                        <small className="text-muted">ID de la orden</small>
                       </div>
                     </div>
                   </td>
@@ -146,11 +149,13 @@ export const ListaOrdenes = () => {
                     <div className="d-flex align-items-center gap-3">
                       <i className="bi bi-person-circle fs-4 text-muted"></i>
                       <div>
-                        <h6 className="mb-0 fw-semibold">#{orden.clienteId}</h6>
+                        <h6 className="mb-0 fw-semibold">
+                          # {orden.clienteId}
+                        </h6>
                         <h6 className="mb-0 fw-semibold">
                           {orden.cliente.nombre}
                         </h6>
-                        <small className="text-muted">ID de Cliente</small>
+                        <small className="text-muted">Info del cliente</small>
                       </div>
                     </div>
                   </td>
@@ -159,21 +164,32 @@ export const ListaOrdenes = () => {
                       <i className="bi bi-car-front fs-4 text-muted"></i>
                       <div>
                         <h6 className="mb-0 fw-semibold">
-                          #{orden.vehiculoId}
-                        </h6>
-                        <h6 className="mb-0 fw-semibold">
+                          #{orden.vehiculoId} - {orden.vehiculo.modelo}{" "}
                           {orden.vehiculo.marca}
                         </h6>
-                        <small className="text-muted">ID de Vehículo</small>
+                        <ul className="list-unstyled mb-0">
+                          <li>
+                            <code className="text-muted">Matrícula:</code>{" "}
+                            {orden.vehiculo.matricula}
+                          </li>
+                        </ul>
                       </div>
                     </div>
                   </td>
                   <td>
-                    <div className="max-width-300">
-                      <h6 className="mb-1 fw-semibold">{orden.datosExtras}</h6>
-                      <small className="text-muted text-truncate d-block">
-                        {orden.cambios}
-                      </small>
+                    <div className="d-flex flex-column gap-2">
+                      <div>
+                        <small className="text-muted d-block">
+                          Detalles de trabajos a realizar
+                        </small>
+                        <span
+                          className="d-inline-block text-truncate"
+                          style={{ maxWidth: "250px" }}
+                        >
+                          <i className="bi bi-calendar-check me-2"></i>
+                          {orden.detalleDeTrabajosARealizar}
+                        </span>
+                      </div>
                     </div>
                   </td>
                   <td>
@@ -195,15 +211,48 @@ export const ListaOrdenes = () => {
                     </div>
                   </td>
                   <td>
-                    <Badge
-                      bg={
-                        orden.estado === "En proceso" ? "warning" : "secondary"
-                      }
-                      className="text-capitalize"
-                    >
-                      {orden.estado}
-                    </Badge>
+                    <div className="d-flex flex-column gap-2">
+                      <small
+                        className={
+                          orden.cambioDeAceite ? "text-success" : "text-danger"
+                        }
+                      >
+                        {orden.cambioDeAceite ? (
+                          <i className="bi bi-check-circle-fill"> Aceite</i>
+                        ) : (
+                          <i className="bi bi-x-circle-fill"> Aceite</i>
+                        )}
+                      </small>
+                      <small
+                        className={
+                          orden.cambioDeFiltro ? "text-success" : "text-danger"
+                        }
+                      >
+                        {orden.cambioDeFiltro ? (
+                          <i className="bi bi-check-circle-fill"> Filtro</i>
+                        ) : (
+                          <i className="bi bi-x-circle-fill"> Filtro</i>
+                        )}
+                      </small>
+                    </div>
                   </td>
+                  <td>
+                    <div className="d-flex flex-column gap-2">
+                      <div>
+                        <small className="text-muted d-block">
+                          Detalles de entrada de vehiculo
+                        </small>
+                        <span
+                          className="d-inline-block text-truncate"
+                          style={{ maxWidth: "250px" }}
+                        >
+                          <i className="bi bi-calendar-check me-2"></i>
+                          {orden.detallesDeEntradaDelVehiculo}
+                        </span>
+                      </div>
+                    </div>
+                  </td>
+
                   <td className="pe-4">
                     <Stack
                       direction="horizontal"

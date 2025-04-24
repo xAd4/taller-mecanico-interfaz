@@ -12,10 +12,6 @@ export const Dashboard = () => {
             <h1 className="text-center mb-4">Dashboard del Jefe</h1>
             <Estadisticas />
           </div>
-
-          <div className="mt-5">
-            <OrdenesRecientes />
-          </div>
         </div>
       </Layout>
     </>

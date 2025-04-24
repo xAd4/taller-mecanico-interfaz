@@ -79,15 +79,17 @@ export const ModalCrearVehiculo = ({ showModal, handleShow, handleClose }) => {
                 name="matricula"
                 value={formData.matricula}
                 onChange={handleInputChange}
+                required
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Kilometraje (Opcional)</Form.Label>
+              <Form.Label>Kilometraje</Form.Label>
               <Form.Control
                 type="text"
                 name="kilometraje"
                 value={formData.kilometraje}
                 onChange={handleInputChange}
+                required
               />
             </Form.Group>
             <Form.Group className="mb-3">

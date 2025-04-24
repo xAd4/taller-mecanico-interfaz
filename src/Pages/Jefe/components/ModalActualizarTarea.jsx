@@ -12,7 +12,6 @@ export const ModalActualizarTarea = ({
       orden_id: "",
       mecanico_id: "",
       estado_de_trabajo: "pendiente",
-      detalles_de_tarea: "",
       notificacion_al_cliente: "",
     }
   );
@@ -78,16 +77,6 @@ export const ModalActualizarTarea = ({
               <option value="en_progreso">En Progreso</option>
               <option value="completado">Completado</option>
             </Form.Select>
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Detalles de Tarea</Form.Label>
-            <Form.Control
-              as="textarea"
-              name="detalles_de_tarea"
-              value={formData.detalles_de_tarea}
-              onChange={handleInputChange}
-              required
-            />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Notificación al Cliente</Form.Label>

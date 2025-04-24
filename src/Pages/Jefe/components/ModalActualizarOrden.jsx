@@ -9,13 +9,14 @@ export const ModalActualizarOrden = ({
 }) => {
   const [formData, setFormData] = useState(
     ordenData || {
-      clienteId: "",
-      vehiculoId: "",
-      datosExtras: "",
-      fechaRecepcion: "",
-      fechaPrometida: "",
-      cambios: "",
-      estado: "",
+      cliente_id: "",
+      vehiculo_id: "",
+      detalleDeTrabajosARealizar: "",
+      recepcion: "",
+      prometido: "",
+      cambioDeAceite: "",
+      cambioDeFiltro: "",
+      detallesDeEntradaDelVehiculo: "",
     }
   );
 
@@ -55,7 +56,6 @@ export const ModalActualizarOrden = ({
               name="clienteId"
               value={formData.clienteId}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3">
@@ -65,17 +65,16 @@ export const ModalActualizarOrden = ({
               name="vehiculoId"
               value={formData.vehiculoId}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Descripción</Form.Label>
+            <Form.Label>Detalles de trabajos a realizar</Form.Label>
             <Form.Control
               as="textarea"
-              name="datosExtras"
-              value={formData.datosExtras}
+              rows={3}
+              name="detalleDeTrabajosARealizar"
+              value={formData.detalleDeTrabajosARealizar}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
 
@@ -100,28 +99,32 @@ export const ModalActualizarOrden = ({
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Cambios</Form.Label>
-            <Form.Control
-              type="text"
-              name="cambios"
-              value={formData.cambios}
+            <Form.Check
+              type="checkbox"
+              name="cambioDeAceite"
+              label="Cambio de aceite"
+              checked={formData.cambioDeAceite}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Estado</Form.Label>
-            <Form.Select
-              name="estado"
-              value={formData.estado}
+            <Form.Check
+              type="checkbox"
+              name="cambioDeFiltro"
+              label="Cambio de filtro"
+              checked={formData.cambioDeFiltro}
               onChange={handleInputChange}
-              required
-            >
-              <option value="">Seleccionar estado</option>
-              <option value="Pendiente">Pendiente</option>
-              <option value="En Proceso">En Proceso</option>
-              <option value="Completada">Completada</option>
-            </Form.Select>
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Detalles de entrada de vehiculo</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              name="detallesDeEntradaDelVehiculo"
+              value={formData.detallesDeEntradaDelVehiculo}
+              onChange={handleInputChange}
+            />
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>

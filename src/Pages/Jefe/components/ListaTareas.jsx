@@ -29,8 +29,7 @@ export const ListaTareas = () => {
       id: 1,
       orden_id: 1,
       mecanico_id: 1,
-      estado_de_trabajo: "pendiente",
-      detalles_de_tarea: "El mecanico 1 tiene que hacer cosas",
+      estado_de_trabajo: "completado",
       notificacion_al_cliente: "Esto lo dice el mecanico",
       created_at: "2025-04-22T17:31:04.000000Z",
       updated_at: "2025-04-22T17:31:04.000000Z",
@@ -38,13 +37,14 @@ export const ListaTareas = () => {
         id: 1,
         cliente_id: 1,
         vehiculo_id: 1,
-        datos_extras:
-          "Renault Twingo viene con choque en la puerta izquierda. Inyectores sucios y buche de aceite en el motor.",
+        detalleDeTrabajosARealizar:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores ut natus dolorum accusantium molestiae qui tenetur vel nemo ratione, in modi voluptates similique blanditiis, illo et quos quod, tempora harum.",
         recepcion: "2025-03-15",
         prometido: null,
-        cambio_de_aceite: 1,
+        cambio_de_aceite: 0,
         cambio_de_filtro: 1,
-        detalles: "El mecanico 1 debe hacer cosas",
+        detallesDeEntradaDelVehiculo:
+          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores ut natus dolorum accusantium molestiae qui tenetur vel nemo ratione, in modi voluptates similique blanditiis, illo et quos quod, tempora harum.",
         created_at: "2025-04-22T17:27:39.000000Z",
         updated_at: "2025-04-22T17:27:39.000000Z",
         cliente: {
@@ -72,7 +72,7 @@ export const ListaTareas = () => {
       productos_usados: [
         {
           id: 1,
-          tarea_id: 1,
+
           producto_id: 1,
           cantidad: 70,
           created_at: "2025-04-22T18:29:11.000000Z",
@@ -126,8 +126,7 @@ export const ListaTareas = () => {
       },
       tren_delantero: {
         id: 1,
-        tarea_id: 1,
-        conv: 1,
+        conv: 0,
         comba: 0,
         avance: 1,
         rotulas: 0,
@@ -143,7 +142,6 @@ export const ListaTareas = () => {
       },
       tren_trasero: {
         id: 1,
-        tarea_id: 1,
         conv: 1,
         comba: 1,
         brazos_susp: 1,
@@ -156,7 +154,6 @@ export const ListaTareas = () => {
       },
       frenos: {
         id: 1,
-        tarea_id: 1,
         delanteros: 0,
         traseros: 1,
         estacionamiento: 1,
@@ -166,7 +163,6 @@ export const ListaTareas = () => {
       },
       estado_neumaticos: {
         id: 1,
-        tarea_id: 1,
         delanteros_derechos: 1,
         delanteros_izquierdos: 0,
         traseros_derechos: 1,
@@ -184,9 +180,11 @@ export const ListaTareas = () => {
   const getEstadoColor = (estado) => {
     switch (estado) {
       case "pendiente":
+        return "danger";
+      case "en_proceso":
+        return "secondary";
+      case "pendiente_por_pagar":
         return "warning";
-      case "en_progreso":
-        return "primary";
       case "completado":
         return "success";
       default:
@@ -230,12 +228,12 @@ export const ListaTareas = () => {
           <table className="table table-hover align-middle mb-0">
             <thead className="bg-primary text-white">
               <tr>
+                <th scope="col">ID</th>
                 <th scope="col" className="ps-4">
                   Orden ID
                 </th>
                 <th scope="col">Mecánico ID</th>
                 <th scope="col">Estado</th>
-                <th scope="col">Detalles de Tarea</th>
                 <th scope="col">Notificación al Cliente</th>
                 <th scope="col" className="text-end pe-4">
                   Acciones
@@ -245,12 +243,13 @@ export const ListaTareas = () => {
             <tbody>
               {tareas.map((tarea) => (
                 <tr key={tarea.id} className="transition-all">
-                  <td className="ps-4 fw-semibold">#{tarea.orden_id}</td>
+                  <td className="ps-4 fw-semibold"># {tarea.id}</td>
+                  <td className="ps-4 fw-semibold"># {tarea.orden_id}</td>
                   <td>
                     <div className="d-flex align-items-center gap-2">
                       <i className="bi bi-person-workspace"></i>
                       <span className="font-monospace">
-                        {tarea.mecanico_id}
+                        {tarea.mecanico_id} - {tarea.mecanico.name}
                       </span>
                     </div>
                   </td>
@@ -261,13 +260,6 @@ export const ListaTareas = () => {
                     >
                       {tarea.estado_de_trabajo.replace("_", " ")}
                     </Badge>
-                  </td>
-                  <td>
-                    <div className="max-width-300">
-                      <p className="mb-0 text-truncate">
-                        {tarea.detalles_de_tarea}
-                      </p>
-                    </div>
                   </td>
                   <td>
                     <div className="max-width-300">

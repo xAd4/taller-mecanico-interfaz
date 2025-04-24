@@ -128,7 +128,9 @@ export const DetallesTarea = () => {
               <div className="card-body">
                 <dl className="row mb-4">
                   <dt className="col-sm-4">Mecánico</dt>
-                  <dd className="col-sm-8">{tarea.mecanico.name}</dd>
+                  <dd className="col-sm-8">
+                    ID: <code>{tarea.mecanico.id}</code> - {tarea.mecanico.name}
+                  </dd>
 
                   <dt className="col-sm-4">Email</dt>
                   <dd className="col-sm-8">
@@ -137,19 +139,12 @@ export const DetallesTarea = () => {
                     </a>
                   </dd>
 
-                  <dt className="col-sm-4">Creación</dt>
+                  <dt className="col-sm-4">Creación de tarea</dt>
                   <dd className="col-sm-8">{formatDate(tarea.created_at)}</dd>
 
-                  <dt className="col-sm-4">Actualización</dt>
+                  <dt className="col-sm-4">Actualización de tarea</dt>
                   <dd className="col-sm-8">{formatDate(tarea.updated_at)}</dd>
                 </dl>
-
-                <div className="mb-4">
-                  <h4 className="h6 text-muted mb-3">Instrucciones</h4>
-                  <div className="bg-light p-3 rounded">
-                    {tarea.detalles_de_tarea}
-                  </div>
-                </div>
 
                 <div>
                   <h4 className="h6 text-muted mb-3">
@@ -161,42 +156,6 @@ export const DetallesTarea = () => {
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Columna Derecha - Información Técnica */}
-          <div className="col-lg-6">
-            {/* Orden Relacionada */}
-            <div className="card shadow-sm mb-4">
-              <div className="card-header bg-primary text-white">
-                <h3 className="h5 mb-0">
-                  <i className="bi bi-file-text me-2"></i>
-                  Orden Asociada
-                </h3>
-              </div>
-              <div className="card-body">
-                <dl className="row mb-0">
-                  <dt className="col-sm-4">ID Orden</dt>
-                  <dd className="col-sm-8"># {tarea.orden.id}</dd>
-
-                  <dt className="col-sm-4">Cliente</dt>
-                  <dd className="col-sm-8">{tarea.orden.cliente.nombre}</dd>
-
-                  <dt className="col-sm-4">Vehículo</dt>
-                  <dd className="col-sm-8">
-                    {tarea.orden.vehiculo.marca} {tarea.orden.vehiculo.modelo}
-                  </dd>
-
-                  <dt className="col-sm-4">Recepción</dt>
-                  <dd className="col-sm-8">
-                    {formatDate(tarea.orden.recepcion)}
-                  </dd>
-
-                  <dt className="col-sm-4">Detalles</dt>
-                  <dd className="col-sm-8">{tarea.orden.datos_extras}</dd>
-                </dl>
-              </div>
-            </div>
-
             {/* Botones de navegación */}
             <div className="mb-4">
               <Stack direction="horizontal" gap={3} className="flex-wrap">
@@ -285,6 +244,131 @@ export const DetallesTarea = () => {
                 </div>
               </div>
             )}
+          </div>
+
+          {/* Columna Derecha - Información Técnica */}
+          <div className="col-lg-6">
+            {/* Orden Relacionada */}
+            <div className="card shadow-sm mb-4">
+              <div className="card-header bg-primary text-white">
+                <h3 className="h5 mb-0">
+                  <i className="bi bi-file-text me-2"></i># {tarea.orden.id} -
+                  Orden Asociada
+                </h3>
+              </div>
+              <div className="card-body">
+                <dl className="row mb-0">
+                  <dt className="col-sm-4">Nombre del cliente</dt>
+                  <dd className="col-sm-8">{tarea.orden.cliente.nombre}</dd>
+
+                  <dt className="col-sm-4">Email del cliente</dt>
+                  <dd className="col-sm-8">{tarea.orden.cliente.email}</dd>
+
+                  <dt className="col-sm-4">RUT del cliente</dt>
+                  <dd className="col-sm-8">{tarea.orden.cliente.rut}</dd>
+
+                  <dt className="col-sm-4">Telefono del cliente</dt>
+                  <dd className="col-sm-8">{tarea.orden.cliente.telefono}</dd>
+
+                  <dt className="col-sm-4">Domicilio del cliente</dt>
+                  <dd className="col-sm-8">{tarea.orden.cliente.domicilio}</dd>
+
+                  <hr />
+
+                  <dt className="col-sm-4">Vehículo</dt>
+                  <dd className="col-sm-8">
+                    {tarea.orden.vehiculo.marca} {tarea.orden.vehiculo.modelo}
+                  </dd>
+
+                  <dt className="col-sm-4">Matrícula del vehiculo</dt>
+                  <dd className="col-sm-8">
+                    {tarea.orden.vehiculo.matricula || "N/A"}
+                  </dd>
+
+                  <dt className="col-sm-4">Color del vehiculo</dt>
+                  <dd className="col-sm-8">
+                    {tarea.orden.vehiculo.color || "N/A"}
+                  </dd>
+
+                  <dt className="col-sm-4">Kilometraje del vehiculo</dt>
+                  <dd className="col-sm-8">
+                    {tarea.orden.vehiculo.kilometraje || "N/A"}
+                  </dd>
+
+                  <dt className="col-sm-4">N° Serie del vehiculo</dt>
+                  <dd className="col-sm-8">
+                    {tarea.orden.vehiculo.numero_de_serie || "N/A"}
+                  </dd>
+
+                  <dt className="col-sm-4">N° Motor del vehiculo</dt>
+                  <dd className="col-sm-8">
+                    {tarea.orden.vehiculo.numero_de_motor || "N/A"}
+                  </dd>
+
+                  <dt className="col-sm-4">Fecha de compra del vehiculo</dt>
+                  <dd className="col-sm-8">
+                    {tarea.orden.vehiculo.fecha_de_compra
+                      ? formatDate(tarea.orden.vehiculo.fecha_de_compra)
+                      : "N/A"}
+                  </dd>
+
+                  <dt className="col-sm-4 mt-2 mb-2">Prometido</dt>
+                  <dd className="col-sm-8">
+                    {formatDate(tarea.orden.prometido)}
+                  </dd>
+                  <dt className="col-sm-4 mt-2 mb-2">Recepción</dt>
+                  <dd className="col-sm-8">
+                    {formatDate(tarea.orden.recepcion)}
+                  </dd>
+                  <hr />
+                  <dt className="col-sm-4 mt-2">
+                    Detalles de entrada del vehiculo
+                  </dt>
+                  <dd className="col-sm-8">
+                    {tarea.orden.detallesDeEntradaDelVehiculo || "N/A"}
+                  </dd>
+
+                  <dt className="col-sm-4 mt-2">
+                    Detalles de trabajos a realizar
+                  </dt>
+                  <dd className="col-sm-8">
+                    {tarea.orden.detalleDeTrabajosARealizar || "N/A"}
+                  </dd>
+                  <div className="d-flex flex-column gap-2">
+                    <small
+                      className={
+                        tarea.orden.cambio_de_aceite
+                          ? "text-success"
+                          : "text-danger"
+                      }
+                    >
+                      {tarea.orden.cambio_de_aceite ? (
+                        <i className="bi bi-check-circle-fill">
+                          Cambio de Aceite
+                        </i>
+                      ) : (
+                        <i className="bi bi-x-circle-fill"> Cambio de Aceite</i>
+                      )}
+                    </small>
+                    <small
+                      className={
+                        tarea.orden.cambio_de_filtro
+                          ? "text-success"
+                          : "text-danger"
+                      }
+                    >
+                      {tarea.orden.cambio_de_filtro ? (
+                        <i className="bi bi-check-circle-fill">
+                          Cambio de Filtro
+                        </i>
+                      ) : (
+                        <i className="bi bi-x-circle-fill"> Cambio de Filtro</i>
+                      )}
+                    </small>
+                  </div>
+                </dl>
+              </div>
+            </div>
           </div>
         </div>
       </div>

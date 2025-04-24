@@ -5,9 +5,7 @@ import { Form, Modal, Button } from "react-bootstrap";
 export const ModalCrearCliente = ({ handleShow, handleClose, showModal }) => {
   const [formData, setFormData] = useState({
     nombre: "",
-    apellido: "",
     email: "",
-    dni: "",
     rut: "",
     telefono: "",
     domicilio: "",
@@ -49,16 +47,6 @@ export const ModalCrearCliente = ({ handleShow, handleClose, showModal }) => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Apellido</Form.Label>
-              <Form.Control
-                type="text"
-                name="apellido"
-                value={formData.apellido}
-                onChange={handleInputChange}
-                required
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="text"
@@ -68,22 +56,15 @@ export const ModalCrearCliente = ({ handleShow, handleClose, showModal }) => {
                 required
               />
             </Form.Group>
+
             <Form.Group className="mb-3">
-              <Form.Label>DNI (Opcional)</Form.Label>
-              <Form.Control
-                type="text"
-                name="dni"
-                value={formData.dni}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>RUT (Opcional)</Form.Label>
+              <Form.Label>RUT</Form.Label>
               <Form.Control
                 type="text"
                 name="rut"
                 value={formData.rut}
                 onChange={handleInputChange}
+                required
               />
             </Form.Group>
             <Form.Group className="mb-3">

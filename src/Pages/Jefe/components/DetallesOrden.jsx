@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Layout } from "./common/Layout";
 import { Button, Badge, Stack } from "react-bootstrap";
 import { format } from "date-fns";
@@ -7,8 +7,8 @@ import { es } from "date-fns/locale";
 export const DetallesOrden = () => {
   const navigate = useNavigate();
   // const { id } = useParams();
-  const { state } = useLocation();
-  const orden = state?.orden;
+  const location = useLocation();
+  const { orden } = location.state || {};
 
   const onBack = () => {
     navigate(-1);
@@ -48,7 +48,7 @@ export const DetallesOrden = () => {
 
         {/* Encabezado */}
         <div className="d-flex justify-content-between align-items-center mb-4">
-          <h1 className="h2 mb-0">Orden #{orden.id}</h1>
+          <h1 className="h2 mb-0">Orden # {orden.id}</h1>
         </div>
 
         {/* Sección principal */}
@@ -65,19 +65,8 @@ export const DetallesOrden = () => {
               </div>
               <div className="card-body">
                 <dl className="row mb-0">
-                  <dt className="col-sm-4">Nombre completo</dt>
-                  <dd className="col-sm-8">
-                    {orden.cliente.nombre} {orden.cliente.apellido}
-                  </dd>
-
-                  <dt className="col-sm-4">RUT</dt>
-                  <dd className="col-sm-8">{orden.cliente.rut}</dd>
-
-                  <dt className="col-sm-4">DNI</dt>
-                  <dd className="col-sm-8">{orden.cliente.dni}</dd>
-
-                  <dt className="col-sm-4">Teléfono</dt>
-                  <dd className="col-sm-8">{orden.cliente.telefono}</dd>
+                  <dt className="col-sm-4">Nombre</dt>
+                  <dd className="col-sm-8">{orden.cliente.nombre}</dd>
 
                   <dt className="col-sm-4">Email</dt>
                   <dd className="col-sm-8">
@@ -85,6 +74,11 @@ export const DetallesOrden = () => {
                       {orden.cliente.email}
                     </a>
                   </dd>
+                  <dt className="col-sm-4">RUT</dt>
+                  <dd className="col-sm-8">{orden.cliente.rut}</dd>
+
+                  <dt className="col-sm-4">Teléfono</dt>
+                  <dd className="col-sm-8">{orden.cliente.telefono}</dd>
 
                   <dt className="col-sm-4">Domicilio</dt>
                   <dd className="col-sm-8">{orden.cliente.domicilio}</dd>
@@ -137,6 +131,16 @@ export const DetallesOrden = () => {
                 </dl>
               </div>
             </div>
+
+            <Button
+              className="mt-3"
+              variant="outline-primary"
+              onClick={() =>
+                navigate("/jefe/imprimir-orden", { state: { orden } })
+              }
+            >
+              <i class="bi bi-printer"> Vista de impresion</i>
+            </Button>
           </div>
 
           {/* Columna Derecha - Detalles Orden */}
@@ -171,17 +175,51 @@ export const DetallesOrden = () => {
                     </div>
                   </div>
                 </div>
-
-                <div className="mb-4">
-                  <h4 className="h6 text-muted mb-3">Descripción</h4>
+                <div>
+                  <h4 className="h6 text-muted mb-3">
+                    Detalles de trabajos a realizar
+                  </h4>
                   <div className="bg-light p-3 rounded">
-                    {orden.datosExtras}
+                    {orden.detalleDeTrabajosARealizar}
                   </div>
                 </div>
-
+                <div className="mb-4">
+                  <h4 className="h6 text-muted mb-3">
+                    Detalles de entrada de vehiculo
+                  </h4>
+                  <div className="bg-light p-3 rounded">
+                    {orden.detallesDeEntradaDelVehiculo}
+                  </div>
+                </div>
                 <div>
-                  <h4 className="h6 text-muted mb-3">Trabajos a realizar</h4>
-                  <div className="bg-light p-3 rounded">{orden.cambios}</div>
+                  <div className="d-flex flex-column gap-2">
+                    <small
+                      className={
+                        orden.cambioDeAceite ? "text-success" : "text-danger"
+                      }
+                    >
+                      {orden.cambioDeAceite ? (
+                        <i className="bi bi-check-circle-fill">
+                          Cambio de Aceite
+                        </i>
+                      ) : (
+                        <i className="bi bi-x-circle-fill"> Cambio de Aceite</i>
+                      )}
+                    </small>
+                    <small
+                      className={
+                        orden.cambioDeFiltro ? "text-success" : "text-danger"
+                      }
+                    >
+                      {orden.cambioDeFiltro ? (
+                        <i className="bi bi-check-circle-fill">
+                          Cambio de Filtro
+                        </i>
+                      ) : (
+                        <i className="bi bi-x-circle-fill"> Cambio de Filtro</i>
+                      )}
+                    </small>
+                  </div>
                 </div>
               </div>
             </div>
@@ -190,13 +228,32 @@ export const DetallesOrden = () => {
             {/* <div className="card shadow-sm">
               <div className="card-header bg-primary text-white">
                 <h3 className="h5 mb-0">
-                  <i className="bi bi-list-task me-2"></i>
-                  Tareas Asignadas
+                  <i className="bi bi-exclamation"></i>
+                  Información Importante
                 </h3>
               </div>
               <div className="card-body">
                 <div className="alert alert-info mb-0">
-                  Actualmente no hay tareas asignadas a esta orden
+                  <p className="mb-3">
+                    Por la presente autorizo a efectuar las reparaciones aquí
+                    descriptas utilizando el material necesario. Como así
+                    también transitar con este vehículo por las calles,
+                    carreteras, etc., a efectos de realizar las pruebas o
+                    inspecciones pertinentes.
+                  </p>
+                  <p className="mb-3">
+                    Es condición el pago contra entrega del vehículo. Esta
+                    empresa no se responsabiliza por pérdida, daños, incendio,
+                    robo, etc., causados a su vehículo y/o artículos dejados en
+                    el interior del mismo por cualquier motivo.
+                  </p>
+                  <div className="d-flex flex-column align-items-start mt-5">
+                    <strong className="mb-3">Firma del cliente:</strong>
+                    <div
+                      className="border-top border-dark w-100"
+                      style={{ height: "2rem" }}
+                    ></div>
+                  </div>
                 </div>
               </div>
             </div> */}
