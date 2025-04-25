@@ -8,7 +8,16 @@ export const ModalActualizarVehiculo = ({
   vehiculoData,
 }) => {
   const [formData, setFormData] = useState(
-    vehiculoData || { marca: "", modelo: "", anio: "", placa: "" }
+    vehiculoData || {
+      modelo: "",
+      marca: "",
+      color: "",
+      matricula: "",
+      kilometraje: "",
+      numero_de_serie: "",
+      numero_de_motor: "",
+      fecha_de_compra: "",
+    }
   );
 
   // Actualizar el estado si vehiculoData cambia
@@ -91,8 +100,8 @@ export const ModalActualizarVehiculo = ({
             <Form.Label>Numero de serie (Opcional)</Form.Label>
             <Form.Control
               type="text"
-              name="serie"
-              value={formData.serie}
+              name="numero_de_serie"
+              value={formData.numero_de_serie}
               onChange={handleInputChange}
             />
           </Form.Group>
@@ -100,8 +109,8 @@ export const ModalActualizarVehiculo = ({
             <Form.Label>Numero de motor (Opcional)</Form.Label>
             <Form.Control
               type="text"
-              name="motor"
-              value={formData.motor}
+              name="numero_de_motor"
+              value={formData.numero_de_motor}
               onChange={handleInputChange}
             />
           </Form.Group>
@@ -109,8 +118,8 @@ export const ModalActualizarVehiculo = ({
             <Form.Label>Fecha de compra (Opcional)</Form.Label>
             <Form.Control
               type="date"
-              name="fechaCompra"
-              value={formData.fechaCompra}
+              name="fecha_de_compra"
+              value={formData.fecha_de_compra}
               onChange={handleInputChange}
             />
           </Form.Group>

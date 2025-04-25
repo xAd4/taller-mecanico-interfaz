@@ -1,0 +1,71 @@
+export const categorias = [
+  {
+    id: 1,
+    disponibilidad: 0,
+    nombre: "et",
+    created_at: "2025-04-25T17:14:04.000000Z",
+    updated_at: "2025-04-25T17:14:04.000000Z",
+    productos: [
+      // Campo productos agregados por si a futuro se utiliza
+      {
+        id: 1,
+        categoria_id: 1,
+        nombre: "Adipisci explicabo.",
+        detalles:
+          "Natus provident quibusdam omnis animi optio harum. Porro quos omnis quia in maiores temporibus. Doloribus quia quia voluptatem molestiae hic. Accusamus minima eaque modi et modi.",
+        marca: "Upton, Wehner and Romaguera",
+        stock: 45,
+        precio: "265.76",
+        disponibilidad: 1,
+        created_at: "2025-04-25T17:14:04.000000Z",
+        updated_at: "2025-04-25T17:14:04.000000Z",
+      },
+    ],
+  },
+  {
+    id: 1,
+    disponibilidad: 0,
+    nombre: "Mst",
+    created_at: "2025-04-25T17:14:04.000000Z",
+    updated_at: "2025-04-25T17:14:04.000000Z",
+    productos: [
+      // Campo productos agregados por si a futuro se utiliza
+      {
+        id: 1,
+        categoria_id: 1,
+        nombre: "Adipisci explicabo.",
+        detalles:
+          "Natus provident quibusdam omnis animi optio harum. Porro quos omnis quia in maiores temporibus. Doloribus quia quia voluptatem molestiae hic. Accusamus minima eaque modi et modi.",
+        marca: "Upton, Wehner and Romaguera",
+        stock: 45,
+        precio: "265.76",
+        disponibilidad: 1,
+        created_at: "2025-04-25T17:14:04.000000Z",
+        updated_at: "2025-04-25T17:14:04.000000Z",
+      },
+    ],
+  },
+  {
+    id: 1,
+    disponibilidad: 0,
+    nombre: "Uh",
+    created_at: "2025-04-25T17:14:04.000000Z",
+    updated_at: "2025-04-25T17:14:04.000000Z",
+    productos: [
+      // Campo productos agregados por si a futuro se utiliza
+      {
+        id: 1,
+        categoria_id: 1,
+        nombre: "Adipisci explicabo.",
+        detalles:
+          "Natus provident quibusdam omnis animi optio harum. Porro quos omnis quia in maiores temporibus. Doloribus quia quia voluptatem molestiae hic. Accusamus minima eaque modi et modi.",
+        marca: "Upton, Wehner and Romaguera",
+        stock: 45,
+        precio: "265.76",
+        disponibilidad: 1,
+        created_at: "2025-04-25T17:14:04.000000Z",
+        updated_at: "2025-04-25T17:14:04.000000Z",
+      },
+    ],
+  },
+];

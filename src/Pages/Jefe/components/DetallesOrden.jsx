@@ -59,8 +59,8 @@ export const DetallesOrden = () => {
             <div className="card shadow-sm mb-4">
               <div className="card-header bg-primary text-white">
                 <h3 className="h5 mb-0">
-                  <i className="bi bi-person-circle me-2"></i>
-                  Información del Cliente
+                  <i className="bi bi-person-circle me-2"></i> Información del
+                  Cliente - ID # {orden.cliente.id}
                 </h3>
               </div>
               <div className="card-body">
@@ -91,7 +91,7 @@ export const DetallesOrden = () => {
               <div className="card-header bg-primary text-white">
                 <h3 className="h5 mb-0">
                   <i className="bi bi-car-front me-2"></i>
-                  Información del Vehículo
+                  Información del Vehículo Cliente - ID # {orden.vehiculo.id}
                 </h3>
               </div>
               <div className="card-body">
@@ -161,7 +161,7 @@ export const DetallesOrden = () => {
                       <div className="mb-3">
                         <label className="form-label">Recepción</label>
                         <div className="fw-semibold">
-                          {formatDate(orden.fechaRecepcion)}
+                          {formatDate(orden.recepcion)}
                         </div>
                       </div>
                     </div>
@@ -169,7 +169,7 @@ export const DetallesOrden = () => {
                       <div className="mb-3">
                         <label className="form-label">Prometida</label>
                         <div className="fw-semibold">
-                          {formatDate(orden.fechaPrometida)}
+                          {formatDate(orden.prometido)}
                         </div>
                       </div>
                     </div>
@@ -180,7 +180,7 @@ export const DetallesOrden = () => {
                     Detalles de trabajos a realizar
                   </h4>
                   <div className="bg-light p-3 rounded">
-                    {orden.detalleDeTrabajosARealizar}
+                    {orden.detalle_de_trabajos_a_realizar}{" "}
                   </div>
                 </div>
                 <div className="mb-4">
@@ -188,17 +188,17 @@ export const DetallesOrden = () => {
                     Detalles de entrada de vehiculo
                   </h4>
                   <div className="bg-light p-3 rounded">
-                    {orden.detallesDeEntradaDelVehiculo}
+                    {orden.detalles_de_entrada_del_vehiculo}
                   </div>
                 </div>
                 <div>
                   <div className="d-flex flex-column gap-2">
                     <small
                       className={
-                        orden.cambioDeAceite ? "text-success" : "text-danger"
+                        orden.cambio_de_aceite ? "text-success" : "text-danger"
                       }
                     >
-                      {orden.cambioDeAceite ? (
+                      {orden.cambio_de_aceite ? (
                         <i className="bi bi-check-circle-fill">
                           Cambio de Aceite
                         </i>
@@ -208,10 +208,10 @@ export const DetallesOrden = () => {
                     </small>
                     <small
                       className={
-                        orden.cambioDeFiltro ? "text-success" : "text-danger"
+                        orden.cambio_de_filtro ? "text-success" : "text-danger"
                       }
                     >
-                      {orden.cambioDeFiltro ? (
+                      {orden.cambio_de_filtro ? (
                         <i className="bi bi-check-circle-fill">
                           Cambio de Filtro
                         </i>

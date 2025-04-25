@@ -325,14 +325,14 @@ export const DetallesTarea = () => {
                     Detalles de entrada del vehiculo
                   </dt>
                   <dd className="col-sm-8">
-                    {tarea.orden.detallesDeEntradaDelVehiculo || "N/A"}
+                    {tarea.orden.detalles_de_entrada_del_vehiculo || "N/A"}
                   </dd>
 
                   <dt className="col-sm-4 mt-2">
                     Detalles de trabajos a realizar
                   </dt>
                   <dd className="col-sm-8">
-                    {tarea.orden.detalleDeTrabajosARealizar || "N/A"}
+                    {tarea.orden.detalle_de_trabajos_a_realizar || "N/A"}
                   </dd>
                   <div className="d-flex flex-column gap-2">
                     <small

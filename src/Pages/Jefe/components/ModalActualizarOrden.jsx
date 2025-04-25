@@ -9,14 +9,15 @@ export const ModalActualizarOrden = ({
 }) => {
   const [formData, setFormData] = useState(
     ordenData || {
+      id: "",
       cliente_id: "",
       vehiculo_id: "",
-      detalleDeTrabajosARealizar: "",
+      detalle_de_trabajos_a_realizar: "",
       recepcion: "",
       prometido: "",
-      cambioDeAceite: "",
-      cambioDeFiltro: "",
-      detallesDeEntradaDelVehiculo: "",
+      cambio_de_aceite: "",
+      cambio_de_filtro: "",
+      detalles_de_entrada_del_vehiculo: "",
     }
   );
 
@@ -53,8 +54,8 @@ export const ModalActualizarOrden = ({
             <Form.Label>Cliente</Form.Label>
             <Form.Control
               type="number"
-              name="clienteId"
-              value={formData.clienteId}
+              name="cliente_id"
+              value={formData.cliente_id}
               onChange={handleInputChange}
             />
           </Form.Group>
@@ -62,8 +63,8 @@ export const ModalActualizarOrden = ({
             <Form.Label>Vehículo</Form.Label>
             <Form.Control
               type="number"
-              name="vehiculoId"
-              value={formData.vehiculoId}
+              name="vehiculo_id"
+              value={formData.vehiculo_id}
               onChange={handleInputChange}
             />
           </Form.Group>
@@ -72,8 +73,8 @@ export const ModalActualizarOrden = ({
             <Form.Control
               as="textarea"
               rows={3}
-              name="detalleDeTrabajosARealizar"
-              value={formData.detalleDeTrabajosARealizar}
+              name="detalle_de_trabajos_a_realizar"
+              value={formData.detalle_de_trabajos_a_realizar}
               onChange={handleInputChange}
             />
           </Form.Group>
@@ -82,8 +83,8 @@ export const ModalActualizarOrden = ({
             <Form.Label>Fecha Recepcion</Form.Label>
             <Form.Control
               type="date"
-              name="fechaRecepcion"
-              value={formData.fechaRecepcion}
+              name="recepcion"
+              value={formData.recepcion}
               onChange={handleInputChange}
               required
             />
@@ -92,8 +93,8 @@ export const ModalActualizarOrden = ({
             <Form.Label>Fecha Prometida</Form.Label>
             <Form.Control
               type="date"
-              name="fechaPrometida"
-              value={formData.fechaPrometida}
+              name="prometido"
+              value={formData.prometido}
               onChange={handleInputChange}
               required
             />
@@ -101,18 +102,18 @@ export const ModalActualizarOrden = ({
           <Form.Group className="mb-3">
             <Form.Check
               type="checkbox"
-              name="cambioDeAceite"
+              name="cambio_de_aceite"
               label="Cambio de aceite"
-              checked={formData.cambioDeAceite}
+              checked={formData.cambio_de_aceite}
               onChange={handleInputChange}
             />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Check
               type="checkbox"
-              name="cambioDeFiltro"
+              name="cambio_de_filtro"
               label="Cambio de filtro"
-              checked={formData.cambioDeFiltro}
+              checked={formData.cambio_de_filtro}
               onChange={handleInputChange}
             />
           </Form.Group>
@@ -121,8 +122,8 @@ export const ModalActualizarOrden = ({
             <Form.Control
               as="textarea"
               rows={3}
-              name="detallesDeEntradaDelVehiculo"
-              value={formData.detallesDeEntradaDelVehiculo}
+              name="detalles_de_entrada_del_vehiculo"
+              value={formData.detalles_de_entrada_del_vehiculo}
               onChange={handleInputChange}
             />
           </Form.Group>

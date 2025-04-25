@@ -11,7 +11,7 @@ export const ModalActualizarTarea = ({
     tareaData || {
       orden_id: "",
       mecanico_id: "",
-      estado_de_trabajo: "pendiente",
+      estado_de_trabajo: "",
       notificacion_al_cliente: "",
     }
   );
@@ -74,7 +74,10 @@ export const ModalActualizarTarea = ({
               required
             >
               <option value="pendiente">Pendiente</option>
-              <option value="en_progreso">En Progreso</option>
+              <option value="en_proceso">En Progreso</option>
+              <option value="pendiente_de_facturacion">
+                Pendiente por facturar
+              </option>
               <option value="completado">Completado</option>
             </Form.Select>
           </Form.Group>

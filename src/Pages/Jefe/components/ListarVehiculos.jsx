@@ -3,6 +3,7 @@ import { Button, Form, Stack } from "react-bootstrap";
 import { ModalCrearVehiculo } from "./ModalCrearVehiculo";
 import { ModalEliminarVehiculo } from "./ModalEliminarVehiculo";
 import { ModalActualizarVehiculo } from "./ModalActualizarVehiculo";
+import { vehiculos } from "../helpers/vehiculos";
 
 export const ListaVehiculos = () => {
   const [showModal, setShowModal] = useState(false);
@@ -20,31 +21,6 @@ export const ListaVehiculos = () => {
     setShowDeleteModal(false);
     // Aquí iría la lógica para hacer el DELETE a la API
   };
-
-  const vehiculos = [
-    {
-      id: 1,
-      modelo: "Toyota Corolla",
-      marca: "Toyota",
-      color: "Blanco",
-      matricula: "ABC-1234",
-      kilometraje: "50,000 km",
-      serie: "1234567890",
-      motor: "9876543210",
-      fechaCompra: "2020-05-15",
-    },
-    {
-      id: 2,
-      modelo: "Honda Civic",
-      marca: "Honda",
-      color: "Negro",
-      matricula: "XYZ-5678",
-      kilometraje: "30,000 km",
-      serie: "0987654321",
-      motor: "1234567890",
-      fechaCompra: "2021-03-10",
-    },
-  ];
 
   return (
     <div className="container-fluid px-4 py-3 animate__animated animate__fadeIn">
@@ -123,18 +99,18 @@ export const ListaVehiculos = () => {
                   <td className="text-nowrap">{vehiculo.kilometraje}</td>
                   <td>
                     <small className="text-muted font-monospace">
-                      {vehiculo.serie}
+                      {vehiculo.numero_de_serie}
                     </small>
                   </td>
                   <td>
                     <small className="text-muted font-monospace">
-                      {vehiculo.motor}
+                      {vehiculo.numero_de_motor}
                     </small>
                   </td>
                   <td>
                     <span className="text-nowrap">
                       <i className="bi bi-calendar me-2"></i>
-                      {vehiculo.fechaCompra}
+                      {vehiculo.fecha_de_compra}
                     </span>
                   </td>
                   <td className="pe-4">

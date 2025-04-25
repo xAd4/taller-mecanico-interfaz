@@ -3,6 +3,7 @@ import { Button, Form, Stack } from "react-bootstrap";
 import { ModalCrearCliente } from "./ModalCrearCliente";
 import { ModalEliminarCliente } from "./ModalEliminarCliente";
 import { ModalActualizarCliente } from "./ModalActualizarCliente";
+import { clientes } from "../helpers/clientes";
 
 export const ListaClientes = () => {
   const [showModal, setShowModal] = useState(false);
@@ -20,26 +21,6 @@ export const ListaClientes = () => {
     setShowDeleteModal(false);
     // Aquí iría la lógica para hacer el DELETE a la API
   };
-
-  const clientes = [
-    {
-      id: 1,
-      nombre: "Juan Pérez",
-      email: "juan.perez@email.com",
-      rut: "12.345.678-9",
-      telefono: "+56 9 1234 5678",
-      direccion:
-        "La casa de las madres Lorem ipsum dolor, sit amet consectetur adipisicing elit...",
-    },
-    {
-      id: 2,
-      nombre: "María López",
-      email: "maria.lopez@email.com",
-      rut: "98.765.432-1",
-      telefono: "+56 9 8765 4321",
-      direccion: "Otra dirección importante aquí...",
-    },
-  ];
 
   return (
     <div className="container-fluid px-4 py-3 animate__animated animate__fadeIn">
@@ -104,7 +85,7 @@ export const ListaClientes = () => {
                           style={{ maxWidth: "300px" }}
                         >
                           <small className="text-muted">
-                            {cliente.direccion}
+                            {cliente.domicilio}
                           </small>
                         </div>
                       </div>

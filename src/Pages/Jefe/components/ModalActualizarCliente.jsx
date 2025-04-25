@@ -86,8 +86,8 @@ export const ModalActualizarCliente = ({
             <Form.Label>Domicilio</Form.Label>
             <Form.Control
               type="text"
-              name="direccion"
-              value={formData.direccion}
+              name="domicilio"
+              value={formData.domicilio}
               onChange={handleInputChange}
             />
           </Form.Group>

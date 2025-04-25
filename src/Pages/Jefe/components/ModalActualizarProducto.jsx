@@ -1,5 +1,6 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { categorias } from "../helpers/categorias";
 
 export const ModalActualizarProducto = ({
   showModal,
@@ -9,7 +10,8 @@ export const ModalActualizarProducto = ({
 }) => {
   const [formData, setFormData] = useState(
     productoData || {
-      categoria: "",
+      id: "",
+      categoria_id: "",
       nombre: "",
       detalles: "",
       marca: "",
@@ -51,13 +53,15 @@ export const ModalActualizarProducto = ({
           <Form.Group className="mb-3">
             <Form.Label>Categoria</Form.Label>
             <Form.Select
-              name="categoria"
-              value={formData.categoria}
+              name="categoria_id"
+              value={formData.categoria_id}
               onChange={handleInputChange}
-              required
             >
-              <option value="">Seleccionar estado</option>
-              <option value="Pendiente">{formData.categoria}</option>
+              {categorias.map((categoria) => (
+                <option key={categoria.id} value={categoria.nombre}>
+                  {categoria.nombre}
+                </option>
+              ))}
             </Form.Select>
           </Form.Group>
           <Form.Group className="mb-3">

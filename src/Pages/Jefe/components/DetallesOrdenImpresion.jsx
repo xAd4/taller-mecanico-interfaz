@@ -3,7 +3,6 @@ import { es } from "date-fns/locale";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export const DetallesOrdenImpresion = () => {
-  const navigate = useNavigate();
   // const { id } = useParams();
   const location = useLocation();
   const { orden } = location.state || {};
@@ -50,9 +49,9 @@ export const DetallesOrdenImpresion = () => {
         </div>
         <div className="text-end">
           <div className="alert alert-light border">
-            <strong>Fecha Recepcion:</strong> {formatDate(orden.fechaRecepcion)}
+            <strong>Fecha Recepcion:</strong> {formatDate(orden.recepcion)}
             <br />
-            <strong>Fecha Prometida:</strong> {formatDate(orden.fechaPrometida)}
+            <strong>Fecha Prometida:</strong> {formatDate(orden.prometido)}
           </div>
         </div>
       </div>
@@ -125,11 +124,11 @@ export const DetallesOrdenImpresion = () => {
         <h3 className="section-title pb-2">Descripción del Trabajo</h3>
         <div className="mb-3">
           <h4 className="h6">Estado del vehículo al ingreso:</h4>
-          <p className="ps-3">{orden.detallesDeEntradaDelVehiculo}</p>
+          <p className="ps-3">{orden.detalles_de_entrada_del_vehiculo}</p>
         </div>
         <div>
           <h4 className="h6">Trabajos a realizar:</h4>
-          <p className="ps-3">{orden.detalleDeTrabajosARealizar}</p>
+          <p className="ps-3">{orden.detalle_de_trabajos_a_realizar}</p>
         </div>
       </div>
 

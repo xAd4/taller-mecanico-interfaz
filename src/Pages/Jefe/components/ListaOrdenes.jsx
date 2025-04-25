@@ -4,6 +4,7 @@ import { ModalCrearOrden } from "./ModalCrearOrden";
 import { ModalEliminarOrden } from "./ModalEliminarOrden";
 import { ModalActualizarOrden } from "./ModalActualizarOrden";
 import { useNavigate } from "react-router-dom";
+import { ordenes } from "../helpers/ordenes";
 
 export const ListaOrdenes = () => {
   const [showModal, setShowModal] = useState(false);
@@ -23,63 +24,6 @@ export const ListaOrdenes = () => {
     setShowDeleteModal(false);
     // Aquí iría la lógica para hacer el DELETE a la API
   };
-  const ordenes = [
-    {
-      id: 1,
-      clienteId: 12345,
-      vehiculoId: 67890,
-      detalleDeTrabajosARealizar:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores ut natus dolorum accusantium molestiae qui tenetur vel nemo ratione, in modi voluptates similique blanditiis, illo et quos quod, tempora harum.",
-      fechaRecepcion: "2025-04-01",
-      fechaPrometida: "2025-04-10",
-      cambioDeAceite: true,
-      cambioDeFiltro: false,
-      detallesDeEntradaDelVehiculo:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores ut natus dolorum accusantium molestiae qui tenetur vel nemo ratione, in modi voluptates similique blanditiis, illo et quos quod, tempora harum.",
-      cliente: {
-        id: 1,
-        nombre: "Cliente numero 2",
-        apellido: "Apellido de Cliente numero 2",
-        email: "cliente@test.com",
-        dni: "45678910",
-        rut: "78945610",
-        telefono: "1234578944",
-        domicilio: "Domicilio del cliente numero 2",
-      },
-      vehiculo: {
-        id: 1,
-        modelo: "Renault",
-        marca: "Twingo",
-        color: "Rojo",
-        matricula: "AB456CR",
-        kilometraje: "145785",
-        numero_de_serie: "",
-        numero_de_motor: "",
-        fecha_de_compra: "",
-        created_at: "2025-04-22T17:27:30.000000Z",
-        updated_at: "2025-04-22T17:27:30.000000Z",
-      },
-      mecanico: {
-        id: 1,
-        orden_id: 1,
-        mecanico_id: 1,
-        estado_de_trabajo: "pendiente",
-        detalles_de_tarea: "El mecanico 1 tiene que hacer cosas",
-        notificacion_al_cliente: "Esto lo dice el mecanico",
-        created_at: "2025-04-22T17:31:04.000000Z",
-        updated_at: "2025-04-22T17:31:04.000000Z",
-        mecanico: {
-          id: 1,
-          name: "Angel Estarita JEFE",
-          email: "jefe@test.com",
-          email_verified_at: null,
-          created_at: "2025-04-17T13:55:18.000000Z",
-          updated_at: "2025-04-17T13:55:18.000000Z",
-          rol: "jefe",
-        },
-      },
-    },
-  ];
 
   return (
     <div className="container-fluid px-4 py-3 animate__animated animate__fadeIn">
@@ -126,8 +70,8 @@ export const ListaOrdenes = () => {
                 <th scope="col">Vehículo</th>
                 <th scope="col">Trabajos a realizar</th>
                 <th scope="col">Fechas</th>
-                <th scope="col">Cambio de filtros y aceite</th>
-                <th scope="col">Detalles de entrada del vehiculo</th>
+                <th scope="col">Filtros y aceite</th>
+                <th scope="col">Entrada del vehiculo</th>
                 <th scope="col" className="text-end pe-4">
                   Acciones
                 </th>
@@ -150,7 +94,7 @@ export const ListaOrdenes = () => {
                       <i className="bi bi-person-circle fs-4 text-muted"></i>
                       <div>
                         <h6 className="mb-0 fw-semibold">
-                          # {orden.clienteId}
+                          # {orden.cliente.id}
                         </h6>
                         <h6 className="mb-0 fw-semibold">
                           {orden.cliente.nombre}
@@ -164,12 +108,12 @@ export const ListaOrdenes = () => {
                       <i className="bi bi-car-front fs-4 text-muted"></i>
                       <div>
                         <h6 className="mb-0 fw-semibold">
-                          #{orden.vehiculoId} - {orden.vehiculo.modelo}{" "}
+                          #{orden.vehiculo.id} - {orden.vehiculo.modelo}
                           {orden.vehiculo.marca}
                         </h6>
                         <ul className="list-unstyled mb-0">
                           <li>
-                            <code className="text-muted">Matrícula:</code>{" "}
+                            <code className="text-muted">Matrícula:</code>
                             {orden.vehiculo.matricula}
                           </li>
                         </ul>
@@ -187,7 +131,7 @@ export const ListaOrdenes = () => {
                           style={{ maxWidth: "250px" }}
                         >
                           <i className="bi bi-calendar-check me-2"></i>
-                          {orden.detalleDeTrabajosARealizar}
+                          {orden.detalle_de_trabajos_a_realizar}
                         </span>
                       </div>
                     </div>
@@ -198,14 +142,14 @@ export const ListaOrdenes = () => {
                         <small className="text-muted d-block">Recepción:</small>
                         <span className="text-nowrap">
                           <i className="bi bi-calendar-check me-2"></i>
-                          {orden.fechaRecepcion}
+                          {orden.recepcion}
                         </span>
                       </div>
                       <div>
                         <small className="text-muted d-block">Prometida:</small>
                         <span className="text-nowrap">
                           <i className="bi bi-calendar-event me-2"></i>
-                          {orden.fechaPrometida}
+                          {orden.prometido}
                         </span>
                       </div>
                     </div>
@@ -214,10 +158,12 @@ export const ListaOrdenes = () => {
                     <div className="d-flex flex-column gap-2">
                       <small
                         className={
-                          orden.cambioDeAceite ? "text-success" : "text-danger"
+                          orden.cambio_de_aceite
+                            ? "text-success"
+                            : "text-danger"
                         }
                       >
-                        {orden.cambioDeAceite ? (
+                        {orden.cambio_de_aceite ? (
                           <i className="bi bi-check-circle-fill"> Aceite</i>
                         ) : (
                           <i className="bi bi-x-circle-fill"> Aceite</i>
@@ -225,10 +171,12 @@ export const ListaOrdenes = () => {
                       </small>
                       <small
                         className={
-                          orden.cambioDeFiltro ? "text-success" : "text-danger"
+                          orden.cambio_de_filtro
+                            ? "text-success"
+                            : "text-danger"
                         }
                       >
-                        {orden.cambioDeFiltro ? (
+                        {orden.cambio_de_filtro ? (
                           <i className="bi bi-check-circle-fill"> Filtro</i>
                         ) : (
                           <i className="bi bi-x-circle-fill"> Filtro</i>
@@ -247,7 +195,7 @@ export const ListaOrdenes = () => {
                           style={{ maxWidth: "250px" }}
                         >
                           <i className="bi bi-calendar-check me-2"></i>
-                          {orden.detallesDeEntradaDelVehiculo}
+                          {orden.detalles_de_entrada_del_vehiculo}
                         </span>
                       </div>
                     </div>

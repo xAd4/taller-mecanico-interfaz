@@ -5,6 +5,8 @@ import { ModalEliminarProducto } from "./ModalEliminarProducto";
 import { ModalActualizarProducto } from "./ModalActualizarProducto";
 import { ModalActualizarCategoria } from "./ModalActualizarCategoria";
 import { ModalCrearCategoria } from "./ModalCrearCategoria";
+import { categorias } from "../helpers/categorias";
+import { productos } from "../helpers/productos";
 
 export const ListaProductos = () => {
   const [showModal, setShowModal] = useState(false);
@@ -32,33 +34,6 @@ export const ListaProductos = () => {
     setShowDeleteModal(false);
     // Aquí iría la lógica para hacer el DELETE a la API
   };
-
-  const productos = [
-    {
-      id: 1,
-      categoria: "Lubricantes",
-      nombre: "Aceite 5W-30",
-      detalles: "Aceite sintético para motor",
-      marca: "Mobil",
-      stock: 50,
-      precio: 25.0,
-    },
-    {
-      id: 2,
-      categoria: "Filtros",
-      nombre: "Filtro de aire",
-      detalles: "Filtro de aire para motor",
-      marca: "Bosch",
-      stock: 30,
-      precio: 15.0,
-    },
-  ];
-
-  const categorias = [
-    { nombre: "Aceites", disponibilidad: true },
-    { nombre: "Filtros", disponibilidad: true },
-    { nombre: "Lubricantes", disponibilidad: false },
-  ];
 
   const getEstadoDisponibilidad = (disponibilidad) => {
     return disponibilidad
@@ -195,16 +170,25 @@ export const ListaProductos = () => {
                           } fs-4 text-muted`}
                         ></i>
                         <span className="fw-semibold">
-                          {producto.categoria}
+                          {producto.categoria.nombre}
                         </span>
                       </div>
                     </td>
                     <td>
                       <div className="max-width-300">
                         <h6 className="mb-1 fw-semibold">{producto.nombre}</h6>
-                        <small className="text-muted text-truncate d-block">
-                          {producto.detalles}
-                        </small>
+
+                        <div className="d-flex flex-column gap-2">
+                          <div>
+                            <span
+                              className="d-inline-block text-truncate"
+                              style={{ maxWidth: "300px" }}
+                            >
+                              <i className="bi bi-calendar-check me-2"></i>
+                              {producto.detalles}
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </td>
                     <td>
@@ -217,7 +201,7 @@ export const ListaProductos = () => {
                       <small className="text-muted ms-2">unid.</small>
                     </td>
                     <td className="text-end font-monospace">
-                      ${producto.precio.toFixed(2)}
+                      ${producto.precio}
                     </td>
                     <td>
                       <Badge bg={estado.color} className="text-capitalize">
