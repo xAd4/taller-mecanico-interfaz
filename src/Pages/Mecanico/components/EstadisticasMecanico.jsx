@@ -1,25 +1,25 @@
 export const EstadisticasMecanico = () => {
   const stats = [
     {
-      title: "Tareas Totales",
+      title: "Pendientes",
       value: 15,
       icon: "clipboard-data",
       trend: "steady",
     },
     {
-      title: "en_proceso",
+      title: "En proceso",
       value: 5,
       icon: "tools",
       trend: "up",
     },
     {
-      title: "pendiente_por_pagar",
+      title: "Pendiente por pagar",
       value: 5,
       icon: "tools",
       trend: "up",
     },
     {
-      title: "completado",
+      title: "Completados",
       value: 5,
       icon: "tools",
       trend: "up",
@@ -31,16 +31,14 @@ export const EstadisticasMecanico = () => {
       {stats.map((stat, index) => (
         <div key={index} className="stat-card">
           <div className="card-icon">
-            <i className={`bi bi-${stat.icon}`}></i>
+            <i className="bi bi-up"></i>
           </div>
           <div className="card-content">
             <h3>{stat.value}</h3>
             <p>{stat.title}</p>
           </div>
-          <div className={`trend ${stat.trend}`}>
-            <i
-              className={`bi bi-arrow-${stat.trend === "up" ? "up" : "right"}`}
-            ></i>
+          <div className="trend up">
+            <i className="bi bi-arrow-up"></i>
           </div>
         </div>
       ))}

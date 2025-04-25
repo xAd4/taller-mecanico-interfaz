@@ -39,7 +39,7 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
       {/* Modal para agregar nueva orden */}
       <Modal show={showModal} onHide={handleClose} centered backdrop="static">
         <Modal.Header closeButton>
-          <Modal.Title>Crear nuevo cliente</Modal.Title>
+          <Modal.Title>Crear nuevo producto</Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleSubmit}>
           <Modal.Body>
@@ -109,11 +109,10 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Disponibilidad</Form.Label>
-              <Form.Control
-                type="number"
+              <Form.Check
+                type="checkbox"
                 name="disponibilidad"
-                placeholder="Coloca 0 si es falso. Coloca 1 si es verdadero"
+                label="Estado"
                 value={formData.disponibilidad}
                 onChange={handleInputChange}
               />

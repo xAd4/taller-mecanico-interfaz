@@ -11,10 +11,6 @@ export const Dashboard = () => {
           <h1 className="text-center mb-4">Dashboard del Mecánico</h1>
           <EstadisticasMecanico />
         </div>
-
-        <div className="mt-5">
-          <TareasAsignadas />
-        </div>
       </div>
     </Layout>
   );

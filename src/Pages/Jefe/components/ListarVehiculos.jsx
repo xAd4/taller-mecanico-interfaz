@@ -84,6 +84,7 @@ export const ListaVehiculos = () => {
           <table className="table table-hover align-middle mb-0">
             <thead className="bg-primary text-white">
               <tr>
+                <th scope="col">ID</th>
                 <th scope="col" className="ps-4">
                   Modelo
                 </th>
@@ -102,6 +103,7 @@ export const ListaVehiculos = () => {
             <tbody>
               {vehiculos.map((vehiculo) => (
                 <tr key={vehiculo.id} className="transition-all">
+                  <td className="ps-4 fw-semibold"># {vehiculo.id}</td>
                   <td className="ps-4 fw-semibold">{vehiculo.modelo}</td>
                   <td>
                     <span className="badge bg-light text-dark border">

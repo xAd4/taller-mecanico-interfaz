@@ -15,6 +15,7 @@ export const ModalActualizarProducto = ({
       marca: "",
       stock: "",
       precio: "",
+      disponibilidad: "",
     }
   );
 
@@ -105,6 +106,16 @@ export const ModalActualizarProducto = ({
               type="number"
               name="precio"
               value={formData.precio}
+              onChange={handleInputChange}
+              required
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Check
+              type="check"
+              name="disponibilidad"
+              label="Disponibilidad"
+              value={formData.disponibilidad}
               onChange={handleInputChange}
               required
             />
