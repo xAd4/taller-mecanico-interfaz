@@ -9,6 +9,7 @@ import { ModalActualizarProductos } from "./ModalActualizarProductos";
 import { ModalCrearProducto } from "./ModalCrearProducto";
 import { ModalEliminarProducto } from "./ModalEliminarProducto";
 import { Layout } from "./common/Layout";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 export const DetalleTareas = () => {
   const [activeTab, setActiveTab] = useState("delantero");
@@ -23,6 +24,11 @@ export const DetalleTareas = () => {
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const { state } = useLocation();
+  const tarea = state?.tarea;
+
   const handleUpdate = (updatedData) => {
     console.log("Datos actualizados:", updatedData);
     // Lógica para actualizar la API
@@ -32,6 +38,10 @@ export const DetalleTareas = () => {
     console.log("Cliente eliminado");
     setShowDeleteModal(false);
     // Lógica para eliminar en la API
+  };
+
+  const onBack = () => {
+    navigate(-1);
   };
 
   const renderStatusIcon = (status) => (
@@ -55,165 +65,18 @@ export const DetalleTareas = () => {
     </Button>
   );
 
-  // Nuevos datos actualizados
-  const tareas = [
-    {
-      id: 44,
-      orden_id: 1,
-      mecanico_id: 5,
-      estado_de_trabajo: "pendiente",
-      notificacion_al_cliente: "Esto lo dice el mecanico",
-      created_at: "2025-04-25T17:22:14.000000Z",
-      updated_at: "2025-04-25T17:22:14.000000Z",
-      mecanico: {
-        id: 5,
-        name: "Angel Estarita",
-        email: "test@test.com",
-        email_verified_at: null,
-        created_at: "2025-04-25T17:19:28.000000Z",
-        updated_at: "2025-04-25T17:19:28.000000Z",
-        rol: "jefe",
-      },
-      orden: {
-        id: 1,
-        cliente_id: 7,
-        vehiculo_id: 8,
-        detalle_de_trabajos_a_realizar: "Omnis et minus voluptates blanditiis.",
-        recepcion: "2025-04-15",
-        prometido: "2025-05-21",
-        cambio_de_aceite: 1,
-        cambio_de_filtro: 0,
-        detalles_de_entrada_del_vehiculo:
-          "Sit dolor nemo ad quis pariatur. Consequatur quia fugit laboriosam laboriosam ab. Voluptatem sunt rem et et voluptatem quibusdam excepturi. Et atque sequi sed.",
-        created_at: "2025-04-25T17:14:05.000000Z",
-        updated_at: "2025-04-25T17:14:05.000000Z",
-        cliente: {
-          id: 7,
-          nombre: "Ronaldo",
-          email: "hackett.david@example.net",
-          rut: "70544280",
-          telefono: "(930) 410-6351",
-          domicilio:
-            "242 Estrella Ferry Suite 085\nWest Brittanystad, SC 37616-0197",
-          created_at: "2025-04-25T17:14:05.000000Z",
-          updated_at: "2025-04-25T17:14:05.000000Z",
-        },
-        vehiculo: {
-          id: 8,
-          modelo: "id",
-          marca: "Mayer, Deckow and Wisozk",
-          color: "Olive",
-          matricula: "VX-1945",
-          kilometraje: "6397",
-          numero_de_serie: "B2RBH8P29GAXR6FGL",
-          numero_de_motor: "6ZS6XP3F92",
-          fecha_de_compra: "2022-07-31",
-          created_at: "2025-04-25T17:14:05.000000Z",
-          updated_at: "2025-04-25T17:14:05.000000Z",
-        },
-      },
-      productos_usados: [
-        {
-          id: 37,
-          tarea_id: 1,
-          producto_id: 1,
-          cantidad: 1,
-          created_at: "2025-04-25T17:14:08.000000Z",
-          updated_at: "2025-04-25T17:14:08.000000Z",
-          total: 265.76,
-          producto: {
-            id: 1,
-            categoria_id: 1,
-            nombre: "Adipisci explicabo.",
-            detalles:
-              "Natus provident quibusdam omnis animi optio harum. Porro quos omnis quia in maiores temporibus. Doloribus quia quia voluptatem molestiae hic. Accusamus minima eaque modi et modi.",
-            marca: "Upton, Wehner and Romaguera",
-            stock: 45,
-            precio: "265.76",
-            disponibilidad: 1,
-            created_at: "2025-04-25T17:14:04.000000Z",
-            updated_at: "2025-04-25T17:14:04.000000Z",
-          },
-        },
-        {
-          id: 60,
-          tarea_id: 1,
-          producto_id: 19,
-          cantidad: 2,
-          created_at: "2025-04-25T17:14:08.000000Z",
-          updated_at: "2025-04-25T17:14:08.000000Z",
-          total: 183.68,
-          producto: {
-            id: 19,
-            categoria_id: 3,
-            nombre: "Ut deleniti excepturi.",
-            detalles:
-              "Accusamus praesentium nobis quia qui nihil totam. At ut modi alias quia rerum. Officia qui odio totam nemo reprehenderit. Placeat omnis est corrupti non in.",
-            marca: "Stanton-McLaughlin",
-            stock: 40,
-            precio: "91.84",
-            disponibilidad: 1,
-            created_at: "2025-04-25T17:14:04.000000Z",
-            updated_at: "2025-04-25T17:14:04.000000Z",
-          },
-        },
-      ],
-      tren_delantero: {
-        id: 44,
-        tarea_id: 44,
-        conv: 0,
-        comba: 0,
-        avance: 0,
-        rotulas: 0,
-        punteros: 0,
-        bujes: 0,
-        caja_direccion: 0,
-        conv2: 0,
-        comba2: 0,
-        avance2: 0,
-        amort: 0,
-        created_at: "2025-04-25T17:22:14.000000Z",
-        updated_at: "2025-04-25T17:22:14.000000Z",
-      },
-      tren_trasero: {
-        id: 44,
-        tarea_id: 44,
-        conv: 0,
-        comba: 0,
-        brazos_susp: 0,
-        articulaciones: 0,
-        conv2: 0,
-        comba2: 0,
-        amort: 0,
-        created_at: "2025-04-25T17:22:14.000000Z",
-        updated_at: "2025-04-25T17:22:14.000000Z",
-      },
-      frenos: {
-        id: 44,
-        tarea_id: 44,
-        delanteros: 0,
-        traseros: 0,
-        estacionamiento: 0,
-        numero_cricket: 0,
-        created_at: "2025-04-25T17:22:14.000000Z",
-        updated_at: "2025-04-25T17:22:14.000000Z",
-      },
-      estado_neumaticos: {
-        id: 44,
-        tarea_id: 44,
-        delanteros_derechos: 0,
-        delanteros_izquierdos: 0,
-        traseros_derechos: 0,
-        traseros_izquierdos: 0,
-        created_at: "2025-04-25T17:22:14.000000Z",
-        updated_at: "2025-04-25T17:22:14.000000Z",
-      },
-    },
-  ];
-
   return (
     <Layout>
       <div className="container-fluid px-4 py-3 animate__animated animate__fadeIn">
+        <Button
+          variant="outline-primary"
+          size="sm"
+          className="mb-4 d-flex align-items-center gap-2"
+          onClick={onBack}
+        >
+          <i className="bi bi-arrow-left"></i>
+          <span className="d-none d-md-inline">Regresar</span>
+        </Button>
         <div className="container-fluid px-4 py-3">
           {/* Encabezado principal actualizado */}
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
@@ -221,19 +84,19 @@ export const DetalleTareas = () => {
             <div>
               <h1 className="h2 fw-bold text-primary mb-1">
                 <i className="bi bi-clipboard-check me-2"></i>
-                Detalles de la Tarea #{tareas[0].id}
+                Detalles de la Tarea #{tarea.id}
               </h1>
               <p className="text-muted mb-0">
                 Estado:{" "}
                 <Badge
                   bg={
-                    tareas[0].estado_de_trabajo === "pendiente"
+                    tarea.estado_de_trabajo === "pendiente"
                       ? "warning"
                       : "success"
                   }
                   className="text-capitalize"
                 >
-                  {tareas[0].estado_de_trabajo}
+                  {tarea.estado_de_trabajo}
                 </Badge>
               </p>
             </div>
@@ -244,19 +107,19 @@ export const DetalleTareas = () => {
                 Cliente
               </h6>
               <p className="mb-1">
-                <strong>Nombre:</strong> {tareas[0].orden.cliente.nombre}
+                <strong>Nombre:</strong> {tarea.orden.cliente.nombre}
               </p>
               <p className="mb-1">
                 <strong>Email:</strong>{" "}
-                <a href={`mailto:${tareas[0].orden.cliente.email}`}>
-                  {tareas[0].orden.cliente.email}
+                <a href={`mailto:${tarea.orden.cliente.email}`}>
+                  {tarea.orden.cliente.email}
                 </a>
               </p>
               <p className="mb-1">
-                <strong>Teléfono:</strong> {tareas[0].orden.cliente.telefono}
+                <strong>Teléfono:</strong> {tarea.orden.cliente.telefono}
               </p>
               <p className="mb-0">
-                <strong>Domicilio:</strong> {tareas[0].orden.cliente.domicilio}
+                <strong>Domicilio:</strong> {tarea.orden.cliente.domicilio}
               </p>
             </div>
 
@@ -267,90 +130,88 @@ export const DetalleTareas = () => {
                 Vehículo
               </h6>
               <p className="mb-1">
-                <strong>Marca/Modelo:</strong> {tareas[0].orden.vehiculo.marca}{" "}
-                {tareas[0].orden.vehiculo.modelo}
+                <strong>Marca/Modelo:</strong> {tarea.orden.vehiculo.marca}{" "}
+                {tarea.orden.vehiculo.modelo}
               </p>
               <p className="mb-1">
-                <strong>Matrícula:</strong> {tareas[0].orden.vehiculo.matricula}
+                <strong>Matrícula:</strong> {tarea.orden.vehiculo.matricula}
               </p>
               <p className="mb-1">
-                <strong>Kilometraje:</strong>{" "}
-                {tareas[0].orden.vehiculo.kilometraje} km
+                <strong>Kilometraje:</strong> {tarea.orden.vehiculo.kilometraje}{" "}
+                km
               </p>
               <p className="mb-1">
-                <strong>Color:</strong> {tareas[0].orden.vehiculo.color}
+                <strong>Color:</strong> {tarea.orden.vehiculo.color}
               </p>
               <p className="mb-1">
                 <strong>Nro Serie:</strong>{" "}
-                {tareas[0].orden.vehiculo.numero_de_serie}
+                {tarea.orden.vehiculo.numero_de_serie}
               </p>
               <p className="mb-0">
                 <strong>Nro Motor:</strong>{" "}
-                {tareas[0].orden.vehiculo.numero_de_motor}
+                {tarea.orden.vehiculo.numero_de_motor}
               </p>
             </div>
           </div>
 
           {/* Sección de información principal actualizada */}
           <div className="card shadow-sm mb-4">
-            {tareas.map((tarea) => (
-              <div className="card-body" key={tarea.id}>
-                <Row>
-                  <Col md={6}>
-                    <p className="mb-2">
-                      <strong>Detalles de trabajos a realizar: </strong>
-                      {tarea.orden.detalle_de_trabajos_a_realizar}
-                    </p>
-                    <p className="mb-2">
-                      <strong>Detalles de entrada del vehículo: </strong>
-                      {tarea.orden.detalles_de_entrada_del_vehiculo}
-                    </p>
-                  </Col>
-                  <Col md={6}>
-                    <p className="mb-2">
-                      <strong>Recepción:</strong> {tarea.orden.recepcion}
-                    </p>
-                    <p className="mb-2">
-                      <strong>Fecha prometida:</strong>
-                      {tarea.orden.prometido || "Sin fecha definida"}
-                    </p>
-                    <p className="mb-2">
-                      <strong>Cambio de aceite:</strong>
-                      {tarea.orden.cambio_de_aceite ? "Sí" : "No"}
-                    </p>
-                    <p className="mb-2">
-                      <strong>Cambio de filtro:</strong>
-                      {tarea.orden.cambio_de_filtro ? "Sí" : "No"}
-                    </p>
-                  </Col>
-                </Row>
+            <div className="card-body" key={tarea.id}>
+              <Row>
+                <Col md={6}>
+                  <p className="mb-2">
+                    <strong>Detalles de trabajos a realizar: </strong>
+                    {tarea.orden.detalle_de_trabajos_a_realizar}
+                  </p>
+                  <p className="mb-2">
+                    <strong>Detalles de entrada del vehículo: </strong>
+                    {tarea.orden.detalles_de_entrada_del_vehiculo}
+                  </p>
+                </Col>
+                <Col md={6}>
+                  <p className="mb-2">
+                    <strong>Recepción:</strong> {tarea.orden.recepcion}
+                  </p>
+                  <p className="mb-2">
+                    <strong>Fecha prometida:</strong>
+                    {tarea.orden.prometido || "Sin fecha definida"}
+                  </p>
+                  <p className="mb-2">
+                    <strong>Cambio de aceite:</strong>
+                    {tarea.orden.cambio_de_aceite ? "Sí" : "No"}
+                  </p>
+                  <p className="mb-2">
+                    <strong>Cambio de filtro:</strong>
+                    {tarea.orden.cambio_de_filtro ? "Sí" : "No"}
+                  </p>
+                </Col>
+              </Row>
 
-                {/* Notificación al cliente */}
-                {tarea.notificacion_al_cliente && (
-                  <div className="mt-3 p-3 bg-light rounded">
-                    <h6 className="text-primary mb-2">
-                      <i className="bi bi-chat-left-text me-2"></i>
-                      Notificación al Cliente
-                    </h6>
-                    <p className="mb-0">{tarea.notificacion_al_cliente}</p>
-                  </div>
-                )}
-
-                {/* Botón Editar */}
-                <div className="text-end mt-3">
-                  <Button
-                    variant="primary"
-                    onClick={() => {
-                      setSelectedTarea(tarea);
-                      setShowUpdateModal(true);
-                    }}
-                  >
-                    <i className="bi bi-pencil-square me-2"></i>
-                    Editar
-                  </Button>
+              {/* Notificación al cliente */}
+              {tarea.notificacion_al_cliente && (
+                <div className="mt-3 p-3 bg-light rounded">
+                  <h6 className="text-primary mb-2">
+                    <i className="bi bi-chat-left-text me-2"></i>
+                    Notificación al Cliente
+                  </h6>
+                  <p className="mb-0">{tarea.notificacion_al_cliente}</p>
                 </div>
+              )}
+
+              {/* Botón Editar */}
+              <div className="text-end mt-3">
+                <Button
+                  variant="primary"
+                  onClick={() => {
+                    setSelectedTarea(tarea);
+                    setShowUpdateModal(true);
+                  }}
+                >
+                  <i className="bi bi-pencil-square me-2"></i>
+                  Editar
+                </Button>
               </div>
-            ))}
+            </div>
           </div>
 
           {/* Botones de navegación */}
@@ -390,44 +251,42 @@ export const DetalleTareas = () => {
                 </tr>
               </thead>
               <tbody>
-                {tareas.map((tarea) => (
-                  <tr key={tarea.id}>
-                    <td>Estado</td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.conv)}
-                    </td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.comba)}
-                    </td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.avance)}
-                    </td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.rotulas)}
-                    </td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.punteros)}
-                    </td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.bujes)}
-                    </td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.caja_direccion)}
-                    </td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.conv2)}
-                    </td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.comba2)}
-                    </td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.avance2)}
-                    </td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.amort)}
-                    </td>
-                  </tr>
-                ))}
+                <tr key={tarea.id}>
+                  <td>Estado</td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.conv)}
+                  </td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.comba)}
+                  </td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.avance)}
+                  </td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.rotulas)}
+                  </td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.punteros)}
+                  </td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.bujes)}
+                  </td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.caja_direccion)}
+                  </td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.conv2)}
+                  </td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.comba2)}
+                  </td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.avance2)}
+                  </td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.amort)}
+                  </td>
+                </tr>
               </tbody>
             </Table>
             <Stack
@@ -440,7 +299,7 @@ export const DetalleTareas = () => {
                 size="sm"
                 className="d-flex align-items-center gap-2"
                 onClick={() => {
-                  setSelectedData(tareas[0].tren_delantero);
+                  setSelectedData(tarea.tren_delantero);
                   setShowTrenDelanteroModal(true);
                 }}
               >
@@ -466,32 +325,30 @@ export const DetalleTareas = () => {
                 </tr>
               </thead>
               <tbody>
-                {tareas.map((tarea) => (
-                  <tr key={tarea.id}>
-                    <td>Estado</td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.conv)}
-                    </td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.comba)}
-                    </td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.brazos_susp)}
-                    </td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.articulaciones)}
-                    </td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.conv2)}
-                    </td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.comba2)}
-                    </td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.amort)}
-                    </td>
-                  </tr>
-                ))}
+                <tr key={tarea.id}>
+                  <td>Estado</td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.conv)}
+                  </td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.comba)}
+                  </td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.brazos_susp)}
+                  </td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.articulaciones)}
+                  </td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.conv2)}
+                  </td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.comba2)}
+                  </td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.amort)}
+                  </td>
+                </tr>
               </tbody>
             </Table>
             <Stack
@@ -504,7 +361,7 @@ export const DetalleTareas = () => {
                 size="sm"
                 className="d-flex align-items-center gap-2"
                 onClick={() => {
-                  setSelectedData(tareas[0].tren_trasero);
+                  setSelectedData(tarea.tren_trasero);
                   setShowTrenTraseroModal(true);
                 }}
               >
@@ -527,23 +384,21 @@ export const DetalleTareas = () => {
                 </tr>
               </thead>
               <tbody>
-                {tareas.map((tarea) => (
-                  <tr key={tarea.id}>
-                    <td>Estado</td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.delanteros)}
-                    </td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.traseros)}
-                    </td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.estacionamiento)}
-                    </td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.numero_cricket)}
-                    </td>
-                  </tr>
-                ))}
+                <tr key={tarea.id}>
+                  <td>Estado</td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.delanteros)}
+                  </td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.traseros)}
+                  </td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.estacionamiento)}
+                  </td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.numero_cricket)}
+                  </td>
+                </tr>
               </tbody>
             </Table>
             <Stack
@@ -556,7 +411,7 @@ export const DetalleTareas = () => {
                 size="sm"
                 className="d-flex align-items-center gap-2"
                 onClick={() => {
-                  setSelectedData(tareas[0].frenos);
+                  setSelectedData(tarea.frenos);
                   setShowFrenosModal(true);
                 }}
               >
@@ -578,29 +433,23 @@ export const DetalleTareas = () => {
                 </tr>
               </thead>
               <tbody>
-                {tareas.map((tarea) => (
-                  <tr key={tarea.id}>
-                    <td>Estado</td>
-                    <td className="text-center">
-                      {renderStatusIcon(
-                        tarea.tren_delantero.delanteros_derechos
-                      )}
-                    </td>
-                    <td className="text-center">
-                      {renderStatusIcon(
-                        tarea.tren_delantero.delanteros_izquierdos
-                      )}
-                    </td>
-                    <td className="text-center">
-                      {renderStatusIcon(tarea.tren_delantero.traseros_derechos)}
-                    </td>
-                    <td className="text-center">
-                      {renderStatusIcon(
-                        tarea.tren_delantero.traseros_izquierdos
-                      )}
-                    </td>
-                  </tr>
-                ))}
+                <tr key={tarea.id}>
+                  <td>Estado</td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.delanteros_derechos)}
+                  </td>
+                  <td className="text-center">
+                    {renderStatusIcon(
+                      tarea.tren_delantero.delanteros_izquierdos
+                    )}
+                  </td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.traseros_derechos)}
+                  </td>
+                  <td className="text-center">
+                    {renderStatusIcon(tarea.tren_delantero.traseros_izquierdos)}
+                  </td>
+                </tr>
               </tbody>
             </Table>
             <Stack
@@ -613,7 +462,7 @@ export const DetalleTareas = () => {
                 size="sm"
                 className="d-flex align-items-center gap-2"
                 onClick={() => {
-                  setSelectedData(tareas[0].estado_neumaticos);
+                  setSelectedData(tarea.estado_neumaticos);
                   setShowNeumaticosModal(true);
                 }}
               >
@@ -642,7 +491,7 @@ export const DetalleTareas = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {tareas[0].productos_usados.map((producto) => (
+                    {tarea.productos_usados.map((producto) => (
                       <tr key={producto.id}>
                         <td>{producto.producto.nombre}</td>
                         <td>{producto.cantidad}</td>
@@ -697,7 +546,7 @@ export const DetalleTareas = () => {
                       </td>
                       <td className="text-end">
                         $
-                        {tareas[0].productos_usados
+                        {tarea.productos_usados
                           .reduce((acc, curr) => acc + curr.total, 0)
                           .toFixed(2)}
                       </td>
@@ -738,7 +587,7 @@ export const DetalleTareas = () => {
               </h5>
               <p className="mb-2">
                 <strong>Última actualización: </strong>
-                {new Date(tareas[0].updated_at).toLocaleDateString("es-ES", {
+                {new Date(tarea.updated_at).toLocaleDateString("es-ES", {
                   day: "2-digit",
                   month: "long",
                   year: "numeric",
@@ -747,8 +596,8 @@ export const DetalleTareas = () => {
                 })}
               </p>
               <p className="mb-0">
-                <strong>Responsable: </strong> ID #{tareas[0].mecanico_id} -{" "}
-                {tareas[0].mecanico.name}
+                <strong>Responsable: </strong> ID #{tarea.mecanico_id} -{" "}
+                {tarea.mecanico.name}
               </p>
             </Col>
 

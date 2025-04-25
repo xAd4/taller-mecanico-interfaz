@@ -45,11 +45,6 @@ export const Navbar = () => {
                   icon: "person-workspace",
                   text: "Tareas",
                 },
-                {
-                  to: "/mecanico/tarea",
-                  icon: "person-workspace",
-                  text: "Tarea Detallada",
-                },
               ].map((item, index) => (
                 <li className="nav-item mx-2" key={index}>
                   <NavLink

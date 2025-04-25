@@ -9,7 +9,7 @@ export const ModalActualizarTarea = ({
 }) => {
   const [formData, setFormData] = useState(
     tareaData || {
-      detalles_de_tarea: "",
+      estado_de_trabajo: "",
       notificacion_al_cliente: "",
     }
   );
@@ -44,11 +44,11 @@ export const ModalActualizarTarea = ({
       <Form onSubmit={handleSubmit}>
         <Modal.Body>
           <Form.Group className="mb-3">
-            <Form.Label>Detalles de Tarea</Form.Label>
+            <Form.Label>Estado de trabajo</Form.Label>
             <Form.Control
               as="textarea"
-              name="detalles_de_tarea"
-              value={formData.detalles_de_tarea}
+              name="estado_de_trabajo"
+              value={formData.estado_de_trabajo}
               onChange={handleInputChange}
               required
             />
