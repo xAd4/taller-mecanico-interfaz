@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { Form, Modal, Button } from "react-bootstrap";
+import { Form, Modal, Button, InputGroup } from "react-bootstrap";
+import Select from "react-select";
+import { useSelectorClientes } from "../hooks/useSelectorClientes";
+import { useSelectorVehiculos } from "../hooks/useSelectorVehiculos";
 
 export const ModalCrearOrden = ({ showModal, handleClose }) => {
   const [formData, setFormData] = useState({
@@ -13,6 +16,15 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
     detalles_de_entrada_del_vehiculo: "",
   });
 
+  const { opcionesAgrupadas, handleClienteChange, setSearchTerm } =
+    useSelectorClientes();
+
+  const {
+    opcionesAgrupadas: opcionesAgrupadasVehiculos,
+    handleVehiculoChange,
+    setSearchTerm: setSearchTermVehiculo,
+  } = useSelectorVehiculos();
+
   // Manejar cambios en el formulario
   const handleInputChange = (e) => {
     setFormData({
@@ -21,19 +33,19 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
     });
   };
 
+  const handleInputChangeCheckbox = (e) => {
+    const { name, type, checked } = e.target;
+    // Para checkboxes usamos 'checked', de lo contrario 'value'
+    const value = type === "checkbox" ? checked : e.target.value;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   // Manejar envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (
-      formData.cambio_de_aceite < 0 ||
-      formData.cambio_de_aceite > 1 ||
-      formData.cambio_de_filtro < 0 ||
-      formData.cambio_de_filtro > 1
-    ) {
-      alert("Debe ser 0 o 1. 0 es No y 1 es Si");
-      return;
-    }
 
     console.log("Datos enviados:", formData);
     handleClose();
@@ -48,25 +60,70 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
         <Form onSubmit={handleSubmit}>
           <Modal.Body>
             <Form.Group className="mb-3">
-              <Form.Label>Cliente ID</Form.Label>
-              <Form.Control
-                type="number"
-                name="cliente_id"
-                value={formData.cliente_id}
-                onChange={handleInputChange}
-                required
-              />
+              <Form.Label>Cliente</Form.Label>
+              <div className="mb-2">
+                <InputGroup className="mb-2">
+                  <InputGroup.Text>
+                    <i className="bi bi-search"></i>
+                  </InputGroup.Text>
+                  <Form.Control
+                    type="text"
+                    placeholder="Buscar cliente..."
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </InputGroup>
+
+                <Select
+                  options={opcionesAgrupadas}
+                  onChange={(selected) =>
+                    handleClienteChange(selected, setFormData)
+                  }
+                  placeholder="Seleccione un producto"
+                  noOptionsMessage={() => "No se encontraron productos"}
+                  formatGroupLabel={(group) => (
+                    <div className="d-flex justify-content-between">
+                      <span>{group.label}</span>
+                      <span className="badge bg-secondary">
+                        {group.options.length} Clientes
+                      </span>
+                    </div>
+                  )}
+                />
+              </div>
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Vehículo ID</Form.Label>
-              <Form.Control
-                type="number"
-                name="vehiculo_id"
-                value={formData.vehiculo_id}
-                onChange={handleInputChange}
-                required
-              />
+              <Form.Label>Vehiculo</Form.Label>
+              <div className="mb-2">
+                <InputGroup className="mb-2">
+                  <InputGroup.Text>
+                    <i className="bi bi-search"></i>
+                  </InputGroup.Text>
+                  <Form.Control
+                    type="text"
+                    placeholder="Buscar vehiculo..."
+                    onChange={(e) => setSearchTermVehiculo(e.target.value)}
+                  />
+                </InputGroup>
+
+                <Select
+                  options={opcionesAgrupadasVehiculos}
+                  onChange={(selected) =>
+                    handleVehiculoChange(selected, setFormData)
+                  }
+                  placeholder="Seleccione un vehiculo"
+                  noOptionsMessage={() => "No se encontraron vehiculos"}
+                  formatGroupLabel={(group) => (
+                    <div className="d-flex justify-content-between">
+                      <span>{group.label}</span>
+                      <span className="badge bg-secondary">
+                        {group.options.length} Vehiculos
+                      </span>
+                    </div>
+                  )}
+                />
+              </div>
             </Form.Group>
+
             <Form.Group className="mb-3">
               <Form.Label>Detalles de trabajos a realizar</Form.Label>
               <Form.Control
@@ -102,7 +159,7 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
                 name="cambio_de_aceite"
                 label="Cambio de aceite"
                 checked={formData.cambio_de_aceite}
-                onChange={handleInputChange}
+                onChange={handleInputChangeCheckbox}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -111,7 +168,7 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
                 name="cambio_de_filtro"
                 label="Cambio de filtro"
                 checked={formData.cambio_de_filtro}
-                onChange={handleInputChange}
+                onChange={handleInputChangeCheckbox}
               />
             </Form.Group>
             <Form.Group className="mb-3">

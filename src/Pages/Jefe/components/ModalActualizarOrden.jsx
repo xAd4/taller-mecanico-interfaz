@@ -21,7 +21,18 @@ export const ModalActualizarOrden = ({
     }
   );
 
-  // Actualizar el estado si ordenData cambia
+  // Convierte los datos del backend (0/1) a booleanos
+
+  const handleInputChangeCheckbox = (e) => {
+    const { name, type, checked } = e.target;
+    // Para checkboxes usamos 'checked', de lo contrario 'value'
+    const value = type === "checkbox" ? checked : e.target.value;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   useEffect(() => {
     if (ordenData) {
       setFormData(ordenData);
@@ -105,7 +116,7 @@ export const ModalActualizarOrden = ({
               name="cambio_de_aceite"
               label="Cambio de aceite"
               checked={formData.cambio_de_aceite}
-              onChange={handleInputChange}
+              onChange={handleInputChangeCheckbox}
             />
           </Form.Group>
           <Form.Group className="mb-3">
@@ -114,7 +125,7 @@ export const ModalActualizarOrden = ({
               name="cambio_de_filtro"
               label="Cambio de filtro"
               checked={formData.cambio_de_filtro}
-              onChange={handleInputChange}
+              onChange={handleInputChangeCheckbox}
             />
           </Form.Group>
           <Form.Group className="mb-3">

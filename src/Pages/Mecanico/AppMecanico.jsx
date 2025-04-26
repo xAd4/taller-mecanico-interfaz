@@ -10,7 +10,7 @@ export const AppMecanico = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/tareas" element={<Tareas />} />
         <Route path="/tareas/:id" element={<DetalleTareas />} />
-        <Route path="/*" element={<Navigate to="mecanico/dashboard" />} />
+        <Route path="/*" element={<Navigate to="/dashboard" />} />
       </Routes>
     </>
   );

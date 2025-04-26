@@ -1,6 +1,6 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import { categorias } from "../helpers/categorias";
+import { categorias } from "../data/categorias";
 
 export const ModalActualizarProducto = ({
   showModal,

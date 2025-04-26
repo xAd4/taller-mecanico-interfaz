@@ -5,8 +5,8 @@ import { ModalEliminarProducto } from "./ModalEliminarProducto";
 import { ModalActualizarProducto } from "./ModalActualizarProducto";
 import { ModalActualizarCategoria } from "./ModalActualizarCategoria";
 import { ModalCrearCategoria } from "./ModalCrearCategoria";
-import { categorias } from "../helpers/categorias";
-import { productos } from "../helpers/productos";
+import { categorias } from "../data/categorias";
+import { productos } from "../data/productos";
 
 export const ListaProductos = () => {
   const [showModal, setShowModal] = useState(false);

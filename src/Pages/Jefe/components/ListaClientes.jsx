@@ -3,7 +3,7 @@ import { Button, Form, Stack } from "react-bootstrap";
 import { ModalCrearCliente } from "./ModalCrearCliente";
 import { ModalEliminarCliente } from "./ModalEliminarCliente";
 import { ModalActualizarCliente } from "./ModalActualizarCliente";
-import { clientes } from "../helpers/clientes";
+import { clientes } from "../data/clientes";
 
 export const ListaClientes = () => {
   const [showModal, setShowModal] = useState(false);

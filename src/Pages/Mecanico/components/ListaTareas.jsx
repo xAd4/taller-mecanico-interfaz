@@ -1,6 +1,6 @@
 import { Button, Form, Stack, Badge } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { tareas } from "../helpers/tareas";
+import { tareas } from "../data/tareas";
 
 export const ListaTareas = () => {
   const navigate = useNavigate();

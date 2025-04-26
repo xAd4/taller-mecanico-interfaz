@@ -4,7 +4,7 @@ import { ModalCrearTarea } from "./ModalCrearTarea";
 import { ModalEliminarTarea } from "./ModalEliminarTarea";
 import { ModalActualizarTarea } from "./ModalActualizarTarea";
 import { useNavigate } from "react-router-dom";
-import { tareas } from "../helpers/tareas";
+import { tareas } from "../data/tareas";
 
 export const ListaTareas = () => {
   const [showModal, setShowModal] = useState(false);

@@ -3,7 +3,7 @@ import { Button, Form, Stack } from "react-bootstrap";
 import { ModalCrearVehiculo } from "./ModalCrearVehiculo";
 import { ModalEliminarVehiculo } from "./ModalEliminarVehiculo";
 import { ModalActualizarVehiculo } from "./ModalActualizarVehiculo";
-import { vehiculos } from "../helpers/vehiculos";
+import { vehiculos } from "../data/vehiculos";
 
 export const ListaVehiculos = () => {
   const [showModal, setShowModal] = useState(false);

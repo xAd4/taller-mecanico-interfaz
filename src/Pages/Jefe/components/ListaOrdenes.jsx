@@ -4,7 +4,7 @@ import { ModalCrearOrden } from "./ModalCrearOrden";
 import { ModalEliminarOrden } from "./ModalEliminarOrden";
 import { ModalActualizarOrden } from "./ModalActualizarOrden";
 import { useNavigate } from "react-router-dom";
-import { ordenes } from "../helpers/ordenes";
+import { ordenes } from "../data/ordenes";
 
 export const ListaOrdenes = () => {
   const [showModal, setShowModal] = useState(false);
