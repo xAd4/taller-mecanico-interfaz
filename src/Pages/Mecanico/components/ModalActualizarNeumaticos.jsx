@@ -1,42 +1,50 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 
+const initialFormState = {
+  delanteros_derechos: "",
+  delanteros_izquierdos: "",
+  traseros_derechos: "",
+  traseros_izquierdos: "",
+};
+
 export const ModalActualizarNeumaticos = ({
   showModal,
   handleClose,
   handleUpdate,
   neumaticosData,
 }) => {
-  const [formData, setFormData] = useState(
-    neumaticosData || {
-      delanteros_derechos: "",
-      delanteros_izquierdos: "",
-      traseros_derechos: "",
-      traseros_izquierdos: "",
-    }
-  );
+  const [formData, setFormData] = useState(initialFormState);
 
-  // Actualizar el estado si neumaticosData cambia
+  // Convierte los datos del backend (0/1) a booleanos
   useEffect(() => {
     if (neumaticosData) {
-      setFormData(neumaticosData);
+      const convertedData = {};
+      Object.entries(neumaticosData).forEach(([key, value]) => {
+        convertedData[key] = typeof value === "number" ? value === 1 : value;
+      });
+      setFormData(convertedData);
+    } else {
+      setFormData(initialFormState);
     }
   }, [neumaticosData]);
 
   const handleInputChange = (e) => {
+    const { name, type, checked } = e.target;
+    const value = type === "checkbox" ? checked : e.target.value;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleUpdate(formData); // Llama a la función para actualizar los datos
-    handleClose(); // Cierra el modal
+    handleUpdate(formData);
+    handleClose();
   };
 
-  if (!neumaticosData) return null; // No renderizar nada si neumaticosData es null
+  if (!neumaticosData) return null;
 
   return (
     <Modal show={showModal} onHide={handleClose} centered backdrop="static">
@@ -45,45 +53,40 @@ export const ModalActualizarNeumaticos = ({
       </Modal.Header>
       <Form onSubmit={handleSubmit}>
         <Modal.Body>
-          {/* Campos del formulario */}
           <Form.Group className="mb-3">
-            <Form.Label>Delanteros Derechos</Form.Label>
-            <Form.Control
-              type="number"
+            <Form.Check
+              type="checkbox"
+              label="Delanteros Derechos"
               name="delanteros_derechos"
-              value={formData.delanteros_derechos}
+              checked={formData.delanteros_derechos}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Delanteros Izquierdos</Form.Label>
-            <Form.Control
-              type="number"
+            <Form.Check
+              type="checkbox"
+              label="Delanteros Izquierdos"
               name="delanteros_izquierdos"
-              value={formData.delanteros_izquierdos}
+              checked={formData.delanteros_izquierdos}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Traseros Derechos</Form.Label>
-            <Form.Control
-              type="number"
+            <Form.Check
+              type="checkbox"
+              label="Traseros Derechos"
               name="traseros_derechos"
-              value={formData.traseros_derechos}
+              checked={formData.traseros_derechos}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Traseros Izquierdos</Form.Label>
-            <Form.Control
-              type="number"
+            <Form.Check
+              type="checkbox"
+              label="Traseros Izquierdos"
               name="traseros_izquierdos"
-              value={formData.traseros_izquierdos}
+              checked={formData.traseros_izquierdos}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
         </Modal.Body>

@@ -1,42 +1,50 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 
+const initialFormState = {
+  delanteros: "",
+  traseros: "",
+  estacionamiento: "",
+  numero_cricket: "",
+};
+
 export const ModalActualizarFrenos = ({
   showModal,
   handleClose,
   handleUpdate,
   frenos,
 }) => {
-  const [formData, setFormData] = useState(
-    frenos || {
-      delanteros: "",
-      traseros: "",
-      estacionamiento: "",
-      numero_cricket: "",
-    }
-  );
+  const [formData, setFormData] = useState(initialFormState);
 
-  // Actualizar el estado si frenos cambia
+  // Convierte los datos del backend (0/1) a booleanos
   useEffect(() => {
     if (frenos) {
-      setFormData(frenos);
+      const convertedData = {};
+      Object.entries(frenos).forEach(([key, value]) => {
+        convertedData[key] = typeof value === "number" ? value === 1 : value;
+      });
+      setFormData(convertedData);
+    } else {
+      setFormData(initialFormState);
     }
   }, [frenos]);
 
   const handleInputChange = (e) => {
+    const { name, type, checked } = e.target;
+    const value = type === "checkbox" ? checked : e.target.value;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleUpdate(formData); // Llama a la función para actualizar los datos
-    handleClose(); // Cierra el modal
+    handleUpdate(formData);
+    handleClose();
   };
 
-  if (!frenos) return null; // No renderizar nada si frenos es null
+  if (!frenos) return null;
 
   return (
     <Modal show={showModal} onHide={handleClose} centered backdrop="static">
@@ -45,45 +53,40 @@ export const ModalActualizarFrenos = ({
       </Modal.Header>
       <Form onSubmit={handleSubmit}>
         <Modal.Body>
-          {/* Campos del formulario */}
           <Form.Group className="mb-3">
-            <Form.Label>Delanteros</Form.Label>
-            <Form.Control
-              type="number"
+            <Form.Check
+              type="checkbox"
+              label="Delanteros"
               name="delanteros"
-              value={formData.delanteros}
+              checked={formData.delanteros}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Traseros</Form.Label>
-            <Form.Control
-              type="number"
+            <Form.Check
+              type="checkbox"
+              label="Traseros"
               name="traseros"
-              value={formData.traseros}
+              checked={formData.traseros}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Estacionamiento</Form.Label>
-            <Form.Control
-              type="number"
+            <Form.Check
+              type="checkbox"
+              label="Estacionamiento"
               name="estacionamiento"
-              value={formData.estacionamiento}
+              checked={formData.estacionamiento}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Número Cricket</Form.Label>
-            <Form.Control
-              type="number"
+            <Form.Check
+              type="checkbox"
+              label="Número Cricket"
               name="numero_cricket"
-              value={formData.numero_cricket}
+              checked={formData.numero_cricket}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
         </Modal.Body>

@@ -1,45 +1,53 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 
+const initialFormState = {
+  conv: "",
+  comba: "",
+  brazos_susp: "",
+  articulaciones: "",
+  conv2: "",
+  comba2: "",
+  amort: "",
+};
+
 export const ModalActualizarTrenTrasero = ({
   showModal,
   handleClose,
   handleUpdate,
   trenTraseroData,
 }) => {
-  const [formData, setFormData] = useState(
-    trenTraseroData || {
-      conv: "",
-      comba: "",
-      brazos_susp: "",
-      articulaciones: "",
-      conv2: "",
-      comba2: "",
-      amort: "",
-    }
-  );
+  const [formData, setFormData] = useState(initialFormState);
 
-  // Actualizar el estado si trenTraseroData cambia
+  // Convierte los datos del backend (0/1) a booleanos
   useEffect(() => {
     if (trenTraseroData) {
-      setFormData(trenTraseroData);
+      const convertedData = {};
+      Object.entries(trenTraseroData).forEach(([key, value]) => {
+        convertedData[key] = typeof value === "number" ? value === 1 : value;
+      });
+      setFormData(convertedData);
+    } else {
+      setFormData(initialFormState);
     }
   }, [trenTraseroData]);
 
   const handleInputChange = (e) => {
+    const { name, type, checked } = e.target;
+    const value = type === "checkbox" ? checked : e.target.value;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleUpdate(formData); // Llama a la función para actualizar los datos
-    handleClose(); // Cierra el modal
+    handleUpdate(formData);
+    handleClose();
   };
 
-  if (!trenTraseroData) return null; // No renderizar nada si trenTraseroData es null
+  if (!trenTraseroData) return null;
 
   return (
     <Modal show={showModal} onHide={handleClose} centered backdrop="static">
@@ -48,75 +56,68 @@ export const ModalActualizarTrenTrasero = ({
       </Modal.Header>
       <Form onSubmit={handleSubmit}>
         <Modal.Body>
-          {/* Campos del formulario */}
+          {/* Campos convertidos a checkbox */}
           <Form.Group className="mb-3">
-            <Form.Label>Conv</Form.Label>
-            <Form.Control
-              type="number"
+            <Form.Check
+              type="checkbox"
+              label="Conv"
               name="conv"
-              value={formData.conv}
+              checked={formData.conv}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Comba</Form.Label>
-            <Form.Control
-              type="number"
+            <Form.Check
+              type="checkbox"
+              label="Comba"
               name="comba"
-              value={formData.comba}
+              checked={formData.comba}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Brazos Suspensión</Form.Label>
-            <Form.Control
-              type="number"
+            <Form.Check
+              type="checkbox"
+              label="Brazos Suspensión"
               name="brazos_susp"
-              value={formData.brazos_susp}
+              checked={formData.brazos_susp}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Articulaciones</Form.Label>
-            <Form.Control
-              type="number"
+            <Form.Check
+              type="checkbox"
+              label="Articulaciones"
               name="articulaciones"
-              value={formData.articulaciones}
+              checked={formData.articulaciones}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Conv2</Form.Label>
-            <Form.Control
-              type="number"
+            <Form.Check
+              type="checkbox"
+              label="Conv2"
               name="conv2"
-              value={formData.conv2}
+              checked={formData.conv2}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Comba2</Form.Label>
-            <Form.Control
-              type="number"
+            <Form.Check
+              type="checkbox"
+              label="Comba2"
               name="comba2"
-              value={formData.comba2}
+              checked={formData.comba2}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Amortiguadores</Form.Label>
-            <Form.Control
-              type="number"
+            <Form.Check
+              type="checkbox"
+              label="Amortiguadores"
               name="amort"
-              value={formData.amort}
+              checked={formData.amort}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
         </Modal.Body>

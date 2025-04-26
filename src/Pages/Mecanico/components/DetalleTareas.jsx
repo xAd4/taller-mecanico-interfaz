@@ -214,8 +214,34 @@ export const DetalleTareas = () => {
             </div>
           </div>
 
+          {/* Sección de estado general */}
+          <div className="mt-4 p-4 bg-light rounded-3 shadow-sm">
+            <Row className="align-items-center">
+              <Col md={8}>
+                <h5 className="mb-3 d-flex align-items-center gap-2">
+                  <i className="bi bi-info-circle text-primary"></i>
+                  Estado General de la Tarea
+                </h5>
+                <p className="mb-2">
+                  <strong>Última actualización: </strong>
+                  {new Date(tarea.updated_at).toLocaleDateString("es-ES", {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </p>
+                <p className="mb-0">
+                  <strong>Responsable: </strong> ID #{tarea.mecanico_id} -{" "}
+                  {tarea.mecanico.name}
+                </p>
+              </Col>
+            </Row>
+          </div>
+
           {/* Botones de navegación */}
-          <div className="mb-4">
+          <div className="mb-4 mt-5">
             <Stack direction="horizontal" gap={3} className="flex-wrap">
               <TabButton
                 id="delantero"
@@ -576,47 +602,6 @@ export const DetalleTareas = () => {
         )}
 
         {/* Resto de las pestañas se mantienen igual... */}
-
-        {/* Sección de estado general */}
-        <div className="mt-4 p-4 bg-light rounded-3 shadow-sm">
-          <Row className="align-items-center">
-            <Col md={8}>
-              <h5 className="mb-3 d-flex align-items-center gap-2">
-                <i className="bi bi-info-circle text-primary"></i>
-                Estado General de la Tarea
-              </h5>
-              <p className="mb-2">
-                <strong>Última actualización: </strong>
-                {new Date(tarea.updated_at).toLocaleDateString("es-ES", {
-                  day: "2-digit",
-                  month: "long",
-                  year: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </p>
-              <p className="mb-0">
-                <strong>Responsable: </strong> ID #{tarea.mecanico_id} -{" "}
-                {tarea.mecanico.name}
-              </p>
-            </Col>
-
-            <Col md={4} className="text-md-end mt-3 mt-md-0">
-              <Button variant="secondary" className="me-2">
-                <i className="bi bi-hourglass-split me-2"></i>
-                Marcar como en proceso
-              </Button>
-              <Button variant="warning" className="me-2 mt-3">
-                <i className="bi bi-currency-dollar"></i>
-                Marcar como pendiente por pagar
-              </Button>
-              <Button variant="success" className="mt-3">
-                <i className="bi bi-check-circle me-2"></i>
-                Marcar como completado
-              </Button>
-            </Col>
-          </Row>
-        </div>
 
         {/* Modal Actualizar Tarea */}
         <ModalActualizarTarea

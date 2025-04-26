@@ -56,16 +56,7 @@ export const ModalActualizarProductos = ({
       <Form onSubmit={handleSubmit}>
         <Modal.Body>
           {/* Mostrar el nombre del producto */}
-          <Form.Group className="mb-3">
-            <Form.Label>Producto ID</Form.Label>
-            <Form.Control
-              type="number"
-              name="producto_id"
-              value={formData.producto_id}
-              onChange={handleInputChange}
-              required
-            />
-          </Form.Group>
+
           <Form.Group className="mb-3">
             <Form.Label>Cantidad</Form.Label>
             <Form.Control

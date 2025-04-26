@@ -5,7 +5,8 @@ export const tareas = [
     orden_id: 1,
     mecanico_id: 5,
     estado_de_trabajo: "pendiente",
-    notificacion_al_cliente: "Esto lo dice el mecanico",
+    notificacion_al_cliente:
+      "Natus provident quibusdam omnis animi optio harum. Porro quos omnis quia in maiores temporibus. Doloribus quia quia voluptatem molestiae hic. Accusamus minima eaque modi et modi.",
     created_at: "2025-04-25T17:22:14.000000Z",
     updated_at: "2025-04-25T17:22:14.000000Z",
     mecanico: {

@@ -45,13 +45,16 @@ export const ModalActualizarTarea = ({
         <Modal.Body>
           <Form.Group className="mb-3">
             <Form.Label>Estado de trabajo</Form.Label>
-            <Form.Control
-              as="textarea"
+            <Form.Select
               name="estado_de_trabajo"
               value={formData.estado_de_trabajo}
               onChange={handleInputChange}
-              required
-            />
+            >
+              <option value="pendiente">Pendiente</option>
+              <option value="en_proceso">En proceso</option>
+              <option value="pendiente_de_facturacion">Por facturar</option>
+              <option value="completado">Completado</option>
+            </Form.Select>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Detalles de Tarea</Form.Label>

@@ -82,10 +82,16 @@ export const ListaTareas = () => {
                     </Badge>
                   </td>
                   <td>
-                    <div className="max-width-300">
-                      <p className="mb-0 text-muted text-truncate">
-                        {tarea.notificacion_al_cliente}
-                      </p>
+                    <div className="d-flex flex-column gap-2">
+                      <div>
+                        <span
+                          className="d-inline-block text-truncate"
+                          style={{ maxWidth: "250px" }}
+                        >
+                          <i className="bi bi-calendar-check me-2"></i>
+                          {tarea.notificacion_al_cliente}
+                        </span>
+                      </div>
                     </div>
                   </td>
                   <td className="pe-4">
