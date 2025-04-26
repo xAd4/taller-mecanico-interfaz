@@ -31,7 +31,7 @@ export const ListaTareas = () => {
         return "danger";
       case "en_proceso":
         return "secondary";
-      case "pendiente_por_pagar":
+      case "pendiente_de_facturacion":
         return "warning";
       case "completado":
         return "success";
@@ -102,11 +102,8 @@ export const ListaTareas = () => {
                     </div>
                   </td>
                   <td>
-                    <Badge
-                      bg={getEstadoColor(tarea.estado_de_trabajo)}
-                      className="text-capitalize"
-                    >
-                      {tarea.estado_de_trabajo.replace("_", " ")}
+                    <Badge bg={getEstadoColor(tarea.estado_de_trabajo)}>
+                      {tarea.estado_de_trabajo}
                     </Badge>
                   </td>
                   <td>
