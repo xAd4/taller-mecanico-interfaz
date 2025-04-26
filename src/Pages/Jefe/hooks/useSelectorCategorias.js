@@ -1,14 +1,14 @@
 import { useMemo, useState } from "react";
-import { clientes } from "../data/clientes";
+import { categorias } from "../data/categorias";
 
-export const useSelectorClientes = () => {
+export const useSelectorCategorias = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const opcionesAgrupadas = useMemo(() => {
     const grupos = {};
 
-    clientes.forEach((cliente) => {
-      const categoriaNombre = cliente.telefono;
+    categorias.forEach((cliente) => {
+      const categoriaNombre = "";
 
       if (!grupos[categoriaNombre]) {
         grupos[categoriaNombre] = {
@@ -17,10 +17,10 @@ export const useSelectorClientes = () => {
         };
       }
 
-      if (cliente.telefono.toLowerCase().includes(searchTerm.toLowerCase())) {
+      if (cliente.nombre.toLowerCase().includes(searchTerm.toLowerCase())) {
         grupos[categoriaNombre].options.push({
           value: cliente.id,
-          label: `${cliente.nombre} - ${cliente.email}`,
+          label: `${cliente.nombre}`,
         });
       }
     });
@@ -29,7 +29,7 @@ export const useSelectorClientes = () => {
   }, [searchTerm]);
 
   // Recibimos setFormData como argumento
-  const handleClienteChange = (selectedOption, setFormData) => {
+  const handleCategoriaChange = (selectedOption, setFormData) => {
     setFormData((prev) => ({
       ...prev,
       cliente_id: selectedOption ? selectedOption.value : "",
@@ -38,7 +38,7 @@ export const useSelectorClientes = () => {
 
   return {
     opcionesAgrupadas,
-    handleClienteChange,
+    handleCategoriaChange,
     searchTerm,
     setSearchTerm,
   };

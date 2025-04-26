@@ -78,16 +78,8 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
                   onChange={(selected) =>
                     handleClienteChange(selected, setFormData)
                   }
-                  placeholder="Seleccione un producto"
-                  noOptionsMessage={() => "No se encontraron productos"}
-                  formatGroupLabel={(group) => (
-                    <div className="d-flex justify-content-between">
-                      <span>{group.label}</span>
-                      <span className="badge bg-secondary">
-                        {group.options.length} Clientes
-                      </span>
-                    </div>
-                  )}
+                  placeholder="Seleccione un cliente"
+                  noOptionsMessage={() => "No se encontraron clientes"}
                 />
               </div>
             </Form.Group>
@@ -112,14 +104,6 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
                   }
                   placeholder="Seleccione un vehiculo"
                   noOptionsMessage={() => "No se encontraron vehiculos"}
-                  formatGroupLabel={(group) => (
-                    <div className="d-flex justify-content-between">
-                      <span>{group.label}</span>
-                      <span className="badge bg-secondary">
-                        {group.options.length} Vehiculos
-                      </span>
-                    </div>
-                  )}
                 />
               </div>
             </Form.Group>

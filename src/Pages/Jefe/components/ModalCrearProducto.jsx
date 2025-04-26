@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { Form, Modal, Button } from "react-bootstrap";
+import { Form, Modal, Button, InputGroup } from "react-bootstrap";
+import Select from "react-select";
+import { useSelectorCategorias } from "../hooks/useSelectorCategorias";
 
 export const ModalCrearProducto = ({ showModal, handleClose }) => {
   const [formData, setFormData] = useState({
@@ -11,6 +13,19 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
     precio: "",
     disponibilidad: "",
   });
+
+  const { opcionesAgrupadas, handleCategoriaChange, setSearchTerm } =
+    useSelectorCategorias();
+
+  const handleInputChangeCheckbox = (e) => {
+    const { name, type, checked } = e.target;
+    // Para checkboxes usamos 'checked', de lo contrario 'value'
+    const value = type === "checkbox" ? checked : e.target.value;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
   // Manejar cambios en el formulario
   const handleInputChange = (e) => {
@@ -28,12 +43,6 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
     handleClose();
   };
 
-  const categoria = [
-    { value: "Aceites", disponibilidad: 0 },
-    { value: "Lubricantes", disponibilidad: 1 },
-    { value: "Grasas", disponibilidad: 1 },
-  ];
-
   return (
     <>
       {/* Modal para agregar nueva orden */}
@@ -45,20 +54,27 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
           <Modal.Body>
             <Form.Group className="mb-3">
               <Form.Label>Categoria</Form.Label>
-              <Form.Select
-                name="categoria"
-                value={formData.categoria}
-                onChange={handleInputChange}
-                required
-                aria-label="Selecciona una categoria"
-              >
-                <option value="">Seleccione una categoria</option>
-                {categoria.map((cat) => (
-                  <option key={cat.value} value={cat.value}>
-                    {cat.value}
-                  </option>
-                ))}
-              </Form.Select>
+              <div className="mb-2">
+                <InputGroup className="mb-2">
+                  <InputGroup.Text>
+                    <i className="bi bi-search"></i>
+                  </InputGroup.Text>
+                  <Form.Control
+                    type="text"
+                    placeholder="Buscar categoria..."
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </InputGroup>
+
+                <Select
+                  options={opcionesAgrupadas}
+                  onChange={(selected) =>
+                    handleCategoriaChange(selected, setFormData)
+                  }
+                  placeholder="Seleccione una categoria"
+                  noOptionsMessage={() => "No se encontraron categorias"}
+                />
+              </div>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Nombre</Form.Label>
@@ -114,7 +130,7 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
                 name="disponibilidad"
                 label="Estado"
                 value={formData.disponibilidad}
-                onChange={handleInputChange}
+                onChange={handleInputChangeCheckbox}
               />
             </Form.Group>
           </Modal.Body>

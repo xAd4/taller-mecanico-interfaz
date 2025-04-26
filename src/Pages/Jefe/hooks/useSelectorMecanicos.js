@@ -1,14 +1,14 @@
 import { useMemo, useState } from "react";
-import { clientes } from "../data/clientes";
+import { mecanicos } from "../data/mecanicos";
 
-export const useSelectorClientes = () => {
+export const useSelectorMecanicos = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const opcionesAgrupadas = useMemo(() => {
     const grupos = {};
 
-    clientes.forEach((cliente) => {
-      const categoriaNombre = cliente.telefono;
+    mecanicos.forEach((mecanico) => {
+      const categoriaNombre = mecanico.rol;
 
       if (!grupos[categoriaNombre]) {
         grupos[categoriaNombre] = {
@@ -17,10 +17,10 @@ export const useSelectorClientes = () => {
         };
       }
 
-      if (cliente.telefono.toLowerCase().includes(searchTerm.toLowerCase())) {
+      if (mecanico.rol.toLowerCase().includes(searchTerm.toLowerCase())) {
         grupos[categoriaNombre].options.push({
-          value: cliente.id,
-          label: `${cliente.nombre} - ${cliente.email}`,
+          value: mecanico.id,
+          label: `${mecanico.name}`,
         });
       }
     });
@@ -29,16 +29,16 @@ export const useSelectorClientes = () => {
   }, [searchTerm]);
 
   // Recibimos setFormData como argumento
-  const handleClienteChange = (selectedOption, setFormData) => {
+  const handleMecanicoChange = (selectedOption, setFormData) => {
     setFormData((prev) => ({
       ...prev,
-      cliente_id: selectedOption ? selectedOption.value : "",
+      mecanico_id: selectedOption ? selectedOption.value : "",
     }));
   };
 
   return {
     opcionesAgrupadas,
-    handleClienteChange,
+    handleMecanicoChange,
     searchTerm,
     setSearchTerm,
   };

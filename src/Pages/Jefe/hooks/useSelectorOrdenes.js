@@ -1,14 +1,14 @@
 import { useMemo, useState } from "react";
-import { clientes } from "../data/clientes";
+import { ordenes } from "../data/ordenes";
 
-export const useSelectorClientes = () => {
+export const useSelectorOrdenes = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   const opcionesAgrupadas = useMemo(() => {
     const grupos = {};
 
-    clientes.forEach((cliente) => {
-      const categoriaNombre = cliente.telefono;
+    ordenes.forEach((orden) => {
+      const categoriaNombre = orden.recepcion;
 
       if (!grupos[categoriaNombre]) {
         grupos[categoriaNombre] = {
@@ -17,10 +17,10 @@ export const useSelectorClientes = () => {
         };
       }
 
-      if (cliente.telefono.toLowerCase().includes(searchTerm.toLowerCase())) {
+      if (orden.recepcion.toLowerCase().includes(searchTerm.toLowerCase())) {
         grupos[categoriaNombre].options.push({
-          value: cliente.id,
-          label: `${cliente.nombre} - ${cliente.email}`,
+          value: orden.id,
+          label: `${orden.id} - Orden para: ${orden.cliente.nombre}`,
         });
       }
     });
@@ -29,16 +29,16 @@ export const useSelectorClientes = () => {
   }, [searchTerm]);
 
   // Recibimos setFormData como argumento
-  const handleClienteChange = (selectedOption, setFormData) => {
+  const handleOrdenChange = (selectedOption, setFormData) => {
     setFormData((prev) => ({
       ...prev,
-      cliente_id: selectedOption ? selectedOption.value : "",
+      orden_id: selectedOption ? selectedOption.value : "",
     }));
   };
 
   return {
     opcionesAgrupadas,
-    handleClienteChange,
+    handleOrdenChange,
     searchTerm,
     setSearchTerm,
   };

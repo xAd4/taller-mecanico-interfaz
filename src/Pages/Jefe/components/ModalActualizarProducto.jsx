@@ -28,6 +28,16 @@ export const ModalActualizarProducto = ({
     }
   }, [productoData]);
 
+  const handleInputChangeCheckbox = (e) => {
+    const { name, type, checked } = e.target;
+    // Para checkboxes usamos 'checked', de lo contrario 'value'
+    const value = type === "checkbox" ? checked : e.target.value;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
@@ -50,7 +60,7 @@ export const ModalActualizarProducto = ({
       </Modal.Header>
       <Form onSubmit={handleSubmit}>
         <Modal.Body>
-          <Form.Group className="mb-3">
+          {/* <Form.Group className="mb-3">
             <Form.Label>Categoria</Form.Label>
             <Form.Select
               name="categoria_id"
@@ -63,7 +73,7 @@ export const ModalActualizarProducto = ({
                 </option>
               ))}
             </Form.Select>
-          </Form.Group>
+          </Form.Group> */}
           <Form.Group className="mb-3">
             <Form.Label>Nombre</Form.Label>
             <Form.Control
@@ -120,7 +130,7 @@ export const ModalActualizarProducto = ({
               name="disponibilidad"
               label="Disponibilidad"
               value={formData.disponibilidad}
-              onChange={handleInputChange}
+              onChange={handleInputChangeCheckbox}
               required
             />
           </Form.Group>

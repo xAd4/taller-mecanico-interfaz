@@ -56,14 +56,6 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
                 }
                 placeholder="Seleccione un producto"
                 noOptionsMessage={() => "No se encontraron productos"}
-                formatGroupLabel={(group) => (
-                  <div className="d-flex justify-content-between">
-                    <span>{group.label}</span>
-                    <span className="badge bg-secondary">
-                      {group.options.length} items
-                    </span>
-                  </div>
-                )}
               />
             </div>
           </Form.Group>

@@ -8,7 +8,7 @@ export const useSelectorVehiculos = () => {
     const grupos = {};
 
     vehiculos.forEach((vehiculo) => {
-      const categoriaNombre = vehiculo.nombre;
+      const categoriaNombre = vehiculo.matricula;
 
       if (!grupos[categoriaNombre]) {
         grupos[categoriaNombre] = {
@@ -17,7 +17,7 @@ export const useSelectorVehiculos = () => {
         };
       }
 
-      if (vehiculo.modelo.toLowerCase().includes(searchTerm.toLowerCase())) {
+      if (vehiculo.matricula.toLowerCase().includes(searchTerm.toLowerCase())) {
         grupos[categoriaNombre].options.push({
           value: vehiculo.id,
           label: `${vehiculo.modelo} - ${vehiculo.marca} - ${vehiculo.matricula}`,
