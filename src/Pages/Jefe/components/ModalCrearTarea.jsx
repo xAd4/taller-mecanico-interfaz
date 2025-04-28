@@ -99,7 +99,7 @@ export const ModalCrearTarea = ({ showModal, handleClose }) => {
             >
               <option value="pendiente">Pendiente</option>
               <option value="en_proceso">En Progreso</option>
-              <option value="pendiente_por_facturacion">Por Facturar</option>
+              <option value="pendiente_de_facturacion">Por Facturar</option>
               <option value="completado">Completado</option>
             </Form.Select>
           </Form.Group>
