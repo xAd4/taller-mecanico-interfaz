@@ -1,15 +1,14 @@
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { useAuthStore } from "../hooks/useAuthStore";
 import { Spinner } from "react-bootstrap";
-import { useEffect } from "react";
 
 export const PrivateRoute = ({ allowedRoles = [] }) => {
-  const { status, user, checkAuthToken } = useAuthStore();
-  const location = useLocation();
+  const { status, user } = useAuthStore();
 
-  useEffect(() => {
-    checkAuthToken();
-  }, [location.pathname]);
+  // Este codigo de aqui, lo que hacia era refrescar la informacion del cliente cuando se cambiaba la URL. Se quita porque no es necesario
+  // useEffect(() => {
+  //   checkAuthToken();
+  // }, [location.pathname]);
 
   // Mientras comprobamos la sesión mostramos un spinner
   if (status === "checking") {

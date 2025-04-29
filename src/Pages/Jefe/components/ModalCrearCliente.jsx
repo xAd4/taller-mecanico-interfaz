@@ -1,29 +1,36 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
 import { Form, Modal, Button } from "react-bootstrap";
+import { useForm } from "../../../hooks/useForm";
+import { useClienteStore } from "../hooks/useClienteStore";
+import Swal from "sweetalert2";
+
+const createClienteField = {
+  nombre: "",
+  email: "",
+  rut: "",
+  telefono: "",
+  domicilio: "",
+};
 
 export const ModalCrearCliente = ({ handleShow, handleClose, showModal }) => {
-  const [formData, setFormData] = useState({
-    nombre: "",
-    email: "",
-    rut: "",
-    telefono: "",
-    domicilio: "",
-  });
+  const { nombre, email, rut, telefono, domicilio, onInputChange } =
+    useForm(createClienteField);
 
-  // Manejar cambios en el formulario
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const { startSavingEvent } = useClienteStore();
 
   // Manejar envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí iría la lógica de envío
-    console.log("Datos enviados:", formData);
+
+    startSavingEvent({
+      nombre,
+      email,
+      rut,
+      telefono,
+      domicilio,
+    });
+
+    Swal.fire("Ok", "Cliente creado. Recarga la pagina", "success");
     handleClose();
   };
   return (
@@ -41,8 +48,8 @@ export const ModalCrearCliente = ({ handleShow, handleClose, showModal }) => {
               <Form.Control
                 type="text"
                 name="nombre"
-                value={formData.nombre}
-                onChange={handleInputChange}
+                value={nombre}
+                onChange={onInputChange}
                 required
               />
             </Form.Group>
@@ -51,8 +58,8 @@ export const ModalCrearCliente = ({ handleShow, handleClose, showModal }) => {
               <Form.Control
                 type="text"
                 name="email"
-                value={formData.email}
-                onChange={handleInputChange}
+                value={email}
+                onChange={onInputChange}
                 required
               />
             </Form.Group>
@@ -62,8 +69,8 @@ export const ModalCrearCliente = ({ handleShow, handleClose, showModal }) => {
               <Form.Control
                 type="text"
                 name="rut"
-                value={formData.rut}
-                onChange={handleInputChange}
+                value={rut}
+                onChange={onInputChange}
                 required
               />
             </Form.Group>
@@ -72,8 +79,8 @@ export const ModalCrearCliente = ({ handleShow, handleClose, showModal }) => {
               <Form.Control
                 type="text"
                 name="telefono"
-                value={formData.telefono}
-                onChange={handleInputChange}
+                value={telefono}
+                onChange={onInputChange}
                 required
               />
             </Form.Group>
@@ -82,8 +89,8 @@ export const ModalCrearCliente = ({ handleShow, handleClose, showModal }) => {
               <Form.Control
                 type="text"
                 name="domicilio"
-                value={formData.domicilio}
-                onChange={handleInputChange}
+                value={domicilio}
+                onChange={onInputChange}
               />
             </Form.Group>
           </Modal.Body>

@@ -1,15 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, Stack } from "react-bootstrap";
 import { ModalCrearCliente } from "./ModalCrearCliente";
 import { ModalEliminarCliente } from "./ModalEliminarCliente";
 import { ModalActualizarCliente } from "./ModalActualizarCliente";
-import { clientes } from "../data/clientes";
+import { useClienteStore } from "../hooks/useClienteStore";
 
 export const ListaClientes = () => {
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedCliente, setSelectedCliente] = useState(null);
+
+  const { clientes, startLoadingClientes } = useClienteStore();
 
   const handleUpdate = (updatedData) => {
     console.log("Datos actualizados:", updatedData);
@@ -21,6 +23,10 @@ export const ListaClientes = () => {
     setShowDeleteModal(false);
     // Aquí iría la lógica para hacer el DELETE a la API
   };
+
+  useEffect(() => {
+    startLoadingClientes(1);
+  }, []);
 
   return (
     <div className="container-fluid px-4 py-3 animate__animated animate__fadeIn">
@@ -126,7 +132,10 @@ export const ListaClientes = () => {
                         variant="outline-danger"
                         size="sm"
                         className="d-flex align-items-center gap-2"
-                        onClick={() => setShowDeleteModal(true)}
+                        onClick={() => {
+                          setSelectedCliente(cliente);
+                          setShowDeleteModal(true);
+                        }}
                       >
                         <i className="bi bi-trash"></i>
                         <span className="d-none d-md-inline">Borrar</span>
@@ -139,27 +148,7 @@ export const ListaClientes = () => {
           </table>
         </div>
       </div>
-      <div className="d-flex justify-content-center mt-4">
-        <nav aria-label="Page navigation">
-          <ul className="pagination pagination-lg">
-            <li className="page-item disabled">
-              <button className="page-link">Anterior</button>
-            </li>
-            <li className="page-item active">
-              <button className="page-link">1</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">2</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">3</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">Siguiente</button>
-            </li>
-          </ul>
-        </nav>
-      </div>
+
       {/* Modal */}
       <ModalCrearCliente
         showModal={showModal}
@@ -171,6 +160,7 @@ export const ListaClientes = () => {
         showModal={showDeleteModal}
         handleClose={() => setShowDeleteModal(false)}
         handleDelete={handleDelete}
+        clienteData={selectedCliente}
       />
 
       {/* Modal de actualización */}

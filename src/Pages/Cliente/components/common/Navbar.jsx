@@ -17,9 +17,9 @@ export const Navbar = () => {
             <div className="brand-logo me-2">
               <i className="bi bi-gear-fill"></i>
             </div>
-            <span className="brand-text">
+            {/* <span className="brand-text">
               Taller<span className="text-accent">Mecanico</span>
-            </span>
+            </span> */}
           </NavLink>
 
           {/* Toggler */}

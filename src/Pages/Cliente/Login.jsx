@@ -20,7 +20,7 @@ export const Login = () => {
 
   useEffect(() => {
     if (errorMessage !== undefined) {
-      Swal.fire("Error", errorMessage);
+      Swal.fire("Alerta", errorMessage);
     }
   }, [errorMessage]);
 

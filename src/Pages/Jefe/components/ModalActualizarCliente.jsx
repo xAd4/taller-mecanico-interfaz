@@ -1,10 +1,12 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { useClienteStore } from "../hooks/useClienteStore";
+import Swal from "sweetalert2";
+import { useAuthStore } from "../../../hooks/useAuthStore";
 
 export const ModalActualizarCliente = ({
   showModal,
   handleClose,
-  handleUpdate,
   clienteData,
 }) => {
   const [formData, setFormData] = useState(
@@ -16,6 +18,8 @@ export const ModalActualizarCliente = ({
       domicilio: "",
     }
   );
+
+  const { startSavingEvent } = useClienteStore();
 
   // Actualizar el estado si clienteData cambia
   useEffect(() => {
@@ -33,8 +37,9 @@ export const ModalActualizarCliente = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleUpdate(formData); // Llama a la función para actualizar los datos
-    handleClose(); // Cierra el modal
+    startSavingEvent(formData);
+    Swal.fire("Ok", "Cliente actualizado", "success");
+    handleClose();
   };
 
   if (!clienteData) return null; // No renderizar nada si clienteData es null

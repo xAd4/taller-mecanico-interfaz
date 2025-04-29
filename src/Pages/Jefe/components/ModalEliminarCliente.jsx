@@ -1,14 +1,27 @@
 import { Modal, Button } from "react-bootstrap";
+import { useClienteStore } from "../hooks/useClienteStore";
+import Swal from "sweetalert2";
 
 export const ModalEliminarCliente = ({
   showModal,
   handleClose,
-  handleDelete,
+  clienteData,
 }) => {
+  const { startDeletingCliente } = useClienteStore();
+
+  const handleDeleteCliente = () => {
+    startDeletingCliente(clienteData);
+    Swal.fire("Ok", "Usuario eliminado. Recarga la pagina", "success");
+    // setTimeout(() => {
+    //   location.reload();
+    // }, 1500);
+    handleClose();
+  };
+
   return (
     <Modal show={showModal} onHide={handleClose} centered backdrop="static">
       <Modal.Header closeButton>
-        <Modal.Title>Eliminar Cliente</Modal.Title>
+        <Modal.Title>Eliminar al cliente {clienteData?.nombre}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <p>
@@ -20,7 +33,7 @@ export const ModalEliminarCliente = ({
         <Button variant="secondary" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button variant="danger" onClick={handleDelete}>
+        <Button variant="danger" onClick={handleDeleteCliente}>
           Eliminar
         </Button>
       </Modal.Footer>
