@@ -1,8 +1,10 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import "../../../styles/Navbar.css";
+import { useAuthStore } from "../../../../hooks/useAuthStore";
 
 export const Navbar = () => {
   const navigate = useNavigate();
+  const { startLogout } = useAuthStore();
   return (
     <header className="navbar-main bg-gradient-primary">
       <nav className="navbar navbar-expand-lg navbar-dark">
@@ -64,7 +66,7 @@ export const Navbar = () => {
 
             {/* User Section */}
             <div className="d-flex align-items-center">
-              <button className="btn btn-logout" onClick={() => navigate("/")}>
+              <button className="btn btn-logout" onClick={startLogout}>
                 <i className="bi bi-box-arrow-right me-2"></i>
                 Cerrar Sesión
               </button>

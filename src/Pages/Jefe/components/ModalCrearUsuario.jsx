@@ -1,29 +1,50 @@
-import { useState } from "react";
 import { Form, Modal, Button } from "react-bootstrap";
+import { useForm } from "../../../hooks/useForm";
+import Swal from "sweetalert2";
+import { useAuthStore } from "../../../hooks/useAuthStore";
+import { useEffect } from "react";
+
+const registerFormFields = {
+  registerName: "",
+  registerEmail: "",
+  registerPassword: "",
+  registerPasswordConfirmation: "",
+};
 
 export const ModalCrearUsuario = ({ showModal, handleClose }) => {
-  const [formData, setFormData] = useState({
-    nombre: "",
-    email: "",
-    password: "",
-    password_confirmation: "",
-  });
+  const {
+    registerName,
+    registerEmail,
+    registerPassword,
+    registerPasswordConfirmation,
+    onInputChange,
+  } = useForm(registerFormFields);
 
-  // Manejar cambios en el formulario
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const { startRegister, errorMessage } = useAuthStore();
 
   // Manejar envío del formulario
+  useEffect(() => {
+    if (errorMessage !== undefined) {
+      Swal.fire("Error", errorMessage, "error");
+    }
+  }, [errorMessage]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí iría la lógica de envío
-    console.log("Datos enviados:", formData);
+    if (registerPassword !== registerPasswordConfirmation) {
+      Swal.fire("Error", "Las contraseñas no coinciden", "error");
+      return;
+    }
+
+    startRegister({
+      name: registerName,
+      email: registerEmail,
+      password: registerPassword,
+      password_confirmation: registerPasswordConfirmation,
+    });
     handleClose();
   };
+
   return (
     <>
       {/* Modal para agregar nueva orden */}
@@ -37,9 +58,9 @@ export const ModalCrearUsuario = ({ showModal, handleClose }) => {
               <Form.Label>Nombre completo</Form.Label>
               <Form.Control
                 type="text"
-                name="nombre"
-                value={formData.nombre}
-                onChange={handleInputChange}
+                name="registerName"
+                value={registerName}
+                onChange={onInputChange}
                 required
               />
             </Form.Group>
@@ -47,9 +68,9 @@ export const ModalCrearUsuario = ({ showModal, handleClose }) => {
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
+                name="registerEmail"
+                value={registerEmail}
+                onChange={onInputChange}
                 required
               />
             </Form.Group>
@@ -57,18 +78,18 @@ export const ModalCrearUsuario = ({ showModal, handleClose }) => {
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
+                name="registerPassword"
+                value={registerPassword}
+                onChange={onInputChange}
               />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Password Confirmation</Form.Label>
               <Form.Control
                 type="password"
-                name="password_confirmation"
-                value={formData.password_confirmation}
-                onChange={handleInputChange}
+                name="registerPasswordConfirmation"
+                value={registerPasswordConfirmation}
+                onChange={onInputChange}
                 required
               />
             </Form.Group>

@@ -1,16 +1,48 @@
-import React, { useState } from "react";
 import { Form, Button, Card, Container, Row, Col } from "react-bootstrap";
 import { Layout } from "./components/common/Layout";
+import { useForm } from "../../hooks/useForm.js";
+import { useAuthStore } from "../../hooks/useAuthStore.js";
+import Swal from "sweetalert2";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+const loginFormFields = {
+  loginEmail: "",
+  loginPassword: "",
+};
 
 export const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
+  const { loginEmail, loginPassword, onInputChange } = useForm(loginFormFields);
+  const { startLogin, errorMessage } = useAuthStore();
+  const { status, user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Lógica de validación y autenticación aquí
-    console.log({ email, password, rememberMe });
+  useEffect(() => {
+    if (errorMessage !== undefined) {
+      Swal.fire("Error", errorMessage);
+    }
+  }, [errorMessage]);
+
+  //* Al cambiar a “authenticated” redirigimos según rol
+  useEffect(() => {
+    if (status === "authenticated") {
+      switch (user.rol) {
+        case "jefe":
+          navigate("/jefe", { replace: true });
+          break;
+        case "mecanico":
+          navigate("/mecanico", { replace: true });
+          break;
+        default:
+          navigate("/login", { replace: true });
+      }
+    }
+  }, [status, user, navigate]);
+
+  const loginSubmit = (event) => {
+    event.preventDefault();
+    startLogin({ email: loginEmail, password: loginPassword });
   };
 
   return (
@@ -37,7 +69,7 @@ export const Login = () => {
                     </div>
 
                     {/* Formulario */}
-                    <Form onSubmit={handleSubmit}>
+                    <Form onSubmit={loginSubmit}>
                       {/* Email */}
                       <Form.Group className="mb-4" controlId="formEmail">
                         <Form.Label className="fw-medium">
@@ -45,10 +77,11 @@ export const Login = () => {
                         </Form.Label>
                         <Form.Control
                           type="email"
+                          name="loginEmail"
                           size="lg"
                           placeholder="nombre@ejemplo.com"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
+                          value={loginEmail}
+                          onChange={onInputChange}
                           required
                         />
                       </Form.Group>
@@ -60,10 +93,11 @@ export const Login = () => {
                         </Form.Label>
                         <Form.Control
                           type="password"
+                          name="loginPassword"
                           size="lg"
                           placeholder="••••••••"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
+                          value={loginPassword}
+                          onChange={onInputChange}
                           required
                         />
                       </Form.Group>

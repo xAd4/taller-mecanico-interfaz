@@ -1,7 +1,10 @@
 import { NavLink } from "react-router-dom";
 import "../../../styles/Navbar.css";
+import { useSelector } from "react-redux";
 
 export const Navbar = () => {
+  const { status, user } = useSelector((state) => state.auth);
+
   return (
     <header className="navbar-main bg-gradient-primary">
       <nav className="navbar navbar-expand-lg navbar-dark">
@@ -34,26 +37,37 @@ export const Navbar = () => {
           <div className="collapse navbar-collapse" id="mainNav">
             <ul className="navbar-nav mx-auto">
               {[
+                // Elemento estático (siempre visible)
                 {
                   to: "/",
                   icon: "speedometer2",
                   text: "Inicio",
                 },
-                {
-                  to: "/login",
-                  icon: "person-workspace",
-                  text: "Ingresa como empleado",
-                },
-                {
-                  to: "/mecanico/dashboard",
-                  icon: "person-workspace",
-                  text: "Mecanico",
-                },
-                {
-                  to: "/jefe/dashboard",
-                  icon: "person-workspace",
-                  text: "Jefe",
-                },
+
+                // Login solo visible cuando NO está autenticado
+                ...(status !== "authenticated"
+                  ? [
+                      {
+                        to: "/login",
+                        icon: "person-workspace",
+                        text: "Ingresa como empleado",
+                      },
+                    ]
+                  : []),
+
+                // Panel solo visible cuando ESTÁ autenticado
+                ...(status === "authenticated"
+                  ? [
+                      {
+                        to:
+                          user.rol === "jefe"
+                            ? "/jefe/dashboard"
+                            : "/mecanico/dashboard",
+                        icon: "person-workspace",
+                        text: "Panel",
+                      },
+                    ]
+                  : []),
               ].map((item, index) => (
                 <li className="nav-item mx-2" key={index}>
                   <NavLink
