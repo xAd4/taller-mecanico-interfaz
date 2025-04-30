@@ -1,55 +1,71 @@
-import { useState } from "react";
 import { Form, Modal, Button, InputGroup } from "react-bootstrap";
 import Select from "react-select";
 import { useSelectorClientes } from "../hooks/useSelectorClientes";
 import { useSelectorVehiculos } from "../hooks/useSelectorVehiculos";
+import { useOrdenStore } from "../hooks/useOrdenStore";
+import { useForm } from "../../../hooks/useForm";
+import Swal from "sweetalert2";
+
+const createOrdenField = {
+  cliente_id: "",
+  vehiculo_id: "",
+  detalle_de_trabajos_a_realizar: "",
+  recepcion: "",
+  prometido: "",
+  cambio_de_aceite: "",
+  cambio_de_filtro: "",
+  detalles_de_entrada_del_vehiculo: "",
+};
 
 export const ModalCrearOrden = ({ showModal, handleClose }) => {
-  const [formData, setFormData] = useState({
-    cliente_id: "",
-    vehiculo_id: "",
-    detalles_de_trabajos_a_realizar: "",
-    recepcion: "",
-    prometido: "",
-    cambio_de_aceite: "",
-    cambio_de_filtro: "",
-    detalles_de_entrada_del_vehiculo: "",
-  });
-
-  const { opcionesAgrupadas, handleClienteChange, setSearchTerm } =
-    useSelectorClientes();
+  const { opcionesAgrupadas, setSearchTerm } = useSelectorClientes(showModal);
 
   const {
     opcionesAgrupadas: opcionesAgrupadasVehiculos,
-    handleVehiculoChange,
     setSearchTerm: setSearchTermVehiculo,
-  } = useSelectorVehiculos();
+  } = useSelectorVehiculos(showModal);
 
-  // Manejar cambios en el formulario
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const {
+    cliente_id,
+    vehiculo_id,
+    detalle_de_trabajos_a_realizar,
+    recepcion,
+    prometido,
+    cambio_de_aceite,
+    cambio_de_filtro,
+    detalles_de_entrada_del_vehiculo,
+    onInputChange,
+  } = useForm(createOrdenField);
+
+  const { startSavingOrden } = useOrdenStore();
 
   const handleInputChangeCheckbox = (e) => {
-    const { name, type, checked } = e.target;
-    // Para checkboxes usamos 'checked', de lo contrario 'value'
-    const value = type === "checkbox" ? checked : e.target.value;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    const { name, checked } = e.target;
+    onInputChange({ target: { name, value: checked } });
   };
 
   // Manejar envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
+    startSavingOrden({
+      cliente_id,
+      vehiculo_id,
+      detalle_de_trabajos_a_realizar,
+      recepcion,
+      prometido,
+      cambio_de_aceite,
+      cambio_de_filtro,
+      detalles_de_entrada_del_vehiculo,
+    });
 
-    console.log("Datos enviados:", formData);
+    Swal.fire("Ok", "Cliente creado", "success");
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
+
     handleClose();
   };
+
   return (
     <>
       {/* Modal para agregar nueva orden */}
@@ -76,7 +92,9 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
                 <Select
                   options={opcionesAgrupadas}
                   onChange={(selected) =>
-                    handleClienteChange(selected, setFormData)
+                    onInputChange({
+                      target: { name: "cliente_id", value: selected.value },
+                    })
                   }
                   placeholder="Seleccione un cliente"
                   noOptionsMessage={() => "No se encontraron clientes"}
@@ -100,7 +118,9 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
                 <Select
                   options={opcionesAgrupadasVehiculos}
                   onChange={(selected) =>
-                    handleVehiculoChange(selected, setFormData)
+                    onInputChange({
+                      target: { name: "vehiculo_id", value: selected.value },
+                    })
                   }
                   placeholder="Seleccione un vehiculo"
                   noOptionsMessage={() => "No se encontraron vehiculos"}
@@ -113,9 +133,9 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
               <Form.Control
                 as="textarea"
                 rows={3}
-                name="detalles_de_trabajos_a_realizar"
-                value={formData.detalles_de_trabajos_a_realizar}
-                onChange={handleInputChange}
+                name="detalle_de_trabajos_a_realizar"
+                value={detalle_de_trabajos_a_realizar}
+                onChange={onInputChange}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -123,8 +143,8 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
               <Form.Control
                 type="date"
                 name="recepcion"
-                value={formData.recepcion}
-                onChange={handleInputChange}
+                value={recepcion}
+                onChange={onInputChange}
                 required
               />
             </Form.Group>
@@ -133,8 +153,8 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
               <Form.Control
                 type="date"
                 name="prometido"
-                value={formData.prometido}
-                onChange={handleInputChange}
+                value={prometido}
+                onChange={onInputChange}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -142,7 +162,7 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
                 type="checkbox"
                 name="cambio_de_aceite"
                 label="Cambio de aceite"
-                checked={formData.cambio_de_aceite}
+                checked={cambio_de_aceite}
                 onChange={handleInputChangeCheckbox}
               />
             </Form.Group>
@@ -151,7 +171,7 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
                 type="checkbox"
                 name="cambio_de_filtro"
                 label="Cambio de filtro"
-                checked={formData.cambio_de_filtro}
+                checked={cambio_de_filtro}
                 onChange={handleInputChangeCheckbox}
               />
             </Form.Group>
@@ -161,8 +181,8 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
                 as="textarea"
                 rows={3}
                 name="detalles_de_entrada_del_vehiculo"
-                value={formData.detalles_de_entrada_del_vehiculo}
-                onChange={handleInputChange}
+                value={detalles_de_entrada_del_vehiculo}
+                onChange={onInputChange}
               />
             </Form.Group>
           </Modal.Body>

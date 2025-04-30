@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, Stack, Badge } from "react-bootstrap";
 import { ModalCrearOrden } from "./ModalCrearOrden";
 import { ModalEliminarOrden } from "./ModalEliminarOrden";
 import { ModalActualizarOrden } from "./ModalActualizarOrden";
 import { useNavigate } from "react-router-dom";
-import { ordenes } from "../data/ordenes";
+import { useOrdenStore } from "../hooks/useOrdenStore";
 
 export const ListaOrdenes = () => {
   const [showModal, setShowModal] = useState(false);
@@ -13,6 +13,8 @@ export const ListaOrdenes = () => {
   const [selectedOrden, setSelectedOrden] = useState(null);
 
   const navigate = useNavigate();
+
+  const { ordenes, startLoadingOrdenes } = useOrdenStore();
 
   const handleUpdate = (updatedData) => {
     console.log("Datos actualizados:", updatedData);
@@ -24,6 +26,10 @@ export const ListaOrdenes = () => {
     setShowDeleteModal(false);
     // Aquí iría la lógica para hacer el DELETE a la API
   };
+
+  useEffect(() => {
+    startLoadingOrdenes();
+  }, []);
 
   return (
     <div className="container-fluid px-4 py-3 animate__animated animate__fadeIn">
@@ -82,22 +88,20 @@ export const ListaOrdenes = () => {
                 <tr key={orden.id} className="transition-all">
                   <td className="ps-4">
                     <div className="d-flex align-items-center gap-3">
-                      <i className="bi bi-person-circle fs-4 text-muted"></i>
                       <div>
-                        <h6 className="mb-0 fw-semibold">{orden.id}</h6>
+                        <h6 className="mb-0 fw-semibold">{orden?.id}</h6>
                         <small className="text-muted">ID de la orden</small>
                       </div>
                     </div>
                   </td>
                   <td className="ps-4">
                     <div className="d-flex align-items-center gap-3">
-                      <i className="bi bi-person-circle fs-4 text-muted"></i>
                       <div>
                         <h6 className="mb-0 fw-semibold">
-                          # {orden.cliente.id}
+                          ID: {orden?.cliente.id}
                         </h6>
                         <h6 className="mb-0 fw-semibold">
-                          {orden.cliente.nombre}
+                          {orden?.cliente.nombre}
                         </h6>
                         <small className="text-muted">Info del cliente</small>
                       </div>
@@ -108,13 +112,16 @@ export const ListaOrdenes = () => {
                       <i className="bi bi-car-front fs-4 text-muted"></i>
                       <div>
                         <h6 className="mb-0 fw-semibold">
-                          #{orden.vehiculo.id} - {orden.vehiculo.modelo}
-                          {orden.vehiculo.marca}
+                          ID: {orden?.vehiculo.id}
+                        </h6>
+                        <h6 className="mb-0 fw-semibold">
+                          {orden?.vehiculo.modelo}
+                          {orden?.vehiculo.marca}
                         </h6>
                         <ul className="list-unstyled mb-0">
                           <li>
                             <code className="text-muted">Matrícula:</code>
-                            {orden.vehiculo.matricula}
+                            {orden?.vehiculo.matricula}
                           </li>
                         </ul>
                       </div>
@@ -131,7 +138,7 @@ export const ListaOrdenes = () => {
                           style={{ maxWidth: "250px" }}
                         >
                           <i className="bi bi-calendar-check me-2"></i>
-                          {orden.detalle_de_trabajos_a_realizar}
+                          {orden?.detalle_de_trabajos_a_realizar}
                         </span>
                       </div>
                     </div>
@@ -142,14 +149,14 @@ export const ListaOrdenes = () => {
                         <small className="text-muted d-block">Recepción:</small>
                         <span className="text-nowrap">
                           <i className="bi bi-calendar-check me-2"></i>
-                          {orden.recepcion}
+                          {orden?.recepcion}
                         </span>
                       </div>
                       <div>
                         <small className="text-muted d-block">Prometida:</small>
                         <span className="text-nowrap">
                           <i className="bi bi-calendar-event me-2"></i>
-                          {orden.prometido}
+                          {orden?.prometido}
                         </span>
                       </div>
                     </div>
@@ -158,12 +165,12 @@ export const ListaOrdenes = () => {
                     <div className="d-flex flex-column gap-2">
                       <small
                         className={
-                          orden.cambio_de_aceite
+                          orden?.cambio_de_aceite
                             ? "text-success"
                             : "text-danger"
                         }
                       >
-                        {orden.cambio_de_aceite ? (
+                        {orden?.cambio_de_aceite ? (
                           <i className="bi bi-check-circle-fill"> Aceite</i>
                         ) : (
                           <i className="bi bi-x-circle-fill"> Aceite</i>
@@ -171,12 +178,12 @@ export const ListaOrdenes = () => {
                       </small>
                       <small
                         className={
-                          orden.cambio_de_filtro
+                          orden?.cambio_de_filtro
                             ? "text-success"
                             : "text-danger"
                         }
                       >
-                        {orden.cambio_de_filtro ? (
+                        {orden?.cambio_de_filtro ? (
                           <i className="bi bi-check-circle-fill"> Filtro</i>
                         ) : (
                           <i className="bi bi-x-circle-fill"> Filtro</i>
@@ -195,7 +202,7 @@ export const ListaOrdenes = () => {
                           style={{ maxWidth: "250px" }}
                         >
                           <i className="bi bi-calendar-check me-2"></i>
-                          {orden.detalles_de_entrada_del_vehiculo}
+                          {orden?.detalles_de_entrada_del_vehiculo}
                         </span>
                       </div>
                     </div>
@@ -223,7 +230,10 @@ export const ListaOrdenes = () => {
                         variant="outline-danger"
                         size="sm"
                         className="d-flex align-items-center gap-2"
-                        onClick={() => setShowDeleteModal(true)}
+                        onClick={() => {
+                          setSelectedOrden(orden);
+                          setShowDeleteModal(true);
+                        }}
                       >
                         <i className="bi bi-trash"></i>
                         <span className="d-none d-lg-inline">Borrar</span>
@@ -233,7 +243,7 @@ export const ListaOrdenes = () => {
                         size="sm"
                         className="d-flex align-items-center gap-2"
                         onClick={() =>
-                          navigate(`/jefe/orden/${orden.id}`, {
+                          navigate(`/jefe/orden/${orden?.id}`, {
                             state: { orden },
                           })
                         }
@@ -250,28 +260,6 @@ export const ListaOrdenes = () => {
         </div>
       </div>
 
-      <div className="d-flex justify-content-center mt-4">
-        <nav aria-label="Page navigation">
-          <ul className="pagination pagination-lg">
-            <li className="page-item disabled">
-              <button className="page-link">Anterior</button>
-            </li>
-            <li className="page-item active">
-              <button className="page-link">1</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">2</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">3</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">Siguiente</button>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
       {/* Modal */}
       <ModalCrearOrden
         showModal={showModal}
@@ -282,6 +270,7 @@ export const ListaOrdenes = () => {
         showModal={showDeleteModal}
         handleClose={() => setShowDeleteModal(false)}
         handleDelete={handleDelete}
+        ordenData={selectedOrden}
       />
       {/* Modal de actualización */}
       <ModalActualizarOrden

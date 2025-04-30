@@ -1,8 +1,15 @@
-import { useMemo, useState } from "react";
-import { vehiculos } from "../data/vehiculos";
+import { useEffect, useMemo, useState } from "react";
+import { useVehiculoStore } from "./useVehiculoStore";
 
-export const useSelectorVehiculos = () => {
+export const useSelectorVehiculos = (showModal) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const { vehiculos, startLoadingVehiculos } = useVehiculoStore();
+
+  useEffect(() => {
+    if (showModal && vehiculos.length === 0) {
+      startLoadingVehiculos();
+    }
+  }, [showModal]);
 
   const opcionesAgrupadas = useMemo(() => {
     const grupos = {};
@@ -26,7 +33,7 @@ export const useSelectorVehiculos = () => {
     });
 
     return Object.values(grupos);
-  }, [searchTerm]);
+  }, [vehiculos, searchTerm]);
 
   // Recibimos setFormData como argumento
   const handleVehiculoChange = (selectedOption, setFormData) => {

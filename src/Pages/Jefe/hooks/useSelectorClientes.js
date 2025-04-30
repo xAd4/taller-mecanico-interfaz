@@ -1,8 +1,15 @@
-import { useMemo, useState } from "react";
-import { clientes } from "../data/clientes";
+import { useEffect, useMemo, useState } from "react";
+import { useClienteStore } from "./useClienteStore";
 
-export const useSelectorClientes = () => {
+export const useSelectorClientes = (showModal) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const { clientes, startLoadingClientes } = useClienteStore();
+
+  useEffect(() => {
+    if (showModal && clientes.length === 0) {
+      startLoadingClientes();
+    }
+  }, [showModal]);
 
   const opcionesAgrupadas = useMemo(() => {
     const grupos = {};
@@ -26,7 +33,7 @@ export const useSelectorClientes = () => {
     });
 
     return Object.values(grupos);
-  }, [searchTerm]);
+  }, [clientes, searchTerm]);
 
   // Recibimos setFormData como argumento
   const handleClienteChange = (selectedOption, setFormData) => {

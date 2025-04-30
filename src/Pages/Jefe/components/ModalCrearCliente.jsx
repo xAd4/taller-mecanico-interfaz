@@ -30,7 +30,11 @@ export const ModalCrearCliente = ({ handleShow, handleClose, showModal }) => {
       domicilio,
     });
 
-    Swal.fire("Ok", "Cliente creado. Recarga la pagina", "success");
+    Swal.fire("Ok", "Cliente creado", "success");
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
+
     handleClose();
   };
   return (

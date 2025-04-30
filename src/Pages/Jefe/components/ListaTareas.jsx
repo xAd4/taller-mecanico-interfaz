@@ -1,16 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, Stack, Badge } from "react-bootstrap";
 import { ModalCrearTarea } from "./ModalCrearTarea";
 import { ModalEliminarTarea } from "./ModalEliminarTarea";
 import { ModalActualizarTarea } from "./ModalActualizarTarea";
 import { useNavigate } from "react-router-dom";
-import { tareas } from "../data/tareas";
+import { useTareaStore } from "../hooks/useTareaStore";
 
 export const ListaTareas = () => {
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedTarea, setSelectedTarea] = useState(null);
+
+  const { tareas, startLoadingTareas } = useTareaStore();
 
   const navigate = useNavigate();
 
@@ -24,6 +26,10 @@ export const ListaTareas = () => {
     console.log("Datos actualizados:", updatedData);
     // Aquí iría la lógica para hacer el PUT o PATCH a la API
   };
+
+  useEffect(() => {
+    startLoadingTareas(1);
+  }, []);
 
   const getEstadoColor = (estado) => {
     switch (estado) {
@@ -166,28 +172,6 @@ export const ListaTareas = () => {
             </tbody>
           </table>
         </div>
-      </div>
-
-      <div className="d-flex justify-content-center mt-4">
-        <nav aria-label="Page navigation">
-          <ul className="pagination pagination-lg">
-            <li className="page-item disabled">
-              <button className="page-link">Anterior</button>
-            </li>
-            <li className="page-item active">
-              <button className="page-link">1</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">2</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">3</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">Siguiente</button>
-            </li>
-          </ul>
-        </nav>
       </div>
 
       {/* Modal */}

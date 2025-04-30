@@ -1,5 +1,7 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { useOrdenStore } from "../hooks/useOrdenStore";
+import Swal from "sweetalert2";
 
 export const ModalActualizarOrden = ({
   showModal,
@@ -9,7 +11,6 @@ export const ModalActualizarOrden = ({
 }) => {
   const [formData, setFormData] = useState(
     ordenData || {
-      id: "",
       cliente_id: "",
       vehiculo_id: "",
       detalle_de_trabajos_a_realizar: "",
@@ -20,6 +21,8 @@ export const ModalActualizarOrden = ({
       detalles_de_entrada_del_vehiculo: "",
     }
   );
+
+  const { startSavingOrden } = useOrdenStore();
 
   // Convierte los datos del backend (0/1) a booleanos
 
@@ -48,8 +51,9 @@ export const ModalActualizarOrden = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleUpdate(formData); // Llama a la función para actualizar los datos
-    handleClose(); // Cierra el modal
+    startSavingOrden(formData);
+    Swal.fire("Ok", "Orden actualizada", "success");
+    handleClose();
   };
 
   if (!ordenData) return null; // No renderizar nada si ordenData es null

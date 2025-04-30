@@ -169,7 +169,7 @@ export const DetallesOrden = () => {
                       <div className="mb-3">
                         <label className="form-label">Prometida</label>
                         <div className="fw-semibold">
-                          {formatDate(orden.prometido)}
+                          {formatDate(orden.prometido) || "N/A"}
                         </div>
                       </div>
                     </div>

@@ -2,7 +2,6 @@ import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useClienteStore } from "../hooks/useClienteStore";
 import Swal from "sweetalert2";
-import { useAuthStore } from "../../../hooks/useAuthStore";
 
 export const ModalActualizarCliente = ({
   showModal,

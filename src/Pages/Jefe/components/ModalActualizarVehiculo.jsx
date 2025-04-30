@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
+import { useVehiculoStore } from "../hooks/useVehiculoStore";
+import Swal from "sweetalert2";
 
 export const ModalActualizarVehiculo = ({
   showModal,
@@ -20,6 +22,8 @@ export const ModalActualizarVehiculo = ({
     }
   );
 
+  const { startSavingVehiculo } = useVehiculoStore();
+
   // Actualizar el estado si vehiculoData cambia
   useEffect(() => {
     if (vehiculoData) {
@@ -36,7 +40,8 @@ export const ModalActualizarVehiculo = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleUpdate(formData);
+    startSavingVehiculo(formData);
+    Swal.fire("Ok", "Cliente actualizado", "success");
     handleClose();
   };
 

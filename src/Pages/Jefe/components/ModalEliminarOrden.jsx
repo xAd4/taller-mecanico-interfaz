@@ -1,10 +1,19 @@
 import { Modal, Button } from "react-bootstrap";
+import { useOrdenStore } from "../hooks/useOrdenStore";
+import Swal from "sweetalert2";
 
-export const ModalEliminarOrden = ({
-  showModal,
-  handleClose,
-  handleDelete,
-}) => {
+export const ModalEliminarOrden = ({ showModal, handleClose, ordenData }) => {
+  const { startDeletingOrden } = useOrdenStore();
+
+  const handleDeleteOrden = () => {
+    startDeletingOrden(ordenData);
+    Swal.fire("Ok", "Orden eliminada.", "success");
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
+    handleClose();
+  };
+
   return (
     <Modal show={showModal} onHide={handleClose} centered backdrop="static">
       <Modal.Header closeButton>
@@ -20,7 +29,7 @@ export const ModalEliminarOrden = ({
         <Button variant="secondary" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button variant="danger" onClick={handleDelete}>
+        <Button variant="danger" onClick={handleDeleteOrden}>
           Eliminar
         </Button>
       </Modal.Footer>

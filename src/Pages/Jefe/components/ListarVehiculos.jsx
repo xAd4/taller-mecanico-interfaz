@@ -1,15 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, Stack } from "react-bootstrap";
 import { ModalCrearVehiculo } from "./ModalCrearVehiculo";
 import { ModalEliminarVehiculo } from "./ModalEliminarVehiculo";
 import { ModalActualizarVehiculo } from "./ModalActualizarVehiculo";
-import { vehiculos } from "../data/vehiculos";
+import { useVehiculoStore } from "../hooks/useVehiculoStore";
 
 export const ListaVehiculos = () => {
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedVehiculo, setSelectedVehiculo] = useState(null);
+
+  const { vehiculos, startLoadingVehiculos } = useVehiculoStore();
 
   const handleUpdate = (updatedData) => {
     console.log("Datos actualizados:", updatedData);
@@ -21,6 +23,10 @@ export const ListaVehiculos = () => {
     setShowDeleteModal(false);
     // Aquí iría la lógica para hacer el DELETE a la API
   };
+
+  useEffect(() => {
+    startLoadingVehiculos(1);
+  }, []);
 
   return (
     <div className="container-fluid px-4 py-3 animate__animated animate__fadeIn">
@@ -79,7 +85,7 @@ export const ListaVehiculos = () => {
             <tbody>
               {vehiculos.map((vehiculo) => (
                 <tr key={vehiculo.id} className="transition-all">
-                  <td className="ps-4 fw-semibold"># {vehiculo.id}</td>
+                  <td className="ps-4 fw-semibold">{vehiculo.id}</td>
                   <td className="ps-4 fw-semibold">{vehiculo.modelo}</td>
                   <td>
                     <span className="badge bg-light text-dark border">
@@ -135,7 +141,10 @@ export const ListaVehiculos = () => {
                         variant="outline-danger"
                         size="sm"
                         className="d-flex align-items-center gap-2"
-                        onClick={() => setShowDeleteModal(true)}
+                        onClick={() => {
+                          setSelectedVehiculo(vehiculo);
+                          setShowDeleteModal(true);
+                        }}
                       >
                         <i className="bi bi-trash"></i>
                         <span className="d-none d-md-inline">Borrar</span>
@@ -149,28 +158,6 @@ export const ListaVehiculos = () => {
         </div>
       </div>
 
-      <div className="d-flex justify-content-center mt-4">
-        <nav aria-label="Page navigation">
-          <ul className="pagination pagination-lg">
-            <li className="page-item disabled">
-              <button className="page-link">Anterior</button>
-            </li>
-            <li className="page-item active">
-              <button className="page-link">1</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">2</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">3</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">Siguiente</button>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
       {/* Modal */}
       <ModalCrearVehiculo
         showModal={showModal}
@@ -181,6 +168,7 @@ export const ListaVehiculos = () => {
         showModal={showDeleteModal}
         handleClose={() => setShowDeleteModal(false)}
         handleDelete={handleDelete}
+        vehiculoData={selectedVehiculo}
       />
       {/* Modal de actualización */}
       <ModalActualizarVehiculo

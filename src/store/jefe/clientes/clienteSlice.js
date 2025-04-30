@@ -1,22 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// const tempCliente = {
-//   nombre: "Cliente numero 2",
-//   apellido: "Apellido de Cliente numero 2",
-//   email: "cliente@test.com",
-//   dni: "45678910",
-//   rut: "78945610",
-//   telefono: "1234578944",
-//   domicilio: "Domicilio del cliente numero 2",
-// };
-
 export const clienteSlice = createSlice({
   name: "clientes",
   initialState: {
     isLoadingClientes: true,
-    clientes: [
-      //tempCliente
-    ],
+    clientes: [],
     activeCliente: null,
   },
   reducers: {

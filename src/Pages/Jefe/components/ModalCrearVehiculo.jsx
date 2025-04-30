@@ -1,6 +1,20 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { Form, Modal, Button } from "react-bootstrap";
+import { useVehiculoStore } from "../hooks/useVehiculoStore";
+import Swal from "sweetalert2";
+import { useForm } from "../../../hooks/useForm";
+
+const createVehiculoField = {
+  modelo: "",
+  marca: "",
+  color: "",
+  matricula: "",
+  kilometraje: "",
+  numero_de_serie: "",
+  numero_de_motor: "",
+  fecha_de_compra: "",
+};
 
 export const ModalCrearVehiculo = ({ showModal, handleShow, handleClose }) => {
   const [formData, setFormData] = useState({
@@ -14,21 +28,39 @@ export const ModalCrearVehiculo = ({ showModal, handleShow, handleClose }) => {
     fecha_de_compra: "",
   });
 
-  // Manejar apertura/cierre del modal
+  const { startSavingVehiculo } = useVehiculoStore();
 
-  // Manejar cambios en el formulario
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const {
+    modelo,
+    marca,
+    color,
+    matricula,
+    kilometraje,
+    numero_de_serie,
+    numero_de_motor,
+    fecha_de_compra,
+    onInputChange,
+  } = useForm(createVehiculoField);
 
   // Manejar envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí iría la lógica de envío
-    console.log("Datos enviados:", formData);
+    startSavingVehiculo({
+      modelo,
+      marca,
+      color,
+      matricula,
+      kilometraje,
+      numero_de_serie,
+      numero_de_motor,
+      fecha_de_compra,
+    });
+
+    Swal.fire("Ok", "Cliente creado", "success");
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
+
     handleClose();
   };
 
@@ -47,8 +79,8 @@ export const ModalCrearVehiculo = ({ showModal, handleShow, handleClose }) => {
               <Form.Control
                 type="text"
                 name="modelo"
-                value={formData.modelo}
-                onChange={handleInputChange}
+                value={modelo}
+                onChange={onInputChange}
                 required
               />
             </Form.Group>
@@ -57,8 +89,8 @@ export const ModalCrearVehiculo = ({ showModal, handleShow, handleClose }) => {
               <Form.Control
                 type="text"
                 name="marca"
-                value={formData.marca}
-                onChange={handleInputChange}
+                value={marca}
+                onChange={onInputChange}
                 required
               />
             </Form.Group>
@@ -67,8 +99,8 @@ export const ModalCrearVehiculo = ({ showModal, handleShow, handleClose }) => {
               <Form.Control
                 type="text"
                 name="color"
-                value={formData.color}
-                onChange={handleInputChange}
+                value={color}
+                onChange={onInputChange}
                 required
               />
             </Form.Group>
@@ -77,8 +109,8 @@ export const ModalCrearVehiculo = ({ showModal, handleShow, handleClose }) => {
               <Form.Control
                 type="text"
                 name="matricula"
-                value={formData.matricula}
-                onChange={handleInputChange}
+                value={matricula}
+                onChange={onInputChange}
                 required
               />
             </Form.Group>
@@ -87,8 +119,8 @@ export const ModalCrearVehiculo = ({ showModal, handleShow, handleClose }) => {
               <Form.Control
                 type="text"
                 name="kilometraje"
-                value={formData.kilometraje}
-                onChange={handleInputChange}
+                value={kilometraje}
+                onChange={onInputChange}
                 required
               />
             </Form.Group>
@@ -97,8 +129,8 @@ export const ModalCrearVehiculo = ({ showModal, handleShow, handleClose }) => {
               <Form.Control
                 type="text"
                 name="numero_de_serie"
-                value={formData.numero_de_serie}
-                onChange={handleInputChange}
+                value={numero_de_serie}
+                onChange={onInputChange}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -106,8 +138,8 @@ export const ModalCrearVehiculo = ({ showModal, handleShow, handleClose }) => {
               <Form.Control
                 type="text"
                 name="numero_de_motor"
-                value={formData.numero_de_motor}
-                onChange={handleInputChange}
+                value={numero_de_motor}
+                onChange={onInputChange}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -115,8 +147,8 @@ export const ModalCrearVehiculo = ({ showModal, handleShow, handleClose }) => {
               <Form.Control
                 type="date"
                 name="fecha_de_compar"
-                value={formData.fecha_de_compra}
-                onChange={handleInputChange}
+                value={fecha_de_compra}
+                onChange={onInputChange}
               />
             </Form.Group>
           </Modal.Body>
