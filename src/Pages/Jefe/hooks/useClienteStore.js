@@ -4,6 +4,7 @@ import {
   onDeleteCliente,
   onLoadClientes,
   onSetActiveCliente,
+  onStartLoading,
   onUpdateCliente,
 } from "../../../store/jefe/clientes/clienteSlice";
 import tallerMecanicoApi from "../../../api/tallerMecanicoApi";
@@ -11,7 +12,9 @@ import Swal from "sweetalert2";
 
 export const useClienteStore = () => {
   const dispatch = useDispatch();
-  const { clientes, activeCliente } = useSelector((state) => state.cliente);
+  const { clientes, activeCliente, isLoadingClientes } = useSelector(
+    (state) => state.cliente
+  );
   const { user } = useSelector((state) => state.auth);
 
   const setActiveCliente = (cliente) => {
@@ -20,6 +23,7 @@ export const useClienteStore = () => {
 
   const startLoadingClientes = async (page = 1) => {
     try {
+      dispatch(onStartLoading());
       const { data } = await tallerMecanicoApi.get(`/clientes?page=${page}`);
       dispatch(onLoadClientes([...data.data.data]));
     } catch (error) {
@@ -58,6 +62,7 @@ export const useClienteStore = () => {
     //* Propiedades
     activeCliente,
     clientes,
+    isLoadingClientes,
     hasClienteSelected: !!activeCliente,
 
     //* Metodos

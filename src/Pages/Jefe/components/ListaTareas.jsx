@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Form, Stack, Badge } from "react-bootstrap";
+import { Button, Form, Stack, Badge, Spinner } from "react-bootstrap";
 import { ModalCrearTarea } from "./ModalCrearTarea";
 import { ModalEliminarTarea } from "./ModalEliminarTarea";
 import { ModalActualizarTarea } from "./ModalActualizarTarea";
@@ -30,14 +30,6 @@ export const ListaTareas = () => {
   useEffect(() => {
     startLoadingTareas(1);
   }, []);
-
-  if (isLoadingTareas) {
-    return (
-      <div className="d-flex justify-content-center align-items-center vh-100">
-        <Spinner animation="border" />
-      </div>
-    );
-  }
 
   const getEstadoColor = (estado) => {
     switch (estado) {

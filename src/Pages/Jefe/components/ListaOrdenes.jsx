@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Form, Stack, Badge } from "react-bootstrap";
+import { Button, Form, Stack, Badge, Spinner } from "react-bootstrap";
 import { ModalCrearOrden } from "./ModalCrearOrden";
 import { ModalEliminarOrden } from "./ModalEliminarOrden";
 import { ModalActualizarOrden } from "./ModalActualizarOrden";
@@ -14,7 +14,7 @@ export const ListaOrdenes = () => {
 
   const navigate = useNavigate();
 
-  const { ordenes, startLoadingOrdenes } = useOrdenStore();
+  const { ordenes, startLoadingOrdenes, isLoadingOrdenes } = useOrdenStore();
 
   const handleUpdate = (updatedData) => {
     console.log("Datos actualizados:", updatedData);
@@ -84,177 +84,191 @@ export const ListaOrdenes = () => {
               </tr>
             </thead>
             <tbody>
-              {ordenes.map((orden) => (
-                <tr key={orden.id} className="transition-all">
-                  <td className="ps-4">
-                    <div className="d-flex align-items-center gap-3">
-                      <div>
-                        <h6 className="mb-0 fw-semibold">{orden?.id}</h6>
-                        <small className="text-muted">ID de la orden</small>
-                      </div>
+              {isLoadingOrdenes ? (
+                <tr>
+                  <td colSpan="12" className="text-center">
+                    <div className="d-flex justify-content-center align-items-center">
+                      <Spinner animation="border" />
                     </div>
-                  </td>
-                  <td className="ps-4">
-                    <div className="d-flex align-items-center gap-3">
-                      <div>
-                        <h6 className="mb-0 fw-semibold">
-                          ID: {orden?.cliente.id}
-                        </h6>
-                        <h6 className="mb-0 fw-semibold">
-                          {orden?.cliente.nombre}
-                        </h6>
-                        <small className="text-muted">Info del cliente</small>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="d-flex align-items-center gap-3">
-                      <i className="bi bi-car-front fs-4 text-muted"></i>
-                      <div>
-                        <h6 className="mb-0 fw-semibold">
-                          ID: {orden?.vehiculo.id}
-                        </h6>
-                        <h6 className="mb-0 fw-semibold">
-                          {orden?.vehiculo.modelo}
-                          {orden?.vehiculo.marca}
-                        </h6>
-                        <ul className="list-unstyled mb-0">
-                          <li>
-                            <code className="text-muted">Matrícula:</code>
-                            {orden?.vehiculo.matricula}
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="d-flex flex-column gap-2">
-                      <div>
-                        <small className="text-muted d-block">
-                          Detalles de trabajos a realizar
-                        </small>
-                        <span
-                          className="d-inline-block text-truncate"
-                          style={{ maxWidth: "250px" }}
-                        >
-                          <i className="bi bi-calendar-check me-2"></i>
-                          {orden?.detalle_de_trabajos_a_realizar}
-                        </span>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="d-flex flex-column gap-2">
-                      <div>
-                        <small className="text-muted d-block">Recepción:</small>
-                        <span className="text-nowrap">
-                          <i className="bi bi-calendar-check me-2"></i>
-                          {orden?.recepcion}
-                        </span>
-                      </div>
-                      <div>
-                        <small className="text-muted d-block">Prometida:</small>
-                        <span className="text-nowrap">
-                          <i className="bi bi-calendar-event me-2"></i>
-                          {orden?.prometido}
-                        </span>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="d-flex flex-column gap-2">
-                      <small
-                        className={
-                          orden?.cambio_de_aceite
-                            ? "text-success"
-                            : "text-danger"
-                        }
-                      >
-                        {orden?.cambio_de_aceite ? (
-                          <i className="bi bi-check-circle-fill"> Aceite</i>
-                        ) : (
-                          <i className="bi bi-x-circle-fill"> Aceite</i>
-                        )}
-                      </small>
-                      <small
-                        className={
-                          orden?.cambio_de_filtro
-                            ? "text-success"
-                            : "text-danger"
-                        }
-                      >
-                        {orden?.cambio_de_filtro ? (
-                          <i className="bi bi-check-circle-fill"> Filtro</i>
-                        ) : (
-                          <i className="bi bi-x-circle-fill"> Filtro</i>
-                        )}
-                      </small>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="d-flex flex-column gap-2">
-                      <div>
-                        <small className="text-muted d-block">
-                          Detalles de entrada de vehiculo
-                        </small>
-                        <span
-                          className="d-inline-block text-truncate"
-                          style={{ maxWidth: "250px" }}
-                        >
-                          <i className="bi bi-calendar-check me-2"></i>
-                          {orden?.detalles_de_entrada_del_vehiculo}
-                        </span>
-                      </div>
-                    </div>
-                  </td>
-
-                  <td className="pe-4">
-                    <Stack
-                      direction="horizontal"
-                      gap={2}
-                      className="justify-content-end"
-                    >
-                      <Button
-                        variant="outline-primary"
-                        size="sm"
-                        className="d-flex align-items-center gap-2"
-                        onClick={() => {
-                          setSelectedOrden(orden);
-                          setShowUpdateModal(true);
-                        }}
-                      >
-                        <i className="bi bi-pencil"></i>
-                        <span className="d-none d-lg-inline">Editar</span>
-                      </Button>
-                      <Button
-                        variant="outline-danger"
-                        size="sm"
-                        className="d-flex align-items-center gap-2"
-                        onClick={() => {
-                          setSelectedOrden(orden);
-                          setShowDeleteModal(true);
-                        }}
-                      >
-                        <i className="bi bi-trash"></i>
-                        <span className="d-none d-lg-inline">Borrar</span>
-                      </Button>
-                      <Button
-                        variant="outline-success"
-                        size="sm"
-                        className="d-flex align-items-center gap-2"
-                        onClick={() =>
-                          navigate(`/jefe/orden/${orden?.id}`, {
-                            state: { orden },
-                          })
-                        }
-                      >
-                        <i className="bi bi-eye"></i>
-                        <span className="d-none d-lg-inline">Detalles</span>
-                      </Button>
-                    </Stack>
                   </td>
                 </tr>
-              ))}
+              ) : (
+                ordenes.map((orden) => (
+                  <tr key={orden.id} className="transition-all">
+                    <td className="ps-4">
+                      <div className="d-flex align-items-center gap-3">
+                        <div>
+                          <h6 className="mb-0 fw-semibold">{orden?.id}</h6>
+                          <small className="text-muted">ID de la orden</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="ps-4">
+                      <div className="d-flex align-items-center gap-3">
+                        <div>
+                          <h6 className="mb-0 fw-semibold">
+                            ID: {orden?.cliente.id}
+                          </h6>
+                          <h6 className="mb-0 fw-semibold">
+                            {orden?.cliente.nombre}
+                          </h6>
+                          <small className="text-muted">Info del cliente</small>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="d-flex align-items-center gap-3">
+                        <i className="bi bi-car-front fs-4 text-muted"></i>
+                        <div>
+                          <h6 className="mb-0 fw-semibold">
+                            ID: {orden?.vehiculo.id}
+                          </h6>
+                          <h6 className="mb-0 fw-semibold">
+                            {orden?.vehiculo.modelo}
+                            {orden?.vehiculo.marca}
+                          </h6>
+                          <ul className="list-unstyled mb-0">
+                            <li>
+                              <code className="text-muted">Matrícula:</code>
+                              {orden?.vehiculo.matricula}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="d-flex flex-column gap-2">
+                        <div>
+                          <small className="text-muted d-block">
+                            Detalles de trabajos a realizar
+                          </small>
+                          <span
+                            className="d-inline-block text-truncate"
+                            style={{ maxWidth: "250px" }}
+                          >
+                            <i className="bi bi-calendar-check me-2"></i>
+                            {orden?.detalle_de_trabajos_a_realizar}
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="d-flex flex-column gap-2">
+                        <div>
+                          <small className="text-muted d-block">
+                            Recepción:
+                          </small>
+                          <span className="text-nowrap">
+                            <i className="bi bi-calendar-check me-2"></i>
+                            {orden?.recepcion}
+                          </span>
+                        </div>
+                        <div>
+                          <small className="text-muted d-block">
+                            Prometida:
+                          </small>
+                          <span className="text-nowrap">
+                            <i className="bi bi-calendar-event me-2"></i>
+                            {orden?.prometido}
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="d-flex flex-column gap-2">
+                        <small
+                          className={
+                            orden?.cambio_de_aceite
+                              ? "text-success"
+                              : "text-danger"
+                          }
+                        >
+                          {orden?.cambio_de_aceite ? (
+                            <i className="bi bi-check-circle-fill"> Aceite</i>
+                          ) : (
+                            <i className="bi bi-x-circle-fill"> Aceite</i>
+                          )}
+                        </small>
+                        <small
+                          className={
+                            orden?.cambio_de_filtro
+                              ? "text-success"
+                              : "text-danger"
+                          }
+                        >
+                          {orden?.cambio_de_filtro ? (
+                            <i className="bi bi-check-circle-fill"> Filtro</i>
+                          ) : (
+                            <i className="bi bi-x-circle-fill"> Filtro</i>
+                          )}
+                        </small>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="d-flex flex-column gap-2">
+                        <div>
+                          <small className="text-muted d-block">
+                            Detalles de entrada de vehiculo
+                          </small>
+                          <span
+                            className="d-inline-block text-truncate"
+                            style={{ maxWidth: "250px" }}
+                          >
+                            <i className="bi bi-calendar-check me-2"></i>
+                            {orden?.detalles_de_entrada_del_vehiculo}
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td className="pe-4">
+                      <Stack
+                        direction="horizontal"
+                        gap={2}
+                        className="justify-content-end"
+                      >
+                        <Button
+                          variant="outline-primary"
+                          size="sm"
+                          className="d-flex align-items-center gap-2"
+                          onClick={() => {
+                            setSelectedOrden(orden);
+                            setShowUpdateModal(true);
+                          }}
+                        >
+                          <i className="bi bi-pencil"></i>
+                          <span className="d-none d-lg-inline">Editar</span>
+                        </Button>
+                        <Button
+                          variant="outline-danger"
+                          size="sm"
+                          className="d-flex align-items-center gap-2"
+                          onClick={() => {
+                            setSelectedOrden(orden);
+                            setShowDeleteModal(true);
+                          }}
+                        >
+                          <i className="bi bi-trash"></i>
+                          <span className="d-none d-lg-inline">Borrar</span>
+                        </Button>
+                        <Button
+                          variant="outline-success"
+                          size="sm"
+                          className="d-flex align-items-center gap-2"
+                          onClick={() =>
+                            navigate(`/jefe/orden/${orden?.id}`, {
+                              state: { orden },
+                            })
+                          }
+                        >
+                          <i className="bi bi-eye"></i>
+                          <span className="d-none d-lg-inline">Detalles</span>
+                        </Button>
+                      </Stack>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

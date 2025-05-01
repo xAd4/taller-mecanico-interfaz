@@ -3,11 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 export const clienteSlice = createSlice({
   name: "clientes",
   initialState: {
-    isLoadingClientes: true,
+    isLoadingClientes: false,
     clientes: [],
     activeCliente: null,
   },
   reducers: {
+    onStartLoading: (state) => {
+      state.isLoadingClientes = true;
+    },
     onSetActiveCliente: (state, { payload }) => {
       state.activeCliente = payload;
     },
@@ -54,4 +57,5 @@ export const {
   onAddNewCliente,
   onUpdateCliente,
   onDeleteCliente,
+  onStartLoading,
 } = clienteSlice.actions;

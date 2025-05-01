@@ -4,6 +4,7 @@ import {
   onDeleteVehiculo,
   onLoadVehiculos,
   onSetActiveVehiculo,
+  onStartLoading,
   onUpdateVehiculo,
 } from "../../../store/jefe/vehiculos/vehiculoSlice";
 import tallerMecanicoApi from "../../../api/tallerMecanicoApi";
@@ -11,7 +12,9 @@ import Swal from "sweetalert2";
 
 export const useVehiculoStore = () => {
   const dispatch = useDispatch();
-  const { vehiculos, activeVehiculo } = useSelector((state) => state.vehiculo);
+  const { vehiculos, activeVehiculo, isLoadingVehiculos } = useSelector(
+    (state) => state.vehiculo
+  );
   const { user } = useSelector((state) => state.auth);
 
   const setActiveVehiculo = (vehiculo) => {
@@ -20,6 +23,7 @@ export const useVehiculoStore = () => {
 
   const startLoadingVehiculos = async (page = 1) => {
     try {
+      dispatch(onStartLoading());
       const { data } = await tallerMecanicoApi.get(`/vehiculos?page=${page}`);
       dispatch(onLoadVehiculos([...data.data.data]));
     } catch (error) {
@@ -60,6 +64,7 @@ export const useVehiculoStore = () => {
     //* Propiedades
     activeVehiculo,
     vehiculos,
+    isLoadingVehiculos,
     hasVehiculoSelected: !!activeVehiculo,
 
     //* Metodos

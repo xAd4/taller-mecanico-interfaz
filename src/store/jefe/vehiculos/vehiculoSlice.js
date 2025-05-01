@@ -3,11 +3,14 @@ import { createSlice } from "@reduxjs/toolkit";
 export const vehiculoSlice = createSlice({
   name: "vehiculos",
   initialState: {
-    isLoadingVehiculos: true,
+    isLoadingVehiculos: false,
     vehiculos: [],
     activeVehiculo: null,
   },
   reducers: {
+    onStartLoading: (state) => {
+      state.isLoadingVehiculos = true;
+    },
     onSetActiveVehiculo: (state, { payload }) => {
       state.activeVehiculo = payload;
     },
@@ -54,4 +57,5 @@ export const {
   onAddNewVehiculo,
   onUpdateVehiculo,
   onDeleteVehiculo,
+  onStartLoading,
 } = vehiculoSlice.actions;

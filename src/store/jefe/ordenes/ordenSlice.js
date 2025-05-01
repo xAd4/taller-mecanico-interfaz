@@ -8,6 +8,9 @@ export const ordenSlice = createSlice({
     activeOrdenes: null,
   },
   reducers: {
+    onStartLoading: (state) => {
+      state.isLoadingOrdenes = true;
+    },
     onSetActiveOrdenes: (state, { payload }) => {
       state.activeOrdenes = payload;
     },
@@ -52,4 +55,5 @@ export const {
   onAddNewOrden,
   onUpdateOrden,
   onDeleteOrden,
+  onStartLoading,
 } = ordenSlice.actions;

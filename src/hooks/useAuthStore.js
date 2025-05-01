@@ -7,16 +7,20 @@ import {
   onAuthError,
   onRegister,
   onLogout,
+  onStartLoading,
 } from "../store/auth/authSlice";
 
 export const useAuthStore = () => {
-  const { status, user, errorMessage } = useSelector((state) => state.auth);
+  const { status, user, errorMessage, isLoadingAuth } = useSelector(
+    (state) => state.auth
+  );
   const dispatch = useDispatch();
 
   //* Login
 
   const startLogin = async ({ email, password }) => {
     dispatch(onChecking());
+    dispatch(onStartLoading());
     try {
       const { data } = await tallerMecanicoApi.post("/iniciar-sesion", {
         email,
@@ -96,6 +100,7 @@ export const useAuthStore = () => {
     status,
     user,
     errorMessage,
+    isLoadingAuth,
     //* Metodos
     startLogin,
     startRegister,

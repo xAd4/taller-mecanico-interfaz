@@ -14,7 +14,7 @@ const loginFormFields = {
 
 export const Login = () => {
   const { loginEmail, loginPassword, onInputChange } = useForm(loginFormFields);
-  const { startLogin, errorMessage } = useAuthStore();
+  const { startLogin, errorMessage, isLoadingAuth } = useAuthStore();
   const { status, user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
@@ -63,11 +63,21 @@ export const Login = () => {
                 >
                   <Card.Body className="p-5">
                     {/* Encabezado */}
-                    <div className="text-center mb-5">
-                      <h2 className="fw-bold mb-3">¿Eres empleado?</h2>
-                      <p className="text-muted">Inicia sesión para continuar</p>
-                    </div>
-
+                    {isLoadingAuth ? (
+                      <div className="text-center mb-5">
+                        <h2 className="fw-bold mb-3">Cargando</h2>
+                        <p className="text-muted">
+                          Accediendo al panel principal, por favor espere..
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="text-center mb-5">
+                        <h2 className="fw-bold mb-3">¿Eres empleado?</h2>
+                        <p className="text-muted">
+                          Inicia sesión para continuar
+                        </p>
+                      </div>
+                    )}
                     {/* Formulario */}
                     <Form onSubmit={loginSubmit}>
                       {/* Email */}

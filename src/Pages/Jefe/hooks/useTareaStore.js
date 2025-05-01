@@ -4,6 +4,7 @@ import {
   onDeleteTarea,
   onLoadTareas,
   onSetactiveTarea,
+  onStartLoading,
   onUpdateTarea,
 } from "../../../store/jefe/tareas/tareaSlice";
 import tallerMecanicoApi from "../../../api/tallerMecanicoApi";
@@ -11,7 +12,9 @@ import Swal from "sweetalert2";
 
 export const useTareaStore = () => {
   const dispatch = useDispatch();
-  const { tareas, activeTarea } = useSelector((state) => state.tarea);
+  const { tareas, activeTarea, isLoadingTareas } = useSelector(
+    (state) => state.tarea
+  );
   const { user } = useSelector((state) => state.auth);
 
   const setActiveOrden = (orden) => {
@@ -20,6 +23,7 @@ export const useTareaStore = () => {
 
   const startLoadingTareas = async (page = 1) => {
     try {
+      dispatch(onStartLoading());
       const { data } = await tallerMecanicoApi.get(`/tareas?page=${page}`);
       dispatch(onLoadTareas([...data.data.data]));
     } catch (error) {
@@ -57,6 +61,7 @@ export const useTareaStore = () => {
     //* Propiedades
     activeTarea,
     tareas,
+    isLoadingTareas,
     hasClienteSelected: !!activeTarea,
 
     //* Metodos

@@ -8,6 +8,9 @@ export const tareaSlice = createSlice({
     activeTarea: null,
   },
   reducers: {
+    onStartLoading: (state) => {
+      state.isLoadingTareas = true;
+    },
     onSetActiveTarea: (state, { payload }) => {
       state.activeTarea = payload;
     },
@@ -52,4 +55,5 @@ export const {
   onAddNewTarea,
   onUpdateTarea,
   onDeleteTarea,
+  onStartLoading,
 } = tareaSlice.actions;

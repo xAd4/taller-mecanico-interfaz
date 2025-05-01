@@ -4,6 +4,7 @@ import {
   onDeleteOrden,
   onLoadOrdenes,
   onSetActiveOrdenes,
+  onStartLoading,
   onUpdateOrden,
 } from "../../../store/jefe/ordenes/ordenSlice";
 import tallerMecanicoApi from "../../../api/tallerMecanicoApi";
@@ -11,7 +12,9 @@ import Swal from "sweetalert2";
 
 export const useOrdenStore = () => {
   const dispatch = useDispatch();
-  const { ordenes, activeOrdenes } = useSelector((state) => state.orden);
+  const { ordenes, activeOrdenes, isLoadingOrdenes } = useSelector(
+    (state) => state.orden
+  );
   const { user } = useSelector((state) => state.auth);
 
   const setActiveOrden = (orden) => {
@@ -20,6 +23,7 @@ export const useOrdenStore = () => {
 
   const startLoadingOrdenes = async (page = 1) => {
     try {
+      dispatch(onStartLoading);
       const { data } = await tallerMecanicoApi.get(`/ordenes?page=${page}`);
       dispatch(onLoadOrdenes([...data.data.data]));
       console.log([...data.data.data]);
@@ -59,6 +63,7 @@ export const useOrdenStore = () => {
     //* Propiedades
     activeOrdenes,
     ordenes,
+    isLoadingOrdenes,
     hasClienteSelected: !!activeOrdenes,
 
     //* Metodos

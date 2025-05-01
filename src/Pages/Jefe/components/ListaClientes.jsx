@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Form, Stack } from "react-bootstrap";
+import { Button, Form, Spinner, Stack } from "react-bootstrap";
 import { ModalCrearCliente } from "./ModalCrearCliente";
 import { ModalEliminarCliente } from "./ModalEliminarCliente";
 import { ModalActualizarCliente } from "./ModalActualizarCliente";
@@ -11,7 +11,8 @@ export const ListaClientes = () => {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedCliente, setSelectedCliente] = useState(null);
 
-  const { clientes, startLoadingClientes } = useClienteStore();
+  const { clientes, startLoadingClientes, isLoadingClientes } =
+    useClienteStore();
 
   const handleUpdate = (updatedData) => {
     console.log("Datos actualizados:", updatedData);
@@ -76,74 +77,84 @@ export const ListaClientes = () => {
               </tr>
             </thead>
             <tbody>
-              {clientes.map((cliente) => (
-                <tr key={cliente.id} className="transition-all">
-                  <td className="ps-4 fw-semibold">#{cliente.id}</td>
-                  <td>
-                    <div className="d-flex align-items-center">
-                      <div className="ms-3">
-                        <h6 className="mb-1 fw-semibold">{cliente.nombre}</h6>
-                        <small className="text-muted d-block">
-                          {cliente.email}
-                        </small>
-                        <div
-                          className="text-truncate"
-                          style={{ maxWidth: "300px" }}
-                        >
-                          <small className="text-muted">
-                            {cliente.domicilio}
-                          </small>
-                        </div>
-                      </div>
+              {isLoadingClientes ? (
+                <tr>
+                  <td colSpan="6" className="text-center">
+                    <div className="d-flex justify-content-center align-items-center">
+                      <Spinner animation="border" />
                     </div>
                   </td>
-                  <td>
-                    <span className="badge bg-light text-dark border">
-                      {cliente.rut}
-                    </span>
-                  </td>
-                  <td>
-                    <a
-                      href={`tel:${cliente.telefono}`}
-                      className="text-decoration-none"
-                    >
-                      {cliente.telefono}
-                    </a>
-                  </td>
-                  <td className="pe-4">
-                    <Stack
-                      direction="horizontal"
-                      gap={2}
-                      className="justify-content-end"
-                    >
-                      <Button
-                        variant="outline-primary"
-                        size="sm"
-                        className="d-flex align-items-center gap-2"
-                        onClick={() => {
-                          setSelectedCliente(cliente);
-                          setShowUpdateModal(true);
-                        }}
-                      >
-                        <i className="bi bi-pencil"></i>
-                        <span className="d-none d-md-inline">Editar</span>
-                      </Button>
-                      <Button
-                        variant="outline-danger"
-                        size="sm"
-                        className="d-flex align-items-center gap-2"
-                        onClick={() => {
-                          setSelectedCliente(cliente);
-                          setShowDeleteModal(true);
-                        }}
-                      >
-                        <i className="bi bi-trash"></i>
-                        <span className="d-none d-md-inline">Borrar</span>
-                      </Button>
-                    </Stack>
-                  </td>
                 </tr>
-              ))}
+              ) : (
+                clientes.map((cliente) => (
+                  <tr key={cliente.id} className="transition-all">
+                    <td className="ps-4 fw-semibold">#{cliente.id}</td>
+                    <td>
+                      <div className="d-flex align-items-center">
+                        <div className="ms-3">
+                          <h6 className="mb-1 fw-semibold">{cliente.nombre}</h6>
+                          <small className="text-muted d-block">
+                            {cliente.email}
+                          </small>
+                          <div
+                            className="text-truncate"
+                            style={{ maxWidth: "300px" }}
+                          >
+                            <small className="text-muted">
+                              {cliente.domicilio}
+                            </small>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span className="badge bg-light text-dark border">
+                        {cliente.rut}
+                      </span>
+                    </td>
+                    <td>
+                      <a
+                        href={`tel:${cliente.telefono}`}
+                        className="text-decoration-none"
+                      >
+                        {cliente.telefono}
+                      </a>
+                    </td>
+                    <td className="pe-4">
+                      <Stack
+                        direction="horizontal"
+                        gap={2}
+                        className="justify-content-end"
+                      >
+                        <Button
+                          variant="outline-primary"
+                          size="sm"
+                          className="d-flex align-items-center gap-2"
+                          onClick={() => {
+                            setSelectedCliente(cliente);
+                            setShowUpdateModal(true);
+                          }}
+                        >
+                          <i className="bi bi-pencil"></i>
+                          <span className="d-none d-md-inline">Editar</span>
+                        </Button>
+                        <Button
+                          variant="outline-danger"
+                          size="sm"
+                          className="d-flex align-items-center gap-2"
+                          onClick={() => {
+                            setSelectedCliente(cliente);
+                            setShowDeleteModal(true);
+                          }}
+                        >
+                          <i className="bi bi-trash"></i>
+                          <span className="d-none d-md-inline">Borrar</span>
+                        </Button>
+                      </Stack>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
