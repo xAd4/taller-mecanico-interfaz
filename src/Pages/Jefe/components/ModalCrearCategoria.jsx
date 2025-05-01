@@ -1,27 +1,31 @@
 import { Modal, Form, Button } from "react-bootstrap";
-import { useState } from "react";
+import { useForm } from "../../../hooks/useForm";
+import { useCategoriaStore } from "../hooks/useCategoriaStore";
+import Swal from "sweetalert2";
 
-export const ModalCrearCategoria = ({
-  showModal,
-  handleClose,
-  handleCreate,
-}) => {
-  const [formData, setFormData] = useState({
-    nombre: "",
-    disponibilidad: true,
-  });
+const createCategoriaField = {
+  nombre: "",
+  disponibilidad: "",
+};
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: name === "disponibilidad" ? e.target.checked : value,
-    });
+export const ModalCrearCategoria = ({ showModal, handleClose }) => {
+  const { nombre, disponibilidad, onInputChange } =
+    useForm(createCategoriaField);
+
+  const { startSavingCategoria } = useCategoriaStore();
+
+  const handleInputChangeCheckbox = (e) => {
+    const { name, checked } = e.target;
+    onInputChange({ target: { name, value: checked } });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleCreate(formData);
+    startSavingCategoria({ nombre, disponibilidad });
+    Swal.fire("Ok", "Cliente creado", "success");
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
     handleClose();
   };
 
@@ -37,8 +41,8 @@ export const ModalCrearCategoria = ({
             <Form.Control
               type="text"
               name="nombre"
-              value={formData.nombre}
-              onChange={handleInputChange}
+              value={nombre}
+              onChange={onInputChange}
               required
             />
           </Form.Group>
@@ -47,8 +51,8 @@ export const ModalCrearCategoria = ({
               type="checkbox"
               name="disponibilidad"
               label="Disponible"
-              checked={formData.disponibilidad}
-              onChange={handleInputChange}
+              checked={disponibilidad}
+              onChange={handleInputChangeCheckbox}
             />
           </Form.Group>
         </Modal.Body>

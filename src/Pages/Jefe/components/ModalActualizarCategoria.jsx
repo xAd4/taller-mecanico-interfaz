@@ -1,10 +1,11 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { useCategoriaStore } from "../hooks/useCategoriaStore";
+import Swal from "sweetalert2";
 
 export const ModalActualizarCategoria = ({
   showModal,
   handleClose,
-  handleUpdate,
   categoriaData,
 }) => {
   const [formData, setFormData] = useState(
@@ -13,6 +14,8 @@ export const ModalActualizarCategoria = ({
       disponibilidad: true,
     }
   );
+
+  const { startSavingCategoria } = useCategoriaStore();
 
   // Actualizar el estado si categoriaData cambia
   useEffect(() => {
@@ -41,8 +44,10 @@ export const ModalActualizarCategoria = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleUpdate(formData); // Llama a la función para actualizar los datos
-    handleClose(); // Cierra el modal
+    startSavingCategoria(formData);
+    Swal.fire("Ok", "Categoria actualizada", "success");
+
+    handleClose();
   };
 
   if (!categoriaData) return null; // No renderizar nada si categoriaData es null

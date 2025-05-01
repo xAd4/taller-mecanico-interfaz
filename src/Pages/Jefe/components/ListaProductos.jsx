@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, Stack, Badge, Table } from "react-bootstrap";
 import { ModalCrearProducto } from "./ModalCrearProducto";
 import { ModalEliminarProducto } from "./ModalEliminarProducto";
 import { ModalActualizarProducto } from "./ModalActualizarProducto";
 import { ModalActualizarCategoria } from "./ModalActualizarCategoria";
 import { ModalCrearCategoria } from "./ModalCrearCategoria";
-import { categorias } from "../data/categorias";
 import { productos } from "../data/productos";
+import { useCategoriaStore } from "../hooks/useCategoriaStore";
+import { SpinnerComponent } from "../../../components/SpinnerComponent";
+import { ModalEliminarCategoria } from "./ModalEliminarCategoria";
 
 export const ListaProductos = () => {
   const [showModal, setShowModal] = useState(false);
@@ -17,6 +19,13 @@ export const ListaProductos = () => {
   const [showCategoryModal, setShowCategoryModal] = useState(false);
   const [showCreateCategoryModal, setShowCreateCategoryModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const { categorias, startLoadingCategoria, isLoadingCategoria } =
+    useCategoriaStore();
+
+  useEffect(() => {
+    startLoadingCategoria(1);
+  }, []);
 
   const handleUpdate = (updatedData) => {
     console.log("Datos actualizados:", updatedData);
@@ -86,46 +95,50 @@ export const ListaProductos = () => {
               </tr>
             </thead>
             <tbody>
-              {categorias.map((categoria, index) => {
-                const estado = getEstadoDisponibilidad(
-                  categoria.disponibilidad
-                );
+              {isLoadingCategoria ? (
+                <SpinnerComponent />
+              ) : (
+                categorias.map((categoria, index) => {
+                  const estado = getEstadoDisponibilidad(
+                    categoria.disponibilidad
+                  );
 
-                return (
-                  <tr key={index}>
-                    <td>{categoria.nombre}</td>
-                    <td>
-                      <Badge bg={estado.color} className="text-capitalize">
-                        {estado.texto}
-                      </Badge>
-                    </td>
-                    <td className="text-end">
-                      <Stack direction="horizontal" gap={2}>
-                        <Button
-                          variant="outline-primary"
-                          size="sm"
-                          onClick={() => {
-                            setSelectedCategory(categoria);
-                            setShowCategoryModal(true);
-                          }}
-                        >
-                          <i className="bi bi-pencil"></i> Editar
-                        </Button>
-                        <Button
-                          variant="outline-danger"
-                          size="sm"
-                          onClick={() => {
-                            setSelectedCategory(categoria);
-                            setShowDeleteModal(true);
-                          }}
-                        >
-                          <i className="bi bi-trash"></i> Borrar
-                        </Button>
-                      </Stack>
-                    </td>
-                  </tr>
-                );
-              })}
+                  return (
+                    <tr key={index}>
+                      <td>{categoria.nombre}</td>
+                      <td>
+                        <Badge bg={estado.color} className="text-capitalize">
+                          {estado.texto}
+                        </Badge>
+                      </td>
+                      <td className="text-end">
+                        <Stack direction="horizontal" gap={2}>
+                          <Button
+                            variant="outline-primary"
+                            size="sm"
+                            onClick={() => {
+                              setSelectedCategory(categoria);
+                              setShowCategoryModal(true);
+                            }}
+                          >
+                            <i className="bi bi-pencil"></i> Editar
+                          </Button>
+                          <Button
+                            variant="outline-danger"
+                            size="sm"
+                            onClick={() => {
+                              setSelectedCategory(categoria);
+                              setShowDeleteModal(true);
+                            }}
+                          >
+                            <i className="bi bi-trash"></i> Borrar
+                          </Button>
+                        </Stack>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
             </tbody>
           </Table>
         </div>
@@ -230,7 +243,9 @@ export const ListaProductos = () => {
                           variant="outline-danger"
                           size="sm"
                           className="d-flex align-items-center gap-2"
-                          onClick={() => setShowDeleteModal(true)}
+                          onClick={() => {
+                            setShowDeleteModal(true);
+                          }}
                         >
                           <i className="bi bi-trash"></i>
                           <span className="d-none d-lg-inline">Borrar</span>
@@ -268,6 +283,13 @@ export const ListaProductos = () => {
         showModal={showCategoryModal}
         handleClose={() => setShowCategoryModal(false)}
         handleUpdate={handleUpdate}
+        categoriaData={selectedCategory}
+      />
+
+      <ModalEliminarCategoria
+        showModal={showDeleteModal}
+        handleClose={() => setShowDeleteModal(false)}
+        handleDelete={handleDelete}
         categoriaData={selectedCategory}
       />
 
