@@ -111,9 +111,15 @@ export const ListaTareas = () => {
                     <td>
                       <div className="d-flex align-items-center gap-2">
                         <i className="bi bi-person-workspace"></i>
-                        <span className="font-monospace">
-                          {tarea?.mecanico_id} - {tarea?.mecanico.name}
-                        </span>
+                        {tarea?.mecanico ? (
+                          <span className="font-monospace">
+                            {tarea?.mecanico_id} - {tarea?.mecanico?.name}
+                          </span>
+                        ) : (
+                          <span className="font-monospace">
+                            Recarga la pagina...
+                          </span>
+                        )}
                       </div>
                     </td>
                     <td>

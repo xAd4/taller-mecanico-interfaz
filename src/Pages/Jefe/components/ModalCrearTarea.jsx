@@ -33,6 +33,7 @@ export const ModalCrearTarea = ({ showModal, handleClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     startSavingTarea({
       orden_id,
       mecanico_id,
@@ -40,6 +41,9 @@ export const ModalCrearTarea = ({ showModal, handleClose }) => {
       notificacion_al_cliente,
     });
     Swal.fire("Ok", "Tarea creada", "success");
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
     handleClose();
   };
 
@@ -110,6 +114,9 @@ export const ModalCrearTarea = ({ showModal, handleClose }) => {
               onChange={onInputChange}
               required
             >
+              <option value="" disabled hidden>
+                Estado de trabajo
+              </option>
               <option value="pendiente">Pendiente</option>
               <option value="en_proceso">En Progreso</option>
               <option value="pendiente_de_facturacion">Por Facturar</option>

@@ -23,7 +23,7 @@ export const useOrdenStore = () => {
 
   const startLoadingOrdenes = async (page = 1) => {
     try {
-      dispatch(onStartLoading);
+      dispatch(onStartLoading());
       const { data } = await tallerMecanicoApi.get(`/ordenes?page=${page}`);
       dispatch(onLoadOrdenes([...data.data.data]));
       console.log([...data.data.data]);
