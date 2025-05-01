@@ -1,19 +1,22 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { useUsuarioStore } from "../hooks/useUsuarioStore";
 
 export const ModalActualizarUsuario = ({
   showModal,
   handleClose,
-  handleUpdate,
   usuarioData,
 }) => {
   const [formData, setFormData] = useState(
     usuarioData || {
-      nombre: "",
+      name: "",
       email: "",
+      password: "",
       rol: "",
     }
   );
+
+  const { startSavingUsuario } = useUsuarioStore();
 
   // Actualizar el estado si usuarioData cambia
   useEffect(() => {
@@ -31,7 +34,8 @@ export const ModalActualizarUsuario = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleUpdate(formData); // Llama a la función para actualizar los datos
+    const { password, ...dataToSend } = formData;
+    startSavingUsuario(dataToSend);
     handleClose(); // Cierra el modal
   };
 
@@ -48,8 +52,8 @@ export const ModalActualizarUsuario = ({
             <Form.Label>Nombre</Form.Label>
             <Form.Control
               type="text"
-              name="nombre"
-              value={formData.nombre}
+              name="name"
+              value={formData.name}
               onChange={handleInputChange}
               required
             />
@@ -72,10 +76,8 @@ export const ModalActualizarUsuario = ({
               onChange={handleInputChange}
               required
             >
-              <option value="">Seleccionar rol</option>
-              <option value="Jefe">Jefe</option>
-              <option value="Mecánico">Mecánico</option>
-              <option value="Admin">Admin</option>
+              <option value="jefe">Jefe</option>
+              <option value="mecanico">Mecánico</option>
             </Form.Select>
           </Form.Group>
         </Modal.Body>

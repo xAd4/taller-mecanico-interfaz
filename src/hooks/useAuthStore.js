@@ -50,7 +50,7 @@ export const useAuthStore = () => {
     password,
     password_confirmation,
   }) => {
-    dispatch(onChecking());
+    // dispatch(onChecking());
     try {
       const { data } = await tallerMecanicoApi.post("/registro", {
         name,
@@ -58,7 +58,6 @@ export const useAuthStore = () => {
         password,
         password_confirmation,
       });
-      console.log(data);
       dispatch(onRegister({ ...data.user }));
     } catch (error) {
       dispatch(onAuthError(error.response.data.message || "Error inesperado"));
@@ -72,13 +71,6 @@ export const useAuthStore = () => {
 
   const checkAuthToken = async () => {
     dispatch(onChecking());
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      dispatch(onAuthError("No hay token"));
-      return;
-    }
-
     try {
       const { data } = await tallerMecanicoApi.get("/usuario");
       dispatch(onLogin(data));

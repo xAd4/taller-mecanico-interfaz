@@ -1,32 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, Stack, Badge } from "react-bootstrap";
 import { ModalCrearUsuario } from "./ModalCrearUsuario";
 import { ModalEliminarUsuario } from "./ModalEliminarUsuario";
+import { useUsuarioStore } from "../hooks/useUsuarioStore";
+import { SpinnerComponent } from "../../../components/SpinnerComponent";
+import { ModalActualizarUsuario } from "./ModalActualizarUsuario";
 
 export const ListaUsuarios = () => {
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [selectedUsuario, setSelectedUsuario] = useState(null);
 
-  const handleDelete = () => {
-    console.log("Cliente eliminado");
-    setShowDeleteModal(false);
-    // Aquí iría la lógica para hacer el DELETE a la API
-  };
+  const { usuarios, isLoadingUsuarios, startLoadingUsuario } =
+    useUsuarioStore();
 
-  const usuarios = [
-    {
-      id: 1,
-      nombre: "Juan Pérez",
-      email: "juan.perez@email.com",
-      rol: "Jefe",
-    },
-    {
-      id: 2,
-      nombre: "María López",
-      email: "maria.lopez@email.com",
-      rol: "Mecánico",
-    },
-  ];
+  useEffect(() => {
+    startLoadingUsuario(1);
+  }, []);
 
   const getRolColor = (rol) => {
     switch (rol.toLowerCase()) {
@@ -91,73 +82,80 @@ export const ListaUsuarios = () => {
               </tr>
             </thead>
             <tbody>
-              {usuarios.map((usuario) => (
-                <tr key={usuario.id} className="transition-all">
-                  <td># {usuario.id}</td>
-                  <td className="ps-4">
-                    <div className="d-flex align-items-center gap-3">
-                      <div>
-                        <h6 className="mb-0 fw-semibold">{usuario.nombre}</h6>
+              {isLoadingUsuarios ? (
+                <SpinnerComponent />
+              ) : (
+                usuarios.map((usuario) => (
+                  <tr key={usuario.id} className="transition-all">
+                    <td># {usuario.id}</td>
+                    <td className="ps-4">
+                      <div className="d-flex align-items-center gap-3">
+                        <div>
+                          <h6 className="mb-0 fw-semibold">{usuario.name}</h6>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="d-flex flex-column">
-                      <a
-                        href={`mailto:${usuario.email}`}
-                        className="text-decoration-none"
+                    </td>
+                    <td>
+                      <div className="d-flex flex-column">
+                        <a
+                          href={`mailto:${usuario.email}`}
+                          className="text-decoration-none"
+                        >
+                          {usuario.email}
+                        </a>
+                      </div>
+                    </td>
+                    <td>
+                      <Badge
+                        bg={getRolColor(usuario.rol)}
+                        className="text-capitalize"
                       >
-                        {usuario.email}
-                      </a>
-                    </div>
-                  </td>
-                  <td>
-                    <Badge
-                      bg={getRolColor(usuario.rol)}
-                      className="text-capitalize"
-                    >
-                      <i
-                        className={`bi ${
-                          usuario.rol === "Jefe"
-                            ? "bi-shield-shaded"
-                            : "bi-tools"
-                        } me-2`}
-                      ></i>
-                      {usuario.rol}
-                    </Badge>
-                  </td>
+                        <i
+                          className={`bi ${
+                            usuario.rol === "Jefe"
+                              ? "bi-shield-shaded"
+                              : "bi-tools"
+                          } me-2`}
+                        ></i>
+                        {usuario.rol}
+                      </Badge>
+                    </td>
 
-                  <td className="pe-4">
-                    <Stack
-                      direction="horizontal"
-                      gap={2}
-                      className="justify-content-end"
-                    >
-                      {/* <Button
-                        variant="outline-primary"
-                        size="sm"
-                        className="d-flex align-items-center gap-2"
-                        onClick={() => {
-                          setSelectedUsuario(usuario);
-                          setShowUpdateModal(true);
-                        }}
+                    <td className="pe-4">
+                      <Stack
+                        direction="horizontal"
+                        gap={2}
+                        className="justify-content-end"
                       >
-                        <i className="bi bi-pencil"></i>
-                        <span className="d-none d-md-inline">Editar</span>
-                      </Button> */}
-                      <Button
-                        variant="outline-danger"
-                        size="sm"
-                        className="d-flex align-items-center gap-2"
-                        onClick={() => setShowDeleteModal(true)}
-                      >
-                        <i className="bi bi-trash"></i>
-                        <span className="d-none d-md-inline">Borrar</span>
-                      </Button>
-                    </Stack>
-                  </td>
-                </tr>
-              ))}
+                        <Button
+                          variant="outline-primary"
+                          size="sm"
+                          className="d-flex align-items-center gap-2"
+                          onClick={() => {
+                            setSelectedUsuario(usuario);
+                            setShowUpdateModal(true);
+                          }}
+                        >
+                          <i className="bi bi-pencil"></i>
+                          <span className="d-none d-md-inline">Editar</span>
+                        </Button>
+                        <Button
+                          variant="outline-danger"
+                          size="sm"
+                          className="d-flex align-items-center gap-2"
+                          onClick={() => {
+                            setShowDeleteModal(true);
+                            setSelectedUsuario(usuario);
+                          }}
+                        >
+                          <i className="bi bi-trash"></i>
+                          <span className="d-none d-md-inline">Borrar</span>
+                        </Button>
+                      </Stack>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -194,15 +192,14 @@ export const ListaUsuarios = () => {
       <ModalEliminarUsuario
         showModal={showDeleteModal}
         handleClose={() => setShowDeleteModal(false)}
-        handleDelete={handleDelete}
+        usuarioData={selectedUsuario}
       />
       {/* Modal de actualización */}
-      {/* <ModalActualizarUsuario
+      <ModalActualizarUsuario
         showModal={showUpdateModal}
         handleClose={() => setShowUpdateModal(false)}
-        handleUpdate={handleUpdate}
         usuarioData={selectedUsuario}
-      /> */}
+      />
     </div>
   );
 };

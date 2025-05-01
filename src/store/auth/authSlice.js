@@ -24,7 +24,7 @@ export const authSlice = createSlice({
       state.errorMessage = undefined;
     },
     onRegister: (state, { payload }) => {
-      state.status = "not-authenticated";
+      // state.status = "authenticated";
       state.user = payload;
       state.errorMessage = undefined;
     },
