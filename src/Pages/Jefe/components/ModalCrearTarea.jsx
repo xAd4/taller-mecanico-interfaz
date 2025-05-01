@@ -1,36 +1,45 @@
 import { Modal, Form, Button, InputGroup } from "react-bootstrap";
 import Select from "react-select";
-import { useState } from "react";
 import { useSelectorOrdenes } from "../hooks/useSelectorOrdenes";
 import { useSelectorMecanicos } from "../hooks/useSelectorMecanicos";
+import { useForm } from "../../../hooks/useForm";
+import { useTareaStore } from "../hooks/useTareaStore";
+import Swal from "sweetalert2";
+
+const createTareaField = {
+  orden_id: "",
+  mecanico_id: "",
+  estado_de_trabajo: "",
+  notificacion_al_cliente: "",
+};
 
 export const ModalCrearTarea = ({ showModal, handleClose }) => {
-  const [formData, setFormData] = useState({
-    orden_id: "",
-    mecanico_id: "",
-    estado_de_trabajo: "pendiente",
-    notificacion_al_cliente: "",
-  });
-
-  const { opcionesAgrupadas, handleOrdenChange, setSearchTerm } =
-    useSelectorOrdenes();
+  const { opcionesAgrupadas, setSearchTerm } = useSelectorOrdenes(showModal);
 
   const {
     opcionesAgrupadas: opcionesAgrupadasMecanico,
-    handleMecanicoChange,
     setSearchTerm: setSearchTermMecanico,
-  } = useSelectorMecanicos();
+  } = useSelectorMecanicos(showModal);
 
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const {
+    orden_id,
+    mecanico_id,
+    estado_de_trabajo,
+    notificacion_al_cliente,
+    onInputChange,
+  } = useForm(createTareaField);
+
+  const { startSavingTarea } = useTareaStore();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Datos enviados:", formData);
+    startSavingTarea({
+      orden_id,
+      mecanico_id,
+      estado_de_trabajo,
+      notificacion_al_cliente,
+    });
+    Swal.fire("Ok", "Tarea creada", "success");
     handleClose();
   };
 
@@ -58,7 +67,9 @@ export const ModalCrearTarea = ({ showModal, handleClose }) => {
               <Select
                 options={opcionesAgrupadas}
                 onChange={(selected) =>
-                  handleOrdenChange(selected, setFormData)
+                  onInputChange({
+                    target: { name: "orden_id", value: selected.value },
+                  })
                 }
                 placeholder="Seleccione una orden"
                 noOptionsMessage={() => "No se encontraron ordenes"}
@@ -75,14 +86,16 @@ export const ModalCrearTarea = ({ showModal, handleClose }) => {
                 <Form.Control
                   type="text"
                   placeholder="Buscar mecanico..."
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={(e) => setSearchTermMecanico(e.target.value)}
                 />
               </InputGroup>
 
               <Select
                 options={opcionesAgrupadasMecanico}
                 onChange={(selected) =>
-                  handleMecanicoChange(selected, setFormData)
+                  onInputChange({
+                    target: { name: "mecanico_id", value: selected.value },
+                  })
                 }
                 placeholder="Seleccione un mecanico"
                 noOptionsMessage={() => "No se encontraron mecanicos"}
@@ -93,8 +106,8 @@ export const ModalCrearTarea = ({ showModal, handleClose }) => {
             <Form.Label>Estado de Trabajo</Form.Label>
             <Form.Select
               name="estado_de_trabajo"
-              value={formData.estado_de_trabajo}
-              onChange={handleInputChange}
+              value={estado_de_trabajo}
+              onChange={onInputChange}
               required
             >
               <option value="pendiente">Pendiente</option>
@@ -108,8 +121,8 @@ export const ModalCrearTarea = ({ showModal, handleClose }) => {
             <Form.Control
               type="text"
               name="notificacion_al_cliente"
-              value={formData.notificacion_al_cliente}
-              onChange={handleInputChange}
+              value={notificacion_al_cliente}
+              onChange={onInputChange}
               required
             />
           </Form.Group>

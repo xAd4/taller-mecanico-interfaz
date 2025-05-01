@@ -1,12 +1,9 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { useTareaStore } from "../hooks/useTareaStore";
+import Swal from "sweetalert2";
 
-export const ModalActualizarTarea = ({
-  showModal,
-  handleClose,
-  handleUpdate,
-  tareaData,
-}) => {
+export const ModalActualizarTarea = ({ showModal, handleClose, tareaData }) => {
   const [formData, setFormData] = useState(
     tareaData || {
       orden_id: "",
@@ -15,6 +12,8 @@ export const ModalActualizarTarea = ({
       notificacion_al_cliente: "",
     }
   );
+
+  const { startSavingTarea } = useTareaStore();
 
   // Actualizar el estado si tareaData cambia
   useEffect(() => {
@@ -32,8 +31,9 @@ export const ModalActualizarTarea = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleUpdate(formData); // Llama a la función para actualizar los datos
-    handleClose(); // Cierra el modal
+    startSavingTarea(formData);
+    Swal.fire("Ok", "Tarea actualizada", "success");
+    handleClose();
   };
 
   if (!tareaData) return null; // No renderizar nada si tareaData es null

@@ -3,12 +3,7 @@ import { useEffect, useState } from "react";
 import { useOrdenStore } from "../hooks/useOrdenStore";
 import Swal from "sweetalert2";
 
-export const ModalActualizarOrden = ({
-  showModal,
-  handleClose,
-  handleUpdate,
-  ordenData,
-}) => {
+export const ModalActualizarOrden = ({ showModal, handleClose, ordenData }) => {
   const [formData, setFormData] = useState(
     ordenData || {
       cliente_id: "",

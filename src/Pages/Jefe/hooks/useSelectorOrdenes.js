@@ -1,8 +1,15 @@
-import { useMemo, useState } from "react";
-import { ordenes } from "../data/ordenes";
+import { useEffect, useMemo, useState } from "react";
+import { useOrdenStore } from "./useOrdenStore";
 
-export const useSelectorOrdenes = () => {
+export const useSelectorOrdenes = (showModal) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const { ordenes, startLoadingOrdenes } = useOrdenStore();
+
+  useEffect(() => {
+    if (showModal && ordenes.length === 0) {
+      startLoadingOrdenes();
+    }
+  }, [showModal]);
 
   const opcionesAgrupadas = useMemo(() => {
     const grupos = {};
@@ -26,7 +33,7 @@ export const useSelectorOrdenes = () => {
     });
 
     return Object.values(grupos);
-  }, [searchTerm]);
+  }, [ordenes, searchTerm]);
 
   // Recibimos setFormData como argumento
   const handleOrdenChange = (selectedOption, setFormData) => {

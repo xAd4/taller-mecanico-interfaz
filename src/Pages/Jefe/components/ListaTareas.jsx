@@ -12,7 +12,7 @@ export const ListaTareas = () => {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedTarea, setSelectedTarea] = useState(null);
 
-  const { tareas, startLoadingTareas } = useTareaStore();
+  const { tareas, startLoadingTareas, isLoadingTareas } = useTareaStore();
 
   const navigate = useNavigate();
 
@@ -30,6 +30,14 @@ export const ListaTareas = () => {
   useEffect(() => {
     startLoadingTareas(1);
   }, []);
+
+  if (isLoadingTareas) {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <Spinner animation="border" />
+      </div>
+    );
+  }
 
   const getEstadoColor = (estado) => {
     switch (estado) {
@@ -95,80 +103,93 @@ export const ListaTareas = () => {
               </tr>
             </thead>
             <tbody>
-              {tareas.map((tarea) => (
-                <tr key={tarea.id} className="transition-all">
-                  <td className="ps-4 fw-semibold"># {tarea.id}</td>
-                  <td className="ps-4 fw-semibold"># {tarea.orden_id}</td>
-                  <td>
-                    <div className="d-flex align-items-center gap-2">
-                      <i className="bi bi-person-workspace"></i>
-                      <span className="font-monospace">
-                        {tarea.mecanico_id} - {tarea.mecanico.name}
-                      </span>
+              {isLoadingTareas ? (
+                <tr>
+                  <td colSpan="6" className="text-center">
+                    <div className="d-flex justify-content-center align-items-center">
+                      <Spinner animation="border" />
                     </div>
-                  </td>
-                  <td>
-                    <Badge bg={getEstadoColor(tarea.estado_de_trabajo)}>
-                      {tarea.estado_de_trabajo}
-                    </Badge>
-                  </td>
-                  <td>
-                    <div className="d-flex flex-column gap-2">
-                      <div>
-                        <span
-                          className="d-inline-block text-truncate"
-                          style={{ maxWidth: "250px" }}
-                        >
-                          <i className="bi bi-calendar-check me-2"></i>
-                          {tarea.notificacion_al_cliente}
-                        </span>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="pe-4">
-                    <Stack
-                      direction="horizontal"
-                      gap={2}
-                      className="justify-content-end"
-                    >
-                      <Button
-                        variant="outline-primary"
-                        size="sm"
-                        className="d-flex align-items-center gap-2"
-                        onClick={() => {
-                          setSelectedTarea(tarea);
-                          setShowUpdateModal(true);
-                        }}
-                      >
-                        <i className="bi bi-pencil"></i>
-                        <span className="d-none d-md-inline">Editar</span>
-                      </Button>
-                      <Button
-                        variant="outline-danger"
-                        size="sm"
-                        className="d-flex align-items-center gap-2"
-                        onClick={() => setShowDeleteModal(true)}
-                      >
-                        <i className="bi bi-trash"></i>
-                        <span className="d-none d-md-inline">Eliminar</span>
-                      </Button>
-                      <Button
-                        variant="outline-success"
-                        size="sm"
-                        className="d-flex align-items-center gap-2"
-                        onClick={() =>
-                          navigate(`/jefe/tarea/${tarea.id}`, {
-                            state: { tarea },
-                          })
-                        }
-                      >
-                        <i className="bi bi-eye"></i>
-                        <span className="d-none d-lg-inline">Detalles</span>
-                      </Button>
-                    </Stack>
                   </td>
                 </tr>
-              ))}
+              ) : (
+                tareas.map((tarea) => (
+                  <tr key={tarea.id} className="transition-all">
+                    <td className="ps-4 fw-semibold"># {tarea?.id}</td>
+                    <td className="ps-4 fw-semibold"># {tarea?.orden_id}</td>
+                    <td>
+                      <div className="d-flex align-items-center gap-2">
+                        <i className="bi bi-person-workspace"></i>
+                        <span className="font-monospace">
+                          {tarea?.mecanico_id} - {tarea?.mecanico.name}
+                        </span>
+                      </div>
+                    </td>
+                    <td>
+                      <Badge bg={getEstadoColor(tarea?.estado_de_trabajo)}>
+                        {tarea?.estado_de_trabajo}
+                      </Badge>
+                    </td>
+                    <td>
+                      <div className="d-flex flex-column gap-2">
+                        <div>
+                          <span
+                            className="d-inline-block text-truncate"
+                            style={{ maxWidth: "250px" }}
+                          >
+                            <i className="bi bi-calendar-check me-2"></i>
+                            {tarea?.notificacion_al_cliente}
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="pe-4">
+                      <Stack
+                        direction="horizontal"
+                        gap={2}
+                        className="justify-content-end"
+                      >
+                        <Button
+                          variant="outline-primary"
+                          size="sm"
+                          className="d-flex align-items-center gap-2"
+                          onClick={() => {
+                            setSelectedTarea(tarea);
+                            setShowUpdateModal(true);
+                          }}
+                        >
+                          <i className="bi bi-pencil"></i>
+                          <span className="d-none d-md-inline">Editar</span>
+                        </Button>
+                        <Button
+                          variant="outline-danger"
+                          size="sm"
+                          className="d-flex align-items-center gap-2"
+                          onClick={() => {
+                            setSelectedTarea(tarea);
+                            setShowDeleteModal(true);
+                          }}
+                        >
+                          <i className="bi bi-trash"></i>
+                          <span className="d-none d-md-inline">Eliminar</span>
+                        </Button>
+                        <Button
+                          variant="outline-success"
+                          size="sm"
+                          className="d-flex align-items-center gap-2"
+                          onClick={() =>
+                            navigate(`/jefe/tarea/${tarea.id}`, {
+                              state: { tarea },
+                            })
+                          }
+                        >
+                          <i className="bi bi-eye"></i>
+                          <span className="d-none d-lg-inline">Detalles</span>
+                        </Button>
+                      </Stack>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
@@ -184,6 +205,7 @@ export const ListaTareas = () => {
         showModal={showDeleteModal}
         handleClose={() => setShowDeleteModal(false)}
         handleDelete={handleDelete}
+        tareaData={selectedTarea}
       />
       {/* Modal de actualización */}
       <ModalActualizarTarea

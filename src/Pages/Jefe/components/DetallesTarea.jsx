@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Layout } from "./common/Layout";
 import { Button, Badge, Stack } from "react-bootstrap";
 import { format } from "date-fns";
@@ -7,7 +7,6 @@ import { es } from "date-fns/locale";
 
 export const DetallesTarea = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
   const { state } = useLocation();
   const tarea = state?.tarea;
 
@@ -104,12 +103,14 @@ export const DetallesTarea = () => {
 
         {/* Encabezado */}
         <div className="d-flex justify-content-between align-items-center mb-4">
-          <h1 className="h2 mb-0">Tarea #{tarea.id}</h1>
+          <h1 className="h2 mb-0">Tarea #{tarea?.id}</h1>
           <Badge
-            bg={tarea.estado_de_trabajo === "pendiente" ? "warning" : "success"}
+            bg={
+              tarea?.estado_de_trabajo === "pendiente" ? "warning" : "success"
+            }
             className="text-capitalize fs-6"
           >
-            {tarea.estado_de_trabajo}
+            {tarea?.estado_de_trabajo}
           </Badge>
         </div>
 
@@ -129,21 +130,22 @@ export const DetallesTarea = () => {
                 <dl className="row mb-4">
                   <dt className="col-sm-4">Mecánico</dt>
                   <dd className="col-sm-8">
-                    ID: <code>{tarea.mecanico.id}</code> - {tarea.mecanico.name}
+                    ID: <code>{tarea?.mecanico.id}</code> -{" "}
+                    {tarea?.mecanico.name}
                   </dd>
 
                   <dt className="col-sm-4">Email</dt>
                   <dd className="col-sm-8">
-                    <a href={`mailto:${tarea.mecanico.email}`}>
-                      {tarea.mecanico.email}
+                    <a href={`mailto:${tarea?.mecanico.email}`}>
+                      {tarea?.mecanico.email}
                     </a>
                   </dd>
 
                   <dt className="col-sm-4">Creación de tarea</dt>
-                  <dd className="col-sm-8">{formatDate(tarea.created_at)}</dd>
+                  <dd className="col-sm-8">{formatDate(tarea?.created_at)}</dd>
 
                   <dt className="col-sm-4">Actualización de tarea</dt>
-                  <dd className="col-sm-8">{formatDate(tarea.updated_at)}</dd>
+                  <dd className="col-sm-8">{formatDate(tarea?.updated_at)}</dd>
                 </dl>
 
                 <div>
@@ -151,7 +153,7 @@ export const DetallesTarea = () => {
                     Notificación al Cliente
                   </h4>
                   <div className="bg-light p-3 rounded">
-                    {tarea.notificacion_al_cliente || "Sin notificación"}
+                    {tarea?.notificacion_al_cliente || "Sin notificación"}
                   </div>
                 </div>
               </div>
@@ -189,22 +191,22 @@ export const DetallesTarea = () => {
 
             {/* Secciones Técnicas */}
             {renderTechnicalSection(
-              tarea.tren_delantero,
+              tarea?.tren_delantero,
               "Tren Delantero",
               "delantero"
             )}
             {renderTechnicalSection(
-              tarea.tren_trasero,
+              tarea?.tren_trasero,
               "Tren Trasero",
               "trasero"
             )}
             {renderTechnicalSection(
-              tarea.frenos,
+              tarea?.frenos,
               "Sistema de Frenos",
               "frenos"
             )}
             {renderTechnicalSection(
-              tarea.estado_neumaticos,
+              tarea?.estado_neumaticos,
               "Estado de Neumáticos",
               "neumaticos"
             )}
@@ -219,19 +221,19 @@ export const DetallesTarea = () => {
                   </h3>
                 </div>
                 <div className="card-body">
-                  {tarea.productos_usados?.length > 0 ? (
+                  {tarea?.productos_usados?.length > 0 ? (
                     <>
                       <ul className="list-group mb-3">
                         {tarea.productos_usados.map((producto) => (
                           <li key={producto.id} className="list-group-item">
-                            {producto.producto.nombre} - Cantidad:{" "}
-                            {producto.cantidad} - Total: ${producto.total}
+                            {producto?.producto.nombre} - Cantidad:{" "}
+                            {producto?.cantidad} - Total: ${producto.total}
                           </li>
                         ))}
                       </ul>
                       <div className="alert alert-secondary text-end">
                         <strong>Total acumulado:</strong> $
-                        {tarea.productos_usados
+                        {tarea?.productos_usados
                           .reduce((acc, producto) => acc + producto.total, 0)
                           .toFixed(2)}
                       </div>
@@ -252,97 +254,97 @@ export const DetallesTarea = () => {
             <div className="card shadow-sm mb-4">
               <div className="card-header bg-primary text-white">
                 <h3 className="h5 mb-0">
-                  <i className="bi bi-file-text me-2"></i># {tarea.orden.id} -
+                  <i className="bi bi-file-text me-2"></i># {tarea?.orden.id} -
                   Orden Asociada
                 </h3>
               </div>
               <div className="card-body">
                 <dl className="row mb-0">
                   <dt className="col-sm-4">Nombre del cliente</dt>
-                  <dd className="col-sm-8">{tarea.orden.cliente.nombre}</dd>
+                  <dd className="col-sm-8">{tarea?.orden.cliente.nombre}</dd>
 
                   <dt className="col-sm-4">Email del cliente</dt>
-                  <dd className="col-sm-8">{tarea.orden.cliente.email}</dd>
+                  <dd className="col-sm-8">{tarea?.orden.cliente.email}</dd>
 
                   <dt className="col-sm-4">RUT del cliente</dt>
-                  <dd className="col-sm-8">{tarea.orden.cliente.rut}</dd>
+                  <dd className="col-sm-8">{tarea?.orden.cliente.rut}</dd>
 
                   <dt className="col-sm-4">Telefono del cliente</dt>
-                  <dd className="col-sm-8">{tarea.orden.cliente.telefono}</dd>
+                  <dd className="col-sm-8">{tarea?.orden.cliente.telefono}</dd>
 
                   <dt className="col-sm-4">Domicilio del cliente</dt>
-                  <dd className="col-sm-8">{tarea.orden.cliente.domicilio}</dd>
+                  <dd className="col-sm-8">{tarea?.orden.cliente.domicilio}</dd>
 
                   <hr />
 
                   <dt className="col-sm-4">Vehículo</dt>
                   <dd className="col-sm-8">
-                    {tarea.orden.vehiculo.marca} {tarea.orden.vehiculo.modelo}
+                    {tarea?.orden.vehiculo.marca} {tarea?.orden.vehiculo.modelo}
                   </dd>
 
                   <dt className="col-sm-4">Matrícula del vehiculo</dt>
                   <dd className="col-sm-8">
-                    {tarea.orden.vehiculo.matricula || "N/A"}
+                    {tarea?.orden.vehiculo.matricula || "N/A"}
                   </dd>
 
                   <dt className="col-sm-4">Color del vehiculo</dt>
                   <dd className="col-sm-8">
-                    {tarea.orden.vehiculo.color || "N/A"}
+                    {tarea?.orden.vehiculo.color || "N/A"}
                   </dd>
 
                   <dt className="col-sm-4">Kilometraje del vehiculo</dt>
                   <dd className="col-sm-8">
-                    {tarea.orden.vehiculo.kilometraje || "N/A"}
+                    {tarea?.orden.vehiculo.kilometraje || "N/A"}
                   </dd>
 
                   <dt className="col-sm-4">N° Serie del vehiculo</dt>
                   <dd className="col-sm-8">
-                    {tarea.orden.vehiculo.numero_de_serie || "N/A"}
+                    {tarea?.orden.vehiculo.numero_de_serie || "N/A"}
                   </dd>
 
                   <dt className="col-sm-4">N° Motor del vehiculo</dt>
                   <dd className="col-sm-8">
-                    {tarea.orden.vehiculo.numero_de_motor || "N/A"}
+                    {tarea?.orden.vehiculo.numero_de_motor || "N/A"}
                   </dd>
 
                   <dt className="col-sm-4">Fecha de compra del vehiculo</dt>
                   <dd className="col-sm-8">
-                    {tarea.orden.vehiculo.fecha_de_compra
-                      ? formatDate(tarea.orden.vehiculo.fecha_de_compra)
+                    {tarea?.orden.vehiculo.fecha_de_compra
+                      ? formatDate(tarea?.orden.vehiculo.fecha_de_compra)
                       : "N/A"}
                   </dd>
 
                   <dt className="col-sm-4 mt-2 mb-2">Prometido</dt>
                   <dd className="col-sm-8">
-                    {formatDate(tarea.orden.prometido)}
+                    {formatDate(tarea?.orden.prometido)}
                   </dd>
                   <dt className="col-sm-4 mt-2 mb-2">Recepción</dt>
                   <dd className="col-sm-8">
-                    {formatDate(tarea.orden.recepcion)}
+                    {formatDate(tarea?.orden.recepcion)}
                   </dd>
                   <hr />
                   <dt className="col-sm-4 mt-2">
                     Detalles de entrada del vehiculo
                   </dt>
                   <dd className="col-sm-8">
-                    {tarea.orden.detalles_de_entrada_del_vehiculo || "N/A"}
+                    {tarea?.orden.detalles_de_entrada_del_vehiculo || "N/A"}
                   </dd>
 
                   <dt className="col-sm-4 mt-2">
                     Detalles de trabajos a realizar
                   </dt>
                   <dd className="col-sm-8">
-                    {tarea.orden.detalle_de_trabajos_a_realizar || "N/A"}
+                    {tarea?.orden.detalle_de_trabajos_a_realizar || "N/A"}
                   </dd>
                   <div className="d-flex flex-column gap-2">
                     <small
                       className={
-                        tarea.orden.cambio_de_aceite
+                        tarea?.orden.cambio_de_aceite
                           ? "text-success"
                           : "text-danger"
                       }
                     >
-                      {tarea.orden.cambio_de_aceite ? (
+                      {tarea?.orden.cambio_de_aceite ? (
                         <i className="bi bi-check-circle-fill">
                           Cambio de Aceite
                         </i>
@@ -352,12 +354,12 @@ export const DetallesTarea = () => {
                     </small>
                     <small
                       className={
-                        tarea.orden.cambio_de_filtro
+                        tarea?.orden.cambio_de_filtro
                           ? "text-success"
                           : "text-danger"
                       }
                     >
-                      {tarea.orden.cambio_de_filtro ? (
+                      {tarea?.orden.cambio_de_filtro ? (
                         <i className="bi bi-check-circle-fill">
                           Cambio de Filtro
                         </i>

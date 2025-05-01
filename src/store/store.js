@@ -4,6 +4,7 @@ import { clienteSlice } from "./jefe/clientes/clienteSlice";
 import { vehiculoSlice } from "./jefe/vehiculos/vehiculoSlice";
 import { ordenSlice } from "./jefe/ordenes/ordenSlice";
 import { tareaSlice } from "./jefe/tareas/tareaSlice";
+import { mecanicoSlice } from "./jefe/usuarios/mecanicoSlice";
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     vehiculo: vehiculoSlice.reducer,
     orden: ordenSlice.reducer,
     tarea: tareaSlice.reducer,
+    mecanico: mecanicoSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

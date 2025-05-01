@@ -1,10 +1,19 @@
 import { Modal, Button } from "react-bootstrap";
+import { useTareaStore } from "../hooks/useTareaStore";
+import Swal from "sweetalert2";
 
-export const ModalEliminarTarea = ({
-  showModal,
-  handleClose,
-  handleDelete,
-}) => {
+export const ModalEliminarTarea = ({ showModal, handleClose, tareaData }) => {
+  const { startDeletingTarea } = useTareaStore();
+
+  const handleDeleteTarea = () => {
+    startDeletingTarea(tareaData);
+    Swal.fire("Ok", "Tarea eliminada.", "success");
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
+    handleClose();
+  };
+
   return (
     <Modal show={showModal} onHide={handleClose} centered backdrop="static">
       <Modal.Header closeButton>
@@ -20,7 +29,7 @@ export const ModalEliminarTarea = ({
         <Button variant="secondary" onClick={handleClose}>
           Cancelar
         </Button>
-        <Button variant="danger" onClick={handleDelete}>
+        <Button variant="danger" onClick={handleDeleteTarea}>
           Eliminar
         </Button>
       </Modal.Footer>

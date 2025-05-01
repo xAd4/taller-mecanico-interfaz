@@ -1,8 +1,13 @@
-import { useMemo, useState } from "react";
-import { mecanicos } from "../data/mecanicos";
+import { useEffect, useMemo, useState } from "react";
+import { useMecanicoStore } from "./useMecanicoStore";
 
-export const useSelectorMecanicos = () => {
+export const useSelectorMecanicos = (showModal) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const { mecanicos, startLoadingMecanico } = useMecanicoStore();
+
+  useEffect(() => {
+    startLoadingMecanico();
+  }, [showModal]);
 
   const opcionesAgrupadas = useMemo(() => {
     const grupos = {};
@@ -26,19 +31,10 @@ export const useSelectorMecanicos = () => {
     });
 
     return Object.values(grupos);
-  }, [searchTerm]);
-
-  // Recibimos setFormData como argumento
-  const handleMecanicoChange = (selectedOption, setFormData) => {
-    setFormData((prev) => ({
-      ...prev,
-      mecanico_id: selectedOption ? selectedOption.value : "",
-    }));
-  };
+  }, [mecanicos, searchTerm]);
 
   return {
     opcionesAgrupadas,
-    handleMecanicoChange,
     searchTerm,
     setSearchTerm,
   };
