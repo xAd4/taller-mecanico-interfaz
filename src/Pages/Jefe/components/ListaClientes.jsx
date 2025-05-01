@@ -4,6 +4,7 @@ import { ModalCrearCliente } from "./ModalCrearCliente";
 import { ModalEliminarCliente } from "./ModalEliminarCliente";
 import { ModalActualizarCliente } from "./ModalActualizarCliente";
 import { useClienteStore } from "../hooks/useClienteStore";
+import { SpinnerComponent } from "../../../components/SpinnerComponent";
 
 export const ListaClientes = () => {
   const [showModal, setShowModal] = useState(false);
@@ -78,13 +79,7 @@ export const ListaClientes = () => {
             </thead>
             <tbody>
               {isLoadingClientes ? (
-                <tr>
-                  <td colSpan="6" className="text-center">
-                    <div className="d-flex justify-content-center align-items-center">
-                      <Spinner animation="border" />
-                    </div>
-                  </td>
-                </tr>
+                <SpinnerComponent />
               ) : (
                 clientes.map((cliente) => (
                   <tr key={cliente.id} className="transition-all">

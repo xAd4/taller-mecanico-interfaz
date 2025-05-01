@@ -4,6 +4,7 @@ import { ModalCrearVehiculo } from "./ModalCrearVehiculo";
 import { ModalEliminarVehiculo } from "./ModalEliminarVehiculo";
 import { ModalActualizarVehiculo } from "./ModalActualizarVehiculo";
 import { useVehiculoStore } from "../hooks/useVehiculoStore";
+import { SpinnerComponent } from "../../../components/SpinnerComponent";
 
 export const ListaVehiculos = () => {
   const [showModal, setShowModal] = useState(false);
@@ -85,13 +86,7 @@ export const ListaVehiculos = () => {
             </thead>
             <tbody>
               {isLoadingVehiculos ? (
-                <tr>
-                  <td colSpan="12" className="text-center">
-                    <div className="d-flex justify-content-center align-items-center">
-                      <Spinner animation="border" />
-                    </div>
-                  </td>
-                </tr>
+                <SpinnerComponent colSpan={12} />
               ) : (
                 vehiculos.map((vehiculo) => (
                   <tr key={vehiculo.id} className="transition-all">

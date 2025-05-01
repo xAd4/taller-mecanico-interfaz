@@ -2,18 +2,10 @@ import { useState } from "react";
 import { Button, Form, Stack, Badge } from "react-bootstrap";
 import { ModalCrearUsuario } from "./ModalCrearUsuario";
 import { ModalEliminarUsuario } from "./ModalEliminarUsuario";
-import { ModalActualizarUsuario } from "./ModalActualizarUsuario";
 
 export const ListaUsuarios = () => {
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const [selectedUsuario, setSelectedUsuario] = useState(null);
-
-  const handleUpdate = (updatedData) => {
-    console.log("Datos actualizados:", updatedData);
-    // Aquí iría la lógica para hacer el PUT o PATCH a la API
-  };
 
   const handleDelete = () => {
     console.log("Cliente eliminado");
@@ -63,7 +55,7 @@ export const ListaUsuarios = () => {
           className="d-flex align-items-center gap-2"
         >
           <i className="bi bi-person-add"></i>
-          Nuevo Usuario
+          Registrar nuevo usuario
         </Button>
       </div>
 

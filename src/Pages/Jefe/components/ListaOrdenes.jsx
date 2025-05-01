@@ -5,6 +5,7 @@ import { ModalEliminarOrden } from "./ModalEliminarOrden";
 import { ModalActualizarOrden } from "./ModalActualizarOrden";
 import { useNavigate } from "react-router-dom";
 import { useOrdenStore } from "../hooks/useOrdenStore";
+import { SpinnerComponent } from "../../../components/SpinnerComponent";
 
 export const ListaOrdenes = () => {
   const [showModal, setShowModal] = useState(false);
@@ -85,13 +86,7 @@ export const ListaOrdenes = () => {
             </thead>
             <tbody>
               {isLoadingOrdenes ? (
-                <tr>
-                  <td colSpan="12" className="text-center">
-                    <div className="d-flex justify-content-center align-items-center">
-                      <Spinner animation="border" />
-                    </div>
-                  </td>
-                </tr>
+                <SpinnerComponent colSpan={12} />
               ) : (
                 ordenes.map((orden) => (
                   <tr key={orden.id} className="transition-all">

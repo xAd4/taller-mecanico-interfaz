@@ -5,6 +5,7 @@ import { ModalEliminarTarea } from "./ModalEliminarTarea";
 import { ModalActualizarTarea } from "./ModalActualizarTarea";
 import { useNavigate } from "react-router-dom";
 import { useTareaStore } from "../hooks/useTareaStore";
+import { SpinnerComponent } from "../../../components/SpinnerComponent";
 
 export const ListaTareas = () => {
   const [showModal, setShowModal] = useState(false);
@@ -96,13 +97,7 @@ export const ListaTareas = () => {
             </thead>
             <tbody>
               {isLoadingTareas ? (
-                <tr>
-                  <td colSpan="6" className="text-center">
-                    <div className="d-flex justify-content-center align-items-center">
-                      <Spinner animation="border" />
-                    </div>
-                  </td>
-                </tr>
+                <SpinnerComponent />
               ) : (
                 tareas.map((tarea) => (
                   <tr key={tarea.id} className="transition-all">
