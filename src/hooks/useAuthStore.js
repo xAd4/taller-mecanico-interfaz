@@ -90,9 +90,14 @@ export const useAuthStore = () => {
 
   //* Logout
 
-  const startLogout = () => {
-    localStorage.clear();
-    dispatch(onLogout());
+  const startLogout = async () => {
+    try {
+      await tallerMecanicoApi.post("/cerrar-sesion");
+      localStorage.clear();
+      dispatch(onLogout());
+    } catch (error) {
+      dispatch(onAuthError("Error", error));
+    }
   };
 
   return {
