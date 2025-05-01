@@ -26,7 +26,6 @@ export const useCategoriaStore = () => {
     try {
       dispatch(onStartLoading());
       const { data } = await tallerMecanicoApi.get(`/categorias?page=${page}`);
-      console.log({ data });
       dispatch(onLoadCategorias([...data.data.data]));
     } catch (error) {
       console.log("Error al cargar", error);

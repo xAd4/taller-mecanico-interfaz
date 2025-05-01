@@ -1,5 +1,6 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { useProductoStore } from "../hooks/useProductoStore";
 
 export const ModalActualizarProducto = ({
   showModal,
@@ -9,7 +10,6 @@ export const ModalActualizarProducto = ({
 }) => {
   const [formData, setFormData] = useState(
     productoData || {
-      id: "",
       categoria_id: "",
       nombre: "",
       detalles: "",
@@ -19,6 +19,8 @@ export const ModalActualizarProducto = ({
       disponibilidad: "",
     }
   );
+
+  const { startSavingProducto } = useProductoStore();
 
   // Actualizar el estado si productoData cambia
   useEffect(() => {
@@ -46,7 +48,7 @@ export const ModalActualizarProducto = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleUpdate(formData); // Llama a la función para actualizar los datos
+    startSavingProducto(formData);
     handleClose(); // Cierra el modal
   };
 
@@ -59,20 +61,16 @@ export const ModalActualizarProducto = ({
       </Modal.Header>
       <Form onSubmit={handleSubmit}>
         <Modal.Body>
-          {/* <Form.Group className="mb-3">
-            <Form.Label>Categoria</Form.Label>
-            <Form.Select
-              name="categoria_id"
+          <Form.Group className="mb-3">
+            <Form.Label>Categoria ID</Form.Label>
+            <Form.Control
+              type="number"
+              name="categoria"
               value={formData.categoria_id}
               onChange={handleInputChange}
-            >
-              {categorias.map((categoria) => (
-                <option key={categoria.id} value={categoria.nombre}>
-                  {categoria.nombre}
-                </option>
-              ))}
-            </Form.Select>
-          </Form.Group> */}
+              required
+            />
+          </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Nombre</Form.Label>
             <Form.Control
@@ -125,12 +123,11 @@ export const ModalActualizarProducto = ({
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Check
-              type="check"
+              type="checkbox"
               name="disponibilidad"
-              label="Disponibilidad"
-              value={formData.disponibilidad}
+              label="Disponible"
+              checked={formData.disponibilidad}
               onChange={handleInputChangeCheckbox}
-              required
             />
           </Form.Group>
         </Modal.Body>

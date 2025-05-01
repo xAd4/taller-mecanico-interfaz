@@ -1,45 +1,54 @@
-import { useState } from "react";
 import { Form, Modal, Button, InputGroup } from "react-bootstrap";
 import Select from "react-select";
 import { useSelectorCategorias } from "../hooks/useSelectorCategorias";
+import { useForm } from "../../../hooks/useForm";
+import { useProductoStore } from "../hooks/useProductoStore";
+
+const createProductoField = {
+  categoria_id: "",
+  nombre: "",
+  detalles: "",
+  marca: "",
+  stock: "",
+  precio: "",
+  disponibilidad: "",
+};
 
 export const ModalCrearProducto = ({ showModal, handleClose }) => {
-  const [formData, setFormData] = useState({
-    categoria: "",
-    nombre: "",
-    detalles: "",
-    marca: "",
-    stock: "",
-    precio: "",
-    disponibilidad: "",
-  });
+  const {
+    categoria_id,
+    nombre,
+    detalles,
+    marca,
+    stock,
+    precio,
+    disponibilidad,
+    onInputChange,
+  } = useForm(createProductoField);
 
-  const { opcionesAgrupadas, handleCategoriaChange, setSearchTerm } =
-    useSelectorCategorias();
+  const { opcionesAgrupadas, setSearchTerm } = useSelectorCategorias(showModal);
+
+  const { startSavingProducto } = useProductoStore();
 
   const handleInputChangeCheckbox = (e) => {
-    const { name, type, checked } = e.target;
-    // Para checkboxes usamos 'checked', de lo contrario 'value'
-    const value = type === "checkbox" ? checked : e.target.value;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  // Manejar cambios en el formulario
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, checked } = e.target;
+    onInputChange({ target: { name, value: checked } });
   };
 
   // Manejar envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Datos enviados:", formData);
+    startSavingProducto({
+      categoria_id,
+      nombre,
+      detalles,
+      marca,
+      stock,
+      precio,
+      disponibilidad,
+    });
+
     handleClose();
   };
 
@@ -69,7 +78,9 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
                 <Select
                   options={opcionesAgrupadas}
                   onChange={(selected) =>
-                    handleCategoriaChange(selected, setFormData)
+                    onInputChange({
+                      target: { name: "categoria_id", value: selected.value },
+                    })
                   }
                   placeholder="Seleccione una categoria"
                   noOptionsMessage={() => "No se encontraron categorias"}
@@ -82,8 +93,8 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
                 type="text"
                 name="nombre"
                 placeholder="Nombre del producto"
-                value={formData.nombre}
-                onChange={handleInputChange}
+                value={nombre}
+                onChange={onInputChange}
                 required
               />
             </Form.Group>
@@ -92,8 +103,8 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
               <Form.Control
                 type="text"
                 name="detalles"
-                value={formData.detalles}
-                onChange={handleInputChange}
+                value={detalles}
+                onChange={onInputChange}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -101,8 +112,8 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
               <Form.Control
                 type="text"
                 name="marca"
-                value={formData.marca}
-                onChange={handleInputChange}
+                value={marca}
+                onChange={onInputChange}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -110,8 +121,8 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
               <Form.Control
                 type="number"
                 name="stock"
-                value={formData.stock}
-                onChange={handleInputChange}
+                value={stock}
+                onChange={onInputChange}
                 required
               />
             </Form.Group>
@@ -120,8 +131,8 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
               <Form.Control
                 type="number"
                 name="precio"
-                value={formData.precio}
-                onChange={handleInputChange}
+                value={precio}
+                onChange={onInputChange}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -129,7 +140,7 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
                 type="checkbox"
                 name="disponibilidad"
                 label="Estado"
-                value={formData.disponibilidad}
+                value={disponibilidad}
                 onChange={handleInputChangeCheckbox}
               />
             </Form.Group>

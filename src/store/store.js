@@ -6,6 +6,7 @@ import { ordenSlice } from "./jefe/ordenes/ordenSlice";
 import { tareaSlice } from "./jefe/tareas/tareaSlice";
 import { mecanicoSlice } from "./jefe/usuarios/mecanicoSlice";
 import { categoriaSlice } from "./jefe/inventario/categoriaSlice";
+import { productoSlice } from "./jefe/inventario/productoSlice";
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
     tarea: tareaSlice.reducer,
     mecanico: mecanicoSlice.reducer,
     categoria: categoriaSlice.reducer,
+    producto: productoSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

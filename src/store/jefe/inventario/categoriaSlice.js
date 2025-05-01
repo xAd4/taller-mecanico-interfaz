@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const categoriaSlice = createSlice({
-  name: "categorias",
+  name: "categoria",
   initialState: {
     isLoadingCategoria: false,
     categorias: [],

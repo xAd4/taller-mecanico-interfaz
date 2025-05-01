@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { Button, Form, Stack, Badge, Table } from "react-bootstrap";
+import { Button, Stack, Badge, Table } from "react-bootstrap";
 import { ModalCrearProducto } from "./ModalCrearProducto";
 import { ModalEliminarProducto } from "./ModalEliminarProducto";
 import { ModalActualizarProducto } from "./ModalActualizarProducto";
 import { ModalActualizarCategoria } from "./ModalActualizarCategoria";
 import { ModalCrearCategoria } from "./ModalCrearCategoria";
-import { productos } from "../data/productos";
 import { useCategoriaStore } from "../hooks/useCategoriaStore";
 import { SpinnerComponent } from "../../../components/SpinnerComponent";
 import { ModalEliminarCategoria } from "./ModalEliminarCategoria";
+import { useProductoStore } from "../hooks/useProductoStore";
 
 export const ListaProductos = () => {
   const [showModal, setShowModal] = useState(false);
@@ -18,13 +18,21 @@ export const ListaProductos = () => {
 
   const [showCategoryModal, setShowCategoryModal] = useState(false);
   const [showCreateCategoryModal, setShowCreateCategoryModal] = useState(false);
+  const [showDeleteCategoryModal, setShowDeleteCategoryModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const { categorias, startLoadingCategoria, isLoadingCategoria } =
     useCategoriaStore();
 
+  const { productos, startLoadingProducto, isLoadingProducto } =
+    useProductoStore();
+
   useEffect(() => {
     startLoadingCategoria(1);
+  }, []);
+
+  useEffect(() => {
+    startLoadingProducto(1);
   }, []);
 
   const handleUpdate = (updatedData) => {
@@ -100,12 +108,12 @@ export const ListaProductos = () => {
               ) : (
                 categorias.map((categoria, index) => {
                   const estado = getEstadoDisponibilidad(
-                    categoria.disponibilidad
+                    categoria?.disponibilidad
                   );
 
                   return (
                     <tr key={index}>
-                      <td>{categoria.nombre}</td>
+                      <td>{categoria?.nombre}</td>
                       <td>
                         <Badge bg={estado.color} className="text-capitalize">
                           {estado.texto}
@@ -128,7 +136,7 @@ export const ListaProductos = () => {
                             size="sm"
                             onClick={() => {
                               setSelectedCategory(categoria);
-                              setShowDeleteModal(true);
+                              setShowDeleteCategoryModal(true);
                             }}
                           >
                             <i className="bi bi-trash"></i> Borrar
@@ -168,93 +176,102 @@ export const ListaProductos = () => {
               </tr>
             </thead>
             <tbody>
-              {productos.map((producto) => {
-                const estado = getEstadoDisponibilidad(producto.stock > 0);
+              {isLoadingProducto ? (
+                <SpinnerComponent />
+              ) : (
+                productos.map((producto) => {
+                  const estado = getEstadoDisponibilidad(
+                    producto?.disponibilidad
+                  );
 
-                return (
-                  <tr key={producto.id} className="transition-all">
-                    <td className="ps-4">
-                      <div className="d-flex align-items-center gap-3">
-                        <i
-                          className={`bi ${
-                            producto.categoria === "Lubricantes"
-                              ? "bi-droplet"
-                              : "bi-filter"
-                          } fs-4 text-muted`}
-                        ></i>
-                        <span className="fw-semibold">
-                          {producto.categoria.nombre}
-                        </span>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="max-width-300">
-                        <h6 className="mb-1 fw-semibold">{producto.nombre}</h6>
+                  return (
+                    <tr key={producto?.id} className="transition-all">
+                      <td className="ps-4">
+                        <div className="d-flex align-items-center gap-3">
+                          <i
+                            className={`bi ${
+                              producto?.categoria === "Lubricantes"
+                                ? "bi-droplet"
+                                : "bi-filter"
+                            } fs-4 text-muted`}
+                          ></i>
+                          <span className="fw-semibold">
+                            {producto?.categoria?.nombre}
+                          </span>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="max-width-300">
+                          <h6 className="mb-1 fw-semibold">
+                            {producto?.nombre}
+                          </h6>
 
-                        <div className="d-flex flex-column gap-2">
-                          <div>
-                            <span
-                              className="d-inline-block text-truncate"
-                              style={{ maxWidth: "300px" }}
-                            >
-                              <i className="bi bi-calendar-check me-2"></i>
-                              {producto.detalles}
-                            </span>
+                          <div className="d-flex flex-column gap-2">
+                            <div>
+                              <span
+                                className="d-inline-block text-truncate"
+                                style={{ maxWidth: "300px" }}
+                              >
+                                <i className="bi bi-calendar-check me-2"></i>
+                                {producto?.detalles}
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </td>
-                    <td>
-                      <span className="badge bg-light text-dark border">
-                        {producto.marca}
-                      </span>
-                    </td>
-                    <td className="text-end font-monospace">
-                      {producto.stock}
-                      <small className="text-muted ms-2">unid.</small>
-                    </td>
-                    <td className="text-end font-monospace">
-                      ${producto.precio}
-                    </td>
-                    <td>
-                      <Badge bg={estado.color} className="text-capitalize">
-                        {estado.texto}
-                      </Badge>
-                    </td>
-                    <td className="pe-4">
-                      <Stack
-                        direction="horizontal"
-                        gap={2}
-                        className="justify-content-end"
-                      >
-                        <Button
-                          variant="outline-primary"
-                          size="sm"
-                          className="d-flex align-items-center gap-2"
-                          onClick={() => {
-                            setSelectedProducto(producto);
-                            setShowUpdateModal(true);
-                          }}
+                      </td>
+                      <td>
+                        <span className="badge bg-light text-dark border">
+                          {producto?.marca}
+                        </span>
+                      </td>
+                      <td className="text-end font-monospace">
+                        {producto?.stock}
+                        <small className="text-muted ms-2">unid.</small>
+                      </td>
+                      <td className="text-end font-monospace">
+                        ${producto?.precio}
+                      </td>
+                      <td>
+                        <Badge bg={estado.color} className="text-capitalize">
+                          {estado.texto}
+                        </Badge>
+                      </td>
+                      <td className="pe-4">
+                        <Stack
+                          direction="horizontal"
+                          gap={2}
+                          className="justify-content-end"
                         >
-                          <i className="bi bi-pencil"></i>
-                          <span className="d-none d-lg-inline">Editar</span>
-                        </Button>
-                        <Button
-                          variant="outline-danger"
-                          size="sm"
-                          className="d-flex align-items-center gap-2"
-                          onClick={() => {
-                            setShowDeleteModal(true);
-                          }}
-                        >
-                          <i className="bi bi-trash"></i>
-                          <span className="d-none d-lg-inline">Borrar</span>
-                        </Button>
-                      </Stack>
-                    </td>
-                  </tr>
-                );
-              })}
+                          <Button
+                            variant="outline-primary"
+                            size="sm"
+                            className="d-flex align-items-center gap-2"
+                            onClick={() => {
+                              setSelectedProducto(producto);
+                              setShowUpdateModal(true);
+                            }}
+                          >
+                            <i className="bi bi-pencil"></i>
+                            <span className="d-none d-lg-inline">Editar</span>
+                          </Button>
+                          <Button
+                            variant="outline-danger"
+                            size="sm"
+                            className="d-flex align-items-center gap-2"
+                            onClick={() => {
+                              setShowDeleteModal(true);
+                              setSelectedProducto(producto);
+                            }}
+                          >
+                            <i className="bi bi-trash"></i>
+                            <span className="d-none d-lg-inline">Borrar</span>
+                          </Button>
+                        </Stack>
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
             </tbody>
           </table>
         </div>
@@ -270,6 +287,7 @@ export const ListaProductos = () => {
         showModal={showDeleteModal}
         handleClose={() => setShowDeleteModal(false)}
         handleDelete={handleDelete}
+        productoData={selectedProducto}
       />
 
       <ModalActualizarProducto
@@ -287,8 +305,8 @@ export const ListaProductos = () => {
       />
 
       <ModalEliminarCategoria
-        showModal={showDeleteModal}
-        handleClose={() => setShowDeleteModal(false)}
+        showModal={showDeleteCategoryModal}
+        handleClose={() => setShowDeleteCategoryModal(false)}
         handleDelete={handleDelete}
         categoriaData={selectedCategory}
       />

@@ -1,8 +1,14 @@
-import { useMemo, useState } from "react";
-import { categorias } from "../data/categorias";
+import { useEffect, useMemo, useState } from "react";
+import { useCategoriaStore } from "./useCategoriaStore";
 
-export const useSelectorCategorias = () => {
+export const useSelectorCategorias = (showModal) => {
   const [searchTerm, setSearchTerm] = useState("");
+
+  const { categorias, startLoadingCategoria } = useCategoriaStore();
+
+  useEffect(() => {
+    startLoadingCategoria();
+  }, [showModal]);
 
   const opcionesAgrupadas = useMemo(() => {
     const grupos = {};
@@ -26,19 +32,10 @@ export const useSelectorCategorias = () => {
     });
 
     return Object.values(grupos);
-  }, [searchTerm]);
-
-  // Recibimos setFormData como argumento
-  const handleCategoriaChange = (selectedOption, setFormData) => {
-    setFormData((prev) => ({
-      ...prev,
-      cliente_id: selectedOption ? selectedOption.value : "",
-    }));
-  };
+  }, [categorias, searchTerm]);
 
   return {
     opcionesAgrupadas,
-    handleCategoriaChange,
     searchTerm,
     setSearchTerm,
   };
