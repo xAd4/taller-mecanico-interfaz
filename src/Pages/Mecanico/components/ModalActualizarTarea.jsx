@@ -1,18 +1,19 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { useTareaAsignadaStore } from "../hooks/useTareaAsignadaStore";
+import Swal from "sweetalert2";
 
-export const ModalActualizarTarea = ({
-  showModal,
-  handleClose,
-  handleUpdate,
-  tareaData,
-}) => {
+export const ModalActualizarTarea = ({ showModal, handleClose, tareaData }) => {
   const [formData, setFormData] = useState(
     tareaData || {
+      orden_id: "",
+      mecanico_id: "",
       estado_de_trabajo: "",
       notificacion_al_cliente: "",
     }
   );
+
+  const { startSavingTareaAsignada } = useTareaAsignadaStore();
 
   // Actualizar el estado si tareaData cambia
   useEffect(() => {
@@ -30,7 +31,9 @@ export const ModalActualizarTarea = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleUpdate(formData); // Llama a la función para actualizar los datos
+    const { orden_id, mecanico_id, ...dataToSend } = formData;
+    startSavingTareaAsignada(dataToSend); // Llama a la función para actualizar los datos
+    Swal.fire("Ok", "Tarea actualizada.", "success");
     handleClose(); // Cierra el modal
   };
 

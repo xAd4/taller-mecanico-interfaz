@@ -1,9 +1,33 @@
 import { Button, Form, Stack, Badge } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { tareas } from "../data/tareas";
+import { useTareaAsignadaStore } from "../hooks/useTareaAsignadaStore";
+import { useEffect, useState } from "react";
+import { SpinnerComponent } from "../../../components/SpinnerComponent";
+import { useSearch } from "../../../hooks/useSearch";
 
 export const ListaTareas = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+
   const navigate = useNavigate();
+
+  const {
+    isLoadingTareasAsignadas,
+    tareasAsignadas,
+    startLoadingTareasAsignadas,
+  } = useTareaAsignadaStore();
+
+  const { filteredData, searchTerm, handleSearchChange } = useSearch(
+    tareasAsignadas,
+    ["orden.cliente.nombre"]
+  );
+
+  useEffect(() => {
+    startLoadingTareasAsignadas(currentPage);
+  }, [currentPage]);
+
+  const handleIncrementPaginate = (paginate) => {
+    setCurrentPage((prev) => prev + paginate);
+  };
 
   const getEstadoColor = (estado) => {
     switch (estado) {
@@ -39,6 +63,8 @@ export const ListaTareas = () => {
             type="search"
             placeholder="Buscar tareas..."
             className="border-start-0"
+            value={searchTerm}
+            onChange={handleSearchChange}
           />
         </div>
       </div>
@@ -61,86 +87,83 @@ export const ListaTareas = () => {
               </tr>
             </thead>
             <tbody>
-              {tareas.map((tarea) => (
-                <tr key={tarea.id} className="transition-all">
-                  <td className="ps-4 fw-semibold"># {tarea.id}</td>
-                  <td className="ps-4 fw-semibold"># {tarea.orden_id}</td>
-                  <td>
-                    <div className="d-flex align-items-center gap-2">
-                      <i className="bi bi-person-workspace"></i>
-                      <span className="font-monospace">
-                        {tarea.mecanico_id} - {tarea.mecanico.name}
-                      </span>
-                    </div>
-                  </td>
-                  <td>
-                    <Badge
-                      bg={getEstadoColor(tarea.estado_de_trabajo)}
-                      className="text-capitalize"
-                    >
-                      {tarea.estado_de_trabajo.replace("_", " ")}
-                    </Badge>
-                  </td>
-                  <td>
-                    <div className="d-flex flex-column gap-2">
-                      <div>
-                        <span
-                          className="d-inline-block text-truncate"
-                          style={{ maxWidth: "250px" }}
-                        >
-                          <i className="bi bi-calendar-check me-2"></i>
-                          {tarea.notificacion_al_cliente}
+              {isLoadingTareasAsignadas ? (
+                <SpinnerComponent />
+              ) : (
+                filteredData.map((tarea) => (
+                  <tr key={tarea?.id} className="transition-all">
+                    <td className="ps-4 fw-semibold"># {tarea?.id}</td>
+                    <td className="ps-4 fw-semibold">
+                      # {tarea?.orden_id} - {tarea?.orden.cliente.nombre}
+                    </td>
+
+                    <td>
+                      <div className="d-flex align-items-center gap-2">
+                        <i className="bi bi-person-workspace"></i>
+                        <span className="font-monospace">
+                          {tarea?.mecanico_id} - {tarea?.mecanico.name}
                         </span>
                       </div>
-                    </div>
-                  </td>
-                  <td className="pe-4">
-                    <Stack
-                      direction="horizontal"
-                      gap={2}
-                      className="justify-content-end"
-                    >
-                      <Button
-                        variant="outline-success"
-                        size="sm"
-                        className="d-flex align-items-center gap-2"
-                        onClick={() =>
-                          navigate(`/mecanico/tareas/${tarea.id}`, {
-                            state: { tarea },
-                          })
-                        }
+                    </td>
+                    <td>
+                      <Badge
+                        bg={getEstadoColor(tarea?.estado_de_trabajo)}
+                        className="text-capitalize"
                       >
-                        <i className="bi bi-eye"></i>
-                        <span className="d-none d-lg-inline">Detalles</span>
-                      </Button>
-                    </Stack>
-                  </td>
-                </tr>
-              ))}
+                        {tarea?.estado_de_trabajo.replace("_", " ")}
+                      </Badge>
+                    </td>
+                    <td>
+                      <div className="d-flex flex-column gap-2">
+                        <div>
+                          <span
+                            className="d-inline-block text-truncate"
+                            style={{ maxWidth: "250px" }}
+                          >
+                            <i className="bi bi-calendar-check me-2"></i>
+                            {tarea?.notificacion_al_cliente}
+                          </span>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="pe-4">
+                      <Stack
+                        direction="horizontal"
+                        gap={2}
+                        className="justify-content-end"
+                      >
+                        <Button
+                          variant="outline-success"
+                          size="sm"
+                          className="d-flex align-items-center gap-2"
+                          onClick={() =>
+                            navigate(`/mecanico/tareas/${tarea?.id}`, {
+                              state: { tarea },
+                            })
+                          }
+                        >
+                          <i className="bi bi-eye"></i>
+                          <span className="d-none d-lg-inline">Detalles</span>
+                        </Button>
+                      </Stack>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
       </div>
       <div className="d-flex justify-content-center mt-4">
-        <nav aria-label="Page navigation">
-          <ul className="pagination pagination-lg">
-            <li className="page-item disabled">
-              <button className="page-link">Anterior</button>
-            </li>
-            <li className="page-item active">
-              <button className="page-link">1</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">2</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">3</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">Siguiente</button>
-            </li>
-          </ul>
-        </nav>
+        <Stack direction="horizontal" gap={3}>
+          <Button
+            variant="outline-primary"
+            size="lg"
+            onClick={() => handleIncrementPaginate(1)}
+          >
+            Siguientes <i className="bi bi-arrow-right"></i>
+          </Button>
+        </Stack>
       </div>
     </div>
   );
