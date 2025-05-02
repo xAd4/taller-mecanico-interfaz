@@ -9,6 +9,7 @@ import { categoriaSlice } from "./jefe/inventario/categoriaSlice";
 import { productoSlice } from "./jefe/inventario/productoSlice";
 import { usuarioSlice } from "./jefe/usuarios/usuariosSlice";
 import { tareaAsignadaSlice } from "./mecanico/tareas/tareaAsignadaSlice";
+import { trenDelanteroSlice } from "./mecanico/trenDelantero/trenDelanteroSlice";
 
 export const store = configureStore({
   reducer: {
@@ -27,6 +28,7 @@ export const store = configureStore({
 
     // Acciones del dashboard del mecanico
     tareaAsignada: tareaAsignadaSlice.reducer,
+    trenDelantero: trenDelanteroSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

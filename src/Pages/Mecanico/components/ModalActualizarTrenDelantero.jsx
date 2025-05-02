@@ -1,41 +1,29 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
-
-// Estado inicial con valores booleanos
-const initialFormState = {
-  conv: "",
-  comba: "",
-  avance: "",
-  rotulas: "",
-  punteros: "",
-  bujes: "",
-  caja_direccion: "",
-  conv2: "",
-  comba2: "",
-  avance2: "",
-  amort: "",
-};
+import { useTrenDelanteroStore } from "../hooks/useTrenDelanteroStore";
+import Swal from "sweetalert2";
 
 export const ModalActualizarTrenDelantero = ({
   showModal,
   handleClose,
-  handleUpdate,
   trenDelanteroData,
 }) => {
-  const [formData, setFormData] = useState(initialFormState);
-
-  // Convierte los datos del backend (0/1) a booleanos
-  useEffect(() => {
-    if (trenDelanteroData) {
-      const convertedData = {};
-      Object.entries(trenDelanteroData).forEach(([key, value]) => {
-        convertedData[key] = typeof value === "number" ? value === 1 : value;
-      });
-      setFormData(convertedData);
-    } else {
-      setFormData(initialFormState);
+  const [formData, setFormData] = useState(
+    trenDelanteroData || {
+      conv: "",
+      comba: "",
+      avance: "",
+      rotulas: "",
+      punteros: "",
+      bujes: "",
+      caja_direccion: "",
+      conv2: "",
+      comba2: "",
+      avance2: "",
+      amort: "",
     }
-  }, [trenDelanteroData]);
+  );
+  const { startSavingTrenDelantero } = useTrenDelanteroStore();
 
   const handleInputChange = (e) => {
     const { name, type, checked } = e.target;
@@ -47,9 +35,17 @@ export const ModalActualizarTrenDelantero = ({
     });
   };
 
+  useEffect(() => {
+    if (trenDelanteroData) {
+      setFormData(trenDelanteroData);
+    }
+  }, [trenDelanteroData]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleUpdate(formData);
+    console.log({ ...formData });
+    startSavingTrenDelantero(formData);
+    Swal.fire("Ok", "Tren delantero actualizado", "success");
     handleClose();
   };
 

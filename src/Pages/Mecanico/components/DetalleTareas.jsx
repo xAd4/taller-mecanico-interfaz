@@ -20,6 +20,7 @@ import { Layout } from "./common/Layout";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTareaAsignadaStore } from "../hooks/useTareaAsignadaStore";
 import { SpinnerComponent } from "../../../components/SpinnerComponent";
+import { useTrenDelanteroStore } from "../hooks/useTrenDelanteroStore";
 
 export const DetalleTareas = () => {
   const [activeTab, setActiveTab] = useState("delantero");
@@ -38,6 +39,11 @@ export const DetalleTareas = () => {
     startLoadingTareasAsignadas,
     isLoadingTareasAsignadas,
   } = useTareaAsignadaStore();
+
+  const { trenDelantero, startLoadingTrenDelantero, isLoadingTrenDelantero } =
+    useTrenDelanteroStore();
+
+  console.log(trenDelantero);
 
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -60,6 +66,10 @@ export const DetalleTareas = () => {
 
   useEffect(() => {
     startLoadingTareasAsignadas();
+  }, []);
+
+  useEffect(() => {
+    startLoadingTrenDelantero(tarea.id);
   }, []);
 
   const renderStatusIcon = (status) => (
@@ -136,7 +146,6 @@ export const DetalleTareas = () => {
                               ? "warning"
                               : "success"
                           }
-                          className="text-capitalize"
                         >
                           {tareaAsignada?.estado_de_trabajo}
                         </Badge>
@@ -343,88 +352,94 @@ export const DetalleTareas = () => {
               {/* Contenido de las pestañas */}
               {activeTab === "delantero" && (
                 <>
-                  <Table
-                    striped
-                    bordered
-                    hover
-                    responsive
-                    className="shadow-sm"
-                  >
-                    <thead className="bg-primary text-white">
-                      <tr>
-                        <th>Componente</th>
-                        <th>Conv</th>
-                        <th>Comba</th>
-                        <th>Avance</th>
-                        <th>Rótulas</th>
-                        <th>Punteros</th>
-                        <th>Bujes</th>
-                        <th>Caja Dirección</th>
-                        <th>Conv2</th>
-                        <th>Comba2</th>
-                        <th>Avance2</th>
-                        <th>Amort</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr key={tarea?.id}>
-                        <td>Estado</td>
-                        <td className="text-center">
-                          {renderStatusIcon(tarea?.tren_delantero.conv)}
-                        </td>
-                        <td className="text-center">
-                          {renderStatusIcon(tarea?.tren_delantero.comba)}
-                        </td>
-                        <td className="text-center">
-                          {renderStatusIcon(tarea?.tren_delantero.avance)}
-                        </td>
-                        <td className="text-center">
-                          {renderStatusIcon(tarea?.tren_delantero.rotulas)}
-                        </td>
-                        <td className="text-center">
-                          {renderStatusIcon(tarea?.tren_delantero.punteros)}
-                        </td>
-                        <td className="text-center">
-                          {renderStatusIcon(tarea?.tren_delantero.bujes)}
-                        </td>
-                        <td className="text-center">
-                          {renderStatusIcon(
-                            tarea?.tren_delantero.caja_direccion
-                          )}
-                        </td>
-                        <td className="text-center">
-                          {renderStatusIcon(tarea?.tren_delantero.conv2)}
-                        </td>
-                        <td className="text-center">
-                          {renderStatusIcon(tarea?.tren_delantero.comba2)}
-                        </td>
-                        <td className="text-center">
-                          {renderStatusIcon(tarea?.tren_delantero.avance2)}
-                        </td>
-                        <td className="text-center">
-                          {renderStatusIcon(tarea?.tren_delantero.amort)}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </Table>
-                  <Stack
-                    direction="horizontal"
-                    gap={2}
-                    className="justify-content-end"
-                  >
-                    <Button
-                      variant="outline-primary"
-                      size="sm"
-                      className="d-flex align-items-center gap-2"
-                      onClick={() => {
-                        setSelectedData(tarea?.tren_delantero);
-                        setShowTrenDelanteroModal(true);
-                      }}
-                    >
-                      <i className="bi bi-pencil"></i>
-                      <span className="d-none d-md-inline">Editar</span>
-                    </Button>
-                  </Stack>
+                  {isLoadingTrenDelantero ? (
+                    <SpinnerComponent />
+                  ) : (
+                    trenDelantero.map((tren) => (
+                      <div key={tren?.id}>
+                        <Table
+                          striped
+                          bordered
+                          hover
+                          responsive
+                          className="shadow-sm"
+                        >
+                          <thead className="bg-primary text-white">
+                            <tr>
+                              <th>Componente</th>
+                              <th>Conv</th>
+                              <th>Comba</th>
+                              <th>Avance</th>
+                              <th>Rótulas</th>
+                              <th>Punteros</th>
+                              <th>Bujes</th>
+                              <th>Caja Dirección</th>
+                              <th>Conv2</th>
+                              <th>Comba2</th>
+                              <th>Avance2</th>
+                              <th>Amort</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>Estado</td>
+                              <td className="text-center">
+                                {renderStatusIcon(tren?.conv)}
+                              </td>
+                              <td className="text-center">
+                                {renderStatusIcon(tren?.comba)}
+                              </td>
+                              <td className="text-center">
+                                {renderStatusIcon(tren?.avance)}
+                              </td>
+                              <td className="text-center">
+                                {renderStatusIcon(tren?.rotulas)}
+                              </td>
+                              <td className="text-center">
+                                {renderStatusIcon(tren?.punteros)}
+                              </td>
+                              <td className="text-center">
+                                {renderStatusIcon(tren?.bujes)}
+                              </td>
+                              <td className="text-center">
+                                {renderStatusIcon(tren?.caja_direccion)}
+                              </td>
+                              <td className="text-center">
+                                {renderStatusIcon(tren?.conv2)}
+                              </td>
+                              <td className="text-center">
+                                {renderStatusIcon(tren?.comba2)}
+                              </td>
+                              <td className="text-center">
+                                {renderStatusIcon(tren?.avance2)}
+                              </td>
+                              <td className="text-center">
+                                {renderStatusIcon(tren?.amort)}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </Table>
+                        <Stack
+                          direction="horizontal"
+                          gap={2}
+                          className="justify-content-end"
+                        >
+                          <Button
+                            variant="outline-primary"
+                            size="sm"
+                            className="d-flex align-items-center gap-2"
+                            onClick={() => {
+                              setSelectedData(tren);
+                              setShowTrenDelanteroModal(true);
+                            }}
+                          >
+                            <i className="bi bi-pencil"></i>
+                            <span className="d-none d-md-inline">Editar</span>
+                          </Button>
+                        </Stack>
+                      </div>
+                    ))
+                  )}
                 </>
               )}
               {activeTab === "trasero" && (
