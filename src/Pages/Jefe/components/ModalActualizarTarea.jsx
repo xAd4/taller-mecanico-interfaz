@@ -88,7 +88,6 @@ export const ModalActualizarTarea = ({ showModal, handleClose, tareaData }) => {
               name="notificacion_al_cliente"
               value={formData.notificacion_al_cliente}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
         </Modal.Body>

@@ -124,13 +124,12 @@ export const ModalCrearTarea = ({ showModal, handleClose }) => {
             </Form.Select>
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Notificación al Cliente</Form.Label>
+            <Form.Label>Notificación al Cliente (Opcional)</Form.Label>
             <Form.Control
               type="text"
               name="notificacion_al_cliente"
               value={notificacion_al_cliente}
               onChange={onInputChange}
-              required
             />
           </Form.Group>
         </Modal.Body>

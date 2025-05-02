@@ -134,8 +134,7 @@ export const ListaOrdenes = () => {
                             ID: {orden?.vehiculo.id}
                           </h6>
                           <h6 className="mb-0 fw-semibold">
-                            {orden?.vehiculo.modelo}
-                            {orden?.vehiculo.marca}
+                            {orden?.vehiculo.modelo} - {orden?.vehiculo.marca}
                           </h6>
                           <ul className="list-unstyled mb-0">
                             <li>

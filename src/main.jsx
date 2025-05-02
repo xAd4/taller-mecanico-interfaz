@@ -10,11 +10,9 @@ import { Provider } from "react-redux";
 import { store } from "./store/store.js";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <Provider store={store}>
-      <BrowserRouter>
-        <AppRouter />
-      </BrowserRouter>
-    </Provider>
-  </StrictMode>
+  <Provider store={store}>
+    <BrowserRouter>
+      <AppRouter />
+    </BrowserRouter>
+  </Provider>
 );
