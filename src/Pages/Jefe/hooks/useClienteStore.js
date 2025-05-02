@@ -12,9 +12,8 @@ import Swal from "sweetalert2";
 
 export const useClienteStore = () => {
   const dispatch = useDispatch();
-  const { clientes, activeCliente, isLoadingClientes } = useSelector(
-    (state) => state.cliente
-  );
+  const { clientes, activeCliente, isLoadingClientes, actualPage, lastPage } =
+    useSelector((state) => state.cliente);
   const { user } = useSelector((state) => state.auth);
 
   const setActiveCliente = (cliente) => {
@@ -24,8 +23,16 @@ export const useClienteStore = () => {
   const startLoadingClientes = async (page = 1) => {
     try {
       dispatch(onStartLoading());
+      console.log("🐛 Solicitando página:", page);
       const { data } = await tallerMecanicoApi.get(`/clientes?page=${page}`);
-      dispatch(onLoadClientes([...data.data.data]));
+      console.log("🐛 Datos recibidos:", data);
+      dispatch(
+        onLoadClientes([
+          ...data.data.data,
+          // { actualPage: data.data.current_page },
+          // { lastPage: data.data.last_page },
+        ])
+      );
     } catch (error) {
       console.log("Error al cargar", error);
     }
@@ -60,6 +67,8 @@ export const useClienteStore = () => {
 
   return {
     //* Propiedades
+    actualPage,
+    lastPage,
     activeCliente,
     clientes,
     isLoadingClientes,

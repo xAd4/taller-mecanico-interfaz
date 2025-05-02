@@ -21,6 +21,11 @@ export const ListaProductos = () => {
   const [showCreateCategoryModal, setShowCreateCategoryModal] = useState(false);
   const [showDeleteCategoryModal, setShowDeleteCategoryModal] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handleIncrementPaginate = (paginate) => {
+    setCurrentPage((prev) => prev + paginate);
+  };
 
   const { categorias, startLoadingCategoria, isLoadingCategoria } =
     useCategoriaStore();
@@ -45,8 +50,8 @@ export const ListaProductos = () => {
   }, []);
 
   useEffect(() => {
-    startLoadingProducto(1);
-  }, []);
+    startLoadingProducto(currentPage);
+  }, [currentPage]);
 
   const handleUpdate = (updatedData) => {
     console.log("Datos actualizados:", updatedData);
@@ -320,6 +325,17 @@ export const ListaProductos = () => {
               )}
             </tbody>
           </table>
+        </div>
+        <div className="d-flex justify-content-center mt-4">
+          <Stack direction="horizontal" gap={3}>
+            <Button
+              variant="outline-primary"
+              size="lg"
+              onClick={() => handleIncrementPaginate(1)}
+            >
+              Cargar siguientes productos <i className="bi bi-arrow-right"></i>
+            </Button>
+          </Stack>
         </div>
       </div>
 

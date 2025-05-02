@@ -12,6 +12,11 @@ export const ListaClientes = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedCliente, setSelectedCliente] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handleIncrementPaginate = (paginate) => {
+    setCurrentPage((prev) => prev + paginate);
+  };
 
   const { clientes, startLoadingClientes, isLoadingClientes } =
     useClienteStore();
@@ -32,12 +37,13 @@ export const ListaClientes = () => {
   };
 
   useEffect(() => {
-    startLoadingClientes(1);
-  }, []);
+    startLoadingClientes(currentPage);
+  }, [currentPage]);
 
   return (
     <div className="container-fluid px-4 py-3 animate__animated animate__fadeIn">
       {/* Header */}
+
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
         <div>
           <h1 className="h2 mb-1 fw-bold text-primary">Clientes</h1>
@@ -52,6 +58,7 @@ export const ListaClientes = () => {
           Nuevo Cliente
         </Button>
       </div>
+      <div></div>
       {/* Buscador */}
       <div className="mb-4">
         <div className="input-group input-group-lg shadow-sm">
@@ -159,6 +166,17 @@ export const ListaClientes = () => {
               )}
             </tbody>
           </table>
+        </div>
+        <div className="d-flex justify-content-center mt-4">
+          <Stack direction="horizontal" gap={3}>
+            <Button
+              variant="outline-primary"
+              size="lg"
+              onClick={() => handleIncrementPaginate(1)}
+            >
+              Siguientes <i className="bi bi-arrow-right"></i>
+            </Button>
+          </Stack>
         </div>
       </div>
 

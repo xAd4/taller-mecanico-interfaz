@@ -12,6 +12,11 @@ export const ListaUsuarios = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedUsuario, setSelectedUsuario] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handleIncrementPaginate = (paginate) => {
+    setCurrentPage((prev) => prev + paginate);
+  };
 
   const { usuarios, isLoadingUsuarios, startLoadingUsuario } =
     useUsuarioStore();
@@ -22,8 +27,8 @@ export const ListaUsuarios = () => {
   ]);
 
   useEffect(() => {
-    startLoadingUsuario(1);
-  }, []);
+    startLoadingUsuario(currentPage);
+  }, [currentPage]);
 
   const getRolColor = (rol) => {
     switch (rol.toLowerCase()) {
@@ -167,28 +172,17 @@ export const ListaUsuarios = () => {
             </tbody>
           </table>
         </div>
-      </div>
-
-      <div className="d-flex justify-content-center mt-4">
-        <nav aria-label="Page navigation">
-          <ul className="pagination pagination-lg">
-            <li className="page-item disabled">
-              <button className="page-link">Anterior</button>
-            </li>
-            <li className="page-item active">
-              <button className="page-link">1</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">2</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">3</button>
-            </li>
-            <li className="page-item">
-              <button className="page-link">Siguiente</button>
-            </li>
-          </ul>
-        </nav>
+        <div className="d-flex justify-content-center mt-4">
+          <Stack direction="horizontal" gap={3}>
+            <Button
+              variant="outline-primary"
+              size="lg"
+              onClick={() => handleIncrementPaginate(1)}
+            >
+              Cargar siguientes usuarios <i className="bi bi-arrow-right"></i>
+            </Button>
+          </Stack>
+        </div>
       </div>
 
       {/* Modal */}

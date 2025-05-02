@@ -6,6 +6,8 @@ export const clienteSlice = createSlice({
     isLoadingClientes: false,
     clientes: [],
     activeCliente: null,
+    actualPage: 1,
+    lastPage: 1,
   },
   reducers: {
     onStartLoading: (state) => {
