@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Stack, Badge, Table } from "react-bootstrap";
+import { Button, Stack, Badge, Table, Form } from "react-bootstrap";
 import { ModalCrearProducto } from "./ModalCrearProducto";
 import { ModalEliminarProducto } from "./ModalEliminarProducto";
 import { ModalActualizarProducto } from "./ModalActualizarProducto";
@@ -9,6 +9,7 @@ import { useCategoriaStore } from "../hooks/useCategoriaStore";
 import { SpinnerComponent } from "../../../components/SpinnerComponent";
 import { ModalEliminarCategoria } from "./ModalEliminarCategoria";
 import { useProductoStore } from "../hooks/useProductoStore";
+import { useSearch } from "../../../hooks/useSearch";
 
 export const ListaProductos = () => {
   const [showModal, setShowModal] = useState(false);
@@ -26,6 +27,18 @@ export const ListaProductos = () => {
 
   const { productos, startLoadingProducto, isLoadingProducto } =
     useProductoStore();
+
+  const {
+    filteredData: filteredCategories,
+    searchTerm: searchCategoryTerm,
+    handleSearchChange: handleSearchCategory,
+  } = useSearch(categorias, ["nombre"]);
+
+  const {
+    filteredData: filteredProducts,
+    searchTerm: searchProductTerm,
+    handleSearchChange: handleSearchProduct,
+  } = useSearch(productos, ["nombre", "marca", "precio", "stock"]);
 
   useEffect(() => {
     startLoadingCategoria(1);
@@ -93,6 +106,21 @@ export const ListaProductos = () => {
         <div className="card-header bg-primary text-white">
           <h3 className="h5 mb-0">Categorías Disponibles</h3>
         </div>
+        {/* Buscador */}
+        <div className="mb-4">
+          <div className="input-group input-group-lg shadow-sm">
+            <span className="input-group-text bg-white border-end-0">
+              <i className="bi bi-search text-muted"></i>
+            </span>
+            <Form.Control
+              type="search"
+              placeholder="Buscar categorias..."
+              className="border-start-0"
+              value={searchCategoryTerm}
+              onChange={handleSearchCategory}
+            />
+          </div>
+        </div>
         <div className="table-responsive">
           <Table striped bordered hover className="mb-0">
             <thead>
@@ -106,7 +134,7 @@ export const ListaProductos = () => {
               {isLoadingCategoria ? (
                 <SpinnerComponent />
               ) : (
-                categorias.map((categoria, index) => {
+                filteredCategories.map((categoria, index) => {
                   const estado = getEstadoDisponibilidad(
                     categoria?.disponibilidad
                   );
@@ -154,6 +182,24 @@ export const ListaProductos = () => {
 
       {/* Tabla Responsive de Productos */}
       <div className="card shadow-sm border-0 overflow-hidden">
+        {/* Buscador */}
+        <div className="card-header bg-primary text-white">
+          <h3 className="h5 mb-0">Productos Disponibles</h3>
+        </div>
+        <div className="mb-4">
+          <div className="input-group input-group-lg shadow-sm">
+            <span className="input-group-text bg-white border-end-0">
+              <i className="bi bi-search text-muted"></i>
+            </span>
+            <Form.Control
+              type="search"
+              placeholder="Buscar productos..."
+              className="border-start-0"
+              value={searchProductTerm}
+              onChange={handleSearchProduct}
+            />
+          </div>
+        </div>
         <div className="table-responsive rounded-3">
           <table className="table table-hover align-middle mb-0">
             <thead className="bg-primary text-white">
@@ -179,7 +225,7 @@ export const ListaProductos = () => {
               {isLoadingProducto ? (
                 <SpinnerComponent />
               ) : (
-                productos.map((producto) => {
+                filteredProducts.map((producto) => {
                   const estado = getEstadoDisponibilidad(
                     producto?.disponibilidad
                   );

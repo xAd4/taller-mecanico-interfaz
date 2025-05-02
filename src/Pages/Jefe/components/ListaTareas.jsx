@@ -6,6 +6,7 @@ import { ModalActualizarTarea } from "./ModalActualizarTarea";
 import { useNavigate } from "react-router-dom";
 import { useTareaStore } from "../hooks/useTareaStore";
 import { SpinnerComponent } from "../../../components/SpinnerComponent";
+import { useSearch } from "../../../hooks/useSearch";
 
 export const ListaTareas = () => {
   const [showModal, setShowModal] = useState(false);
@@ -14,6 +15,11 @@ export const ListaTareas = () => {
   const [selectedTarea, setSelectedTarea] = useState(null);
 
   const { tareas, startLoadingTareas, isLoadingTareas } = useTareaStore();
+
+  const { filteredData, searchTerm, handleSearchChange } = useSearch(tareas, [
+    "mecanico.name",
+    "estado_de_trabajo",
+  ]);
 
   const navigate = useNavigate();
 
@@ -74,6 +80,8 @@ export const ListaTareas = () => {
             type="search"
             placeholder="Buscar tareas..."
             className="border-start-0"
+            value={searchTerm}
+            onChange={handleSearchChange}
           />
         </div>
       </div>
@@ -99,7 +107,7 @@ export const ListaTareas = () => {
               {isLoadingTareas ? (
                 <SpinnerComponent />
               ) : (
-                tareas.map((tarea) => (
+                filteredData.map((tarea) => (
                   <tr key={tarea.id} className="transition-all">
                     <td className="ps-4 fw-semibold"># {tarea?.id}</td>
                     <td className="ps-4 fw-semibold"># {tarea?.orden_id}</td>

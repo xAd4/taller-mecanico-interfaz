@@ -5,6 +5,7 @@ import { ModalEliminarCliente } from "./ModalEliminarCliente";
 import { ModalActualizarCliente } from "./ModalActualizarCliente";
 import { useClienteStore } from "../hooks/useClienteStore";
 import { SpinnerComponent } from "../../../components/SpinnerComponent";
+import { useSearch } from "../../../hooks/useSearch";
 
 export const ListaClientes = () => {
   const [showModal, setShowModal] = useState(false);
@@ -14,6 +15,10 @@ export const ListaClientes = () => {
 
   const { clientes, startLoadingClientes, isLoadingClientes } =
     useClienteStore();
+
+  const { filteredData, searchTerm, handleSearchChange } = useSearch(clientes, [
+    "nombre",
+  ]);
 
   const handleUpdate = (updatedData) => {
     console.log("Datos actualizados:", updatedData);
@@ -57,6 +62,8 @@ export const ListaClientes = () => {
             type="search"
             placeholder="Buscar clientes..."
             className="border-start-0"
+            value={searchTerm}
+            onChange={handleSearchChange}
           />
         </div>
       </div>
@@ -81,7 +88,7 @@ export const ListaClientes = () => {
               {isLoadingClientes ? (
                 <SpinnerComponent />
               ) : (
-                clientes.map((cliente) => (
+                filteredData.map((cliente) => (
                   <tr key={cliente.id} className="transition-all">
                     <td className="ps-4 fw-semibold">#{cliente.id}</td>
                     <td>

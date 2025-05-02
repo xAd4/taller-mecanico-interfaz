@@ -5,6 +5,7 @@ import { ModalEliminarUsuario } from "./ModalEliminarUsuario";
 import { useUsuarioStore } from "../hooks/useUsuarioStore";
 import { SpinnerComponent } from "../../../components/SpinnerComponent";
 import { ModalActualizarUsuario } from "./ModalActualizarUsuario";
+import { useSearch } from "../../../hooks/useSearch";
 
 export const ListaUsuarios = () => {
   const [showModal, setShowModal] = useState(false);
@@ -14,6 +15,11 @@ export const ListaUsuarios = () => {
 
   const { usuarios, isLoadingUsuarios, startLoadingUsuario } =
     useUsuarioStore();
+
+  const { filteredData, searchTerm, handleSearchChange } = useSearch(usuarios, [
+    "name",
+    "rol",
+  ]);
 
   useEffect(() => {
     startLoadingUsuario(1);
@@ -60,6 +66,8 @@ export const ListaUsuarios = () => {
             type="search"
             placeholder="Buscar usuarios..."
             className="border-start-0"
+            value={searchTerm}
+            onChange={handleSearchChange}
           />
         </div>
       </div>
@@ -85,7 +93,7 @@ export const ListaUsuarios = () => {
               {isLoadingUsuarios ? (
                 <SpinnerComponent />
               ) : (
-                usuarios.map((usuario) => (
+                filteredData.map((usuario) => (
                   <tr key={usuario.id} className="transition-all">
                     <td># {usuario.id}</td>
                     <td className="ps-4">

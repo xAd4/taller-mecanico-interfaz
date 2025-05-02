@@ -3,6 +3,7 @@ import Select from "react-select";
 import { useSelectorCategorias } from "../hooks/useSelectorCategorias";
 import { useForm } from "../../../hooks/useForm";
 import { useProductoStore } from "../hooks/useProductoStore";
+import Swal from "sweetalert2";
 
 const createProductoField = {
   categoria_id: "",
@@ -48,6 +49,11 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
       precio,
       disponibilidad,
     });
+
+    Swal.fire("Ok", "Producto creado", "success");
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
 
     handleClose();
   };

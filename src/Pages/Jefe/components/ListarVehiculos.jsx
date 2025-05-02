@@ -5,6 +5,7 @@ import { ModalEliminarVehiculo } from "./ModalEliminarVehiculo";
 import { ModalActualizarVehiculo } from "./ModalActualizarVehiculo";
 import { useVehiculoStore } from "../hooks/useVehiculoStore";
 import { SpinnerComponent } from "../../../components/SpinnerComponent";
+import { useSearch } from "../../../hooks/useSearch";
 
 export const ListaVehiculos = () => {
   const [showModal, setShowModal] = useState(false);
@@ -14,6 +15,11 @@ export const ListaVehiculos = () => {
 
   const { vehiculos, startLoadingVehiculos, isLoadingVehiculos } =
     useVehiculoStore();
+
+  const { filteredData, searchTerm, handleSearchChange } = useSearch(
+    vehiculos,
+    ["modelo", "marca"]
+  );
 
   const handleUpdate = (updatedData) => {
     console.log("Datos actualizados:", updatedData);
@@ -58,6 +64,8 @@ export const ListaVehiculos = () => {
             type="search"
             placeholder="Buscar vehículos..."
             className="border-start-0"
+            value={searchTerm}
+            onChange={handleSearchChange}
           />
         </div>
       </div>
@@ -88,7 +96,7 @@ export const ListaVehiculos = () => {
               {isLoadingVehiculos ? (
                 <SpinnerComponent colSpan={12} />
               ) : (
-                vehiculos.map((vehiculo) => (
+                filteredData.map((vehiculo) => (
                   <tr key={vehiculo.id} className="transition-all">
                     <td className="ps-4 fw-semibold">{vehiculo.id}</td>
                     <td className="ps-4 fw-semibold">{vehiculo.modelo}</td>

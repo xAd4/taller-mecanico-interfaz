@@ -6,6 +6,7 @@ import { ModalActualizarOrden } from "./ModalActualizarOrden";
 import { useNavigate } from "react-router-dom";
 import { useOrdenStore } from "../hooks/useOrdenStore";
 import { SpinnerComponent } from "../../../components/SpinnerComponent";
+import { useSearch } from "../../../hooks/useSearch";
 
 export const ListaOrdenes = () => {
   const [showModal, setShowModal] = useState(false);
@@ -16,6 +17,13 @@ export const ListaOrdenes = () => {
   const navigate = useNavigate();
 
   const { ordenes, startLoadingOrdenes, isLoadingOrdenes } = useOrdenStore();
+
+  const { filteredData, searchTerm, handleSearchChange } = useSearch(ordenes, [
+    "recepcion",
+    "cliente.nombre",
+    "vehiculo.modelo",
+    "vehiculo.matricula",
+  ]);
 
   const handleUpdate = (updatedData) => {
     console.log("Datos actualizados:", updatedData);
@@ -60,6 +68,8 @@ export const ListaOrdenes = () => {
             type="search"
             placeholder="Buscar órdenes..."
             className="border-start-0"
+            value={searchTerm}
+            onChange={handleSearchChange}
           />
         </div>
       </div>
@@ -88,7 +98,7 @@ export const ListaOrdenes = () => {
               {isLoadingOrdenes ? (
                 <SpinnerComponent colSpan={12} />
               ) : (
-                ordenes.map((orden) => (
+                filteredData.map((orden) => (
                   <tr key={orden.id} className="transition-all">
                     <td className="ps-4">
                       <div className="d-flex align-items-center gap-3">
