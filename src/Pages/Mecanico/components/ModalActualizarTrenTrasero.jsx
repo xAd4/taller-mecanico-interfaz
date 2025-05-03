@@ -1,34 +1,30 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
-
-const initialFormState = {
-  conv: "",
-  comba: "",
-  brazos_susp: "",
-  articulaciones: "",
-  conv2: "",
-  comba2: "",
-  amort: "",
-};
+import { useTrenTraseroStore } from "../hooks/useTrenTraseroStore";
+import Swal from "sweetalert2";
 
 export const ModalActualizarTrenTrasero = ({
   showModal,
   handleClose,
-  handleUpdate,
   trenTraseroData,
 }) => {
-  const [formData, setFormData] = useState(initialFormState);
+  const [formData, setFormData] = useState(
+    trenTraseroData || {
+      conv: "",
+      comba: "",
+      brazos_susp: "",
+      articulaciones: "",
+      conv2: "",
+      comba2: "",
+      amort: "",
+    }
+  );
 
-  // Convierte los datos del backend (0/1) a booleanos
+  const { startSavingTrenTrasero } = useTrenTraseroStore();
+
   useEffect(() => {
     if (trenTraseroData) {
-      const convertedData = {};
-      Object.entries(trenTraseroData).forEach(([key, value]) => {
-        convertedData[key] = typeof value === "number" ? value === 1 : value;
-      });
-      setFormData(convertedData);
-    } else {
-      setFormData(initialFormState);
+      setFormData(trenTraseroData);
     }
   }, [trenTraseroData]);
 
@@ -43,7 +39,8 @@ export const ModalActualizarTrenTrasero = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleUpdate(formData);
+    startSavingTrenTrasero(formData);
+    Swal.fire("Ok", "Tren trasero actualizado", "success");
     handleClose();
   };
 

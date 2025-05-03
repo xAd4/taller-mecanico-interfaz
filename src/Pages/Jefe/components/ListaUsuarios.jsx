@@ -24,6 +24,7 @@ export const ListaUsuarios = () => {
   const { filteredData, searchTerm, handleSearchChange } = useSearch(usuarios, [
     "name",
     "rol",
+    "email",
   ]);
 
   useEffect(() => {

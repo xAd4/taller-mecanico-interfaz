@@ -33,16 +33,19 @@ export const ModalActualizarTarea = ({ showModal, handleClose, tareaData }) => {
     e.preventDefault();
     const { orden_id, mecanico_id, ...dataToSend } = formData;
     startSavingTareaAsignada(dataToSend); // Llama a la función para actualizar los datos
-    Swal.fire("Ok", "Tarea actualizada.", "success");
+    Swal.fire(
+      "Ok",
+      "Tarea actualizada. Dale click al boton 'regresar' para guardar los cambios.",
+      "success"
+    );
     handleClose(); // Cierra el modal
   };
 
   if (!tareaData) return null; // No renderizar nada si tareaData es null
-
   return (
     <Modal show={showModal} onHide={handleClose} centered backdrop="static">
       <Modal.Header closeButton>
-        <Modal.Title>Actualizar Usuario</Modal.Title>
+        <Modal.Title>Actualizar Tarea</Modal.Title>
       </Modal.Header>
       <Form onSubmit={handleSubmit}>
         <Modal.Body>

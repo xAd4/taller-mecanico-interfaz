@@ -10,6 +10,9 @@ import { productoSlice } from "./jefe/inventario/productoSlice";
 import { usuarioSlice } from "./jefe/usuarios/usuariosSlice";
 import { tareaAsignadaSlice } from "./mecanico/tareas/tareaAsignadaSlice";
 import { trenDelanteroSlice } from "./mecanico/trenDelantero/trenDelanteroSlice";
+import { trenTraseroSlice } from "./mecanico/trenTrasero/trenTraseroSlice";
+import { frenoSlice } from "./mecanico/frenos/frenoSlice";
+import { neumaticoSlice } from "./mecanico/estadoNeumaticos/neumaticoSlice";
 
 export const store = configureStore({
   reducer: {
@@ -29,6 +32,9 @@ export const store = configureStore({
     // Acciones del dashboard del mecanico
     tareaAsignada: tareaAsignadaSlice.reducer,
     trenDelantero: trenDelanteroSlice.reducer,
+    trenTrasero: trenTraseroSlice.reducer,
+    freno: frenoSlice.reducer,
+    neumatico: neumaticoSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

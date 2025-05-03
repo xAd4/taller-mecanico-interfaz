@@ -1,5 +1,7 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { useNeumaticoStore } from "../hooks/useNeumaticoStore";
+import Swal from "sweetalert2";
 
 const initialFormState = {
   delanteros_derechos: "",
@@ -14,18 +16,20 @@ export const ModalActualizarNeumaticos = ({
   handleUpdate,
   neumaticosData,
 }) => {
-  const [formData, setFormData] = useState(initialFormState);
+  const [formData, setFormData] = useState(
+    neumaticosData || {
+      delanteros_derechos: "",
+      delanteros_izquierdos: "",
+      traseros_derechos: "",
+      traseros_izquierdos: "",
+    }
+  );
 
-  // Convierte los datos del backend (0/1) a booleanos
+  const { startSavingNeumaticos } = useNeumaticoStore();
+
   useEffect(() => {
     if (neumaticosData) {
-      const convertedData = {};
-      Object.entries(neumaticosData).forEach(([key, value]) => {
-        convertedData[key] = typeof value === "number" ? value === 1 : value;
-      });
-      setFormData(convertedData);
-    } else {
-      setFormData(initialFormState);
+      setFormData(neumaticosData);
     }
   }, [neumaticosData]);
 
@@ -40,7 +44,9 @@ export const ModalActualizarNeumaticos = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleUpdate(formData);
+    startSavingNeumaticos(formData);
+    Swal.fire("Ok", "Neumaticos actualizados", "success");
+
     handleClose();
   };
 

@@ -1,5 +1,6 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { useFrenoStore } from "../hooks/useFrenoStore";
 
 const initialFormState = {
   delanteros: "",
@@ -12,22 +13,24 @@ export const ModalActualizarFrenos = ({
   showModal,
   handleClose,
   handleUpdate,
-  frenos,
+  frenosData,
 }) => {
-  const [formData, setFormData] = useState(initialFormState);
-
-  // Convierte los datos del backend (0/1) a booleanos
-  useEffect(() => {
-    if (frenos) {
-      const convertedData = {};
-      Object.entries(frenos).forEach(([key, value]) => {
-        convertedData[key] = typeof value === "number" ? value === 1 : value;
-      });
-      setFormData(convertedData);
-    } else {
-      setFormData(initialFormState);
+  const [formData, setFormData] = useState(
+    frenosData || {
+      delanteros: "",
+      traseros: "",
+      estacionamiento: "",
+      numero_cricket: "",
     }
-  }, [frenos]);
+  );
+
+  const { startSavingFrenos } = useFrenoStore();
+
+  useEffect(() => {
+    if (frenosData) {
+      setFormData(frenosData);
+    }
+  }, [frenosData]);
 
   const handleInputChange = (e) => {
     const { name, type, checked } = e.target;
@@ -40,11 +43,11 @@ export const ModalActualizarFrenos = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleUpdate(formData);
+    startSavingFrenos(formData);
     handleClose();
   };
 
-  if (!frenos) return null;
+  if (!frenosData) return null;
 
   return (
     <Modal show={showModal} onHide={handleClose} centered backdrop="static">
