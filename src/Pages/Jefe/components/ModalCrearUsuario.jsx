@@ -42,6 +42,11 @@ export const ModalCrearUsuario = ({ showModal, handleClose }) => {
       password: registerPassword,
       password_confirmation: registerPasswordConfirmation,
     });
+
+    Swal.fire("Ok", "Usuario creado correctamente", "success");
+    setTimeout(() => {
+      location.reload();
+    }, 1000);
     handleClose();
   };
 
@@ -81,6 +86,7 @@ export const ModalCrearUsuario = ({ showModal, handleClose }) => {
                 name="registerPassword"
                 value={registerPassword}
                 onChange={onInputChange}
+                required
               />
             </Form.Group>
             <Form.Group className="mb-3">

@@ -29,10 +29,10 @@ export const Login = () => {
     if (status === "authenticated") {
       switch (user.rol) {
         case "jefe":
-          navigate("/jefe", { replace: true });
+          navigate("/jefe/dashboard", { replace: true });
           break;
         case "mecanico":
-          navigate("/mecanico", { replace: true });
+          navigate("/mecanico/dashboard", { replace: true });
           break;
         default:
           navigate("/login", { replace: true });

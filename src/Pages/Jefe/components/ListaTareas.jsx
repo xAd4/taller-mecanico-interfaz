@@ -112,10 +112,10 @@ export const ListaTareas = () => {
               {isLoadingTareas ? (
                 <SpinnerComponent />
               ) : (
-                filteredData.map((tarea) => (
-                  <tr key={tarea.id} className="transition-all">
-                    <td className="ps-4 fw-semibold"># {tarea?.id}</td>
-                    <td className="ps-4 fw-semibold"># {tarea?.orden_id}</td>
+                filteredData.map((tarea, index) => (
+                  <tr key={index} className="transition-all">
+                    <td className="ps-4 fw-semibold"> {tarea?.id}</td>
+                    <td className="ps-4 fw-semibold"> {tarea?.orden_id}</td>
                     <td>
                       <div className="d-flex align-items-center gap-2">
                         <i className="bi bi-person-workspace"></i>

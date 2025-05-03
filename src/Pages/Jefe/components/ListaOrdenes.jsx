@@ -103,13 +103,12 @@ export const ListaOrdenes = () => {
               {isLoadingOrdenes ? (
                 <SpinnerComponent colSpan={12} />
               ) : (
-                filteredData.map((orden) => (
-                  <tr key={orden.id} className="transition-all">
+                filteredData.map((orden, index) => (
+                  <tr key={index} className="transition-all">
                     <td className="ps-4">
                       <div className="d-flex align-items-center gap-3">
                         <div>
                           <h6 className="mb-0 fw-semibold">{orden?.id}</h6>
-                          <small className="text-muted">ID de la orden</small>
                         </div>
                       </div>
                     </td>
@@ -117,12 +116,12 @@ export const ListaOrdenes = () => {
                       <div className="d-flex align-items-center gap-3">
                         <div>
                           <h6 className="mb-0 fw-semibold">
-                            ID: {orden?.cliente.id}
+                            ID del cliente: {orden?.cliente.id}
                           </h6>
+                          <br />
                           <h6 className="mb-0 fw-semibold">
-                            {orden?.cliente.nombre}
+                            Nombre del cliente: {orden?.cliente.nombre}
                           </h6>
-                          <small className="text-muted">Info del cliente</small>
                         </div>
                       </div>
                     </td>
@@ -131,10 +130,12 @@ export const ListaOrdenes = () => {
                         <i className="bi bi-car-front fs-4 text-muted"></i>
                         <div>
                           <h6 className="mb-0 fw-semibold">
-                            ID: {orden?.vehiculo.id}
+                            ID del Vehiculo: {orden?.vehiculo.id}
                           </h6>
+                          <br />
                           <h6 className="mb-0 fw-semibold">
-                            {orden?.vehiculo.modelo} - {orden?.vehiculo.marca}
+                            Info del Vehiculo: {orden?.vehiculo.modelo} -{" "}
+                            {orden?.vehiculo.marca}
                           </h6>
                           <ul className="list-unstyled mb-0">
                             <li>

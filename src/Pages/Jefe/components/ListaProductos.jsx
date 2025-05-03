@@ -130,6 +130,7 @@ export const ListaProductos = () => {
           <Table striped bordered hover className="mb-0">
             <thead>
               <tr>
+                <th>ID</th>
                 <th>Nombre</th>
                 <th>Disponibilidad</th>
                 <th className="text-end">Acciones</th>
@@ -146,6 +147,7 @@ export const ListaProductos = () => {
 
                   return (
                     <tr key={index}>
+                      <td>{categoria?.id}</td>
                       <td>{categoria?.nombre}</td>
                       <td>
                         <Badge bg={estado.color} className="text-capitalize">
@@ -209,6 +211,7 @@ export const ListaProductos = () => {
           <table className="table table-hover align-middle mb-0">
             <thead className="bg-primary text-white">
               <tr>
+                <th>ID</th>
                 <th scope="col" className="ps-4">
                   Categoría
                 </th>
@@ -230,13 +233,14 @@ export const ListaProductos = () => {
               {isLoadingProducto ? (
                 <SpinnerComponent />
               ) : (
-                filteredProducts.map((producto) => {
+                filteredProducts.map((producto, index) => {
                   const estado = getEstadoDisponibilidad(
                     producto?.disponibilidad
                   );
 
                   return (
-                    <tr key={producto?.id} className="transition-all">
+                    <tr key={index} className="transition-all">
+                      <td>{producto?.id}</td>
                       <td className="ps-4">
                         <div className="d-flex align-items-center gap-3">
                           <i

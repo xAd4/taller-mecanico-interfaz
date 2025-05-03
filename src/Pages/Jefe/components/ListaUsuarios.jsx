@@ -99,9 +99,9 @@ export const ListaUsuarios = () => {
               {isLoadingUsuarios ? (
                 <SpinnerComponent />
               ) : (
-                filteredData.map((usuario) => (
-                  <tr key={usuario.id} className="transition-all">
-                    <td># {usuario.id}</td>
+                filteredData.map((usuario, index) => (
+                  <tr key={index} className="transition-all">
+                    <td>{usuario.id}</td>
                     <td className="ps-4">
                       <div className="d-flex align-items-center gap-3">
                         <div>

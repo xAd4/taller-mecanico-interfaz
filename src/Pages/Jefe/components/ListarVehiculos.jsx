@@ -101,8 +101,8 @@ export const ListaVehiculos = () => {
               {isLoadingVehiculos ? (
                 <SpinnerComponent colSpan={12} />
               ) : (
-                filteredData.map((vehiculo) => (
-                  <tr key={vehiculo.id} className="transition-all">
+                filteredData.map((vehiculo, index) => (
+                  <tr key={index} className="transition-all">
                     <td className="ps-4 fw-semibold">{vehiculo.id}</td>
                     <td className="ps-4 fw-semibold">{vehiculo.modelo}</td>
                     <td>

@@ -95,9 +95,9 @@ export const ListaClientes = () => {
               {isLoadingClientes ? (
                 <SpinnerComponent />
               ) : (
-                filteredData.map((cliente) => (
-                  <tr key={cliente.id} className="transition-all">
-                    <td className="ps-4 fw-semibold">#{cliente.id}</td>
+                filteredData.map((cliente, index) => (
+                  <tr key={index} className="transition-all">
+                    <td className="ps-4 fw-semibold">{cliente.id}</td>
                     <td>
                       <div className="d-flex align-items-center">
                         <div className="ms-3">

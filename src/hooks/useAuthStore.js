@@ -9,6 +9,7 @@ import {
   onLogout,
   onStartLoading,
 } from "../store/auth/authSlice";
+import Swal from "sweetalert2";
 
 export const useAuthStore = () => {
   const { status, user, errorMessage, isLoadingAuth } = useSelector(
@@ -52,13 +53,12 @@ export const useAuthStore = () => {
   }) => {
     // dispatch(onChecking());
     try {
-      const { data } = await tallerMecanicoApi.post("/registro", {
+      await tallerMecanicoApi.post("/registro", {
         name,
         email,
         password,
         password_confirmation,
       });
-      dispatch(onRegister({ ...data.user }));
     } catch (error) {
       dispatch(onAuthError(error.response.data.message || "Error inesperado"));
       setTimeout(() => {
