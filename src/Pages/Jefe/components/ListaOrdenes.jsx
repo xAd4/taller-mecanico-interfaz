@@ -281,17 +281,17 @@ export const ListaOrdenes = () => {
             </tbody>
           </table>
         </div>
-        <div className="d-flex justify-content-center mt-4">
-          <Stack direction="horizontal" gap={3}>
-            <Button
-              variant="outline-primary"
-              size="lg"
-              onClick={() => handleIncrementPaginate(1)}
-            >
-              Siguientes <i className="bi bi-arrow-right"></i>
-            </Button>
-          </Stack>
-        </div>
+      </div>
+      <div className="d-flex justify-content-center mt-4">
+        <Stack direction="horizontal" gap={3}>
+          <Button
+            variant="outline-primary"
+            size="lg"
+            onClick={() => handleIncrementPaginate(1)}
+          >
+            Cargar siguientes ordenes <i className="bi bi-arrow-right"></i>
+          </Button>
+        </Stack>
       </div>
 
       {/* Modal */}
