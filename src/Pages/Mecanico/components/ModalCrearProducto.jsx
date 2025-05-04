@@ -3,8 +3,13 @@ import { Form, Modal, Button, InputGroup } from "react-bootstrap";
 import Select from "react-select";
 import { useSelectorProductos } from "../hooks/useSelectorProductos";
 
-export const ModalCrearProducto = ({ showModal, handleClose }) => {
+export const ModalCrearProducto = ({
+  showModal,
+  handleClose,
+  productoData,
+}) => {
   const [formData, setFormData] = useState({
+    tarea_id: "",
     producto_id: "",
     cantidad: "",
   });

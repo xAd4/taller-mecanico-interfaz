@@ -63,11 +63,11 @@ export const ListaTareas = () => {
       {/* Header */}
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
         <div>
-          <h1 className="h2 mb-1 fw-bold text-primary">Gestión de Tareas</h1>
+          <h1 className="h2 mb-1 fw-bold text-danger">Gestión de Tareas</h1>
           <p className="text-muted mb-0">Seguimiento de trabajos en taller</p>
         </div>
         <Button
-          variant="primary"
+          variant="danger"
           onClick={() => setShowModal(true)}
           className="d-flex align-items-center gap-2"
         >
@@ -94,7 +94,7 @@ export const ListaTareas = () => {
       <div className="card shadow-sm border-0 overflow-hidden">
         <div className="table-responsive rounded-3">
           <table className="table table-hover align-middle mb-0">
-            <thead className="bg-primary text-white">
+            <thead className="bg-danger text-white">
               <tr>
                 <th scope="col">ID</th>
                 <th scope="col" className="ps-4">
@@ -203,7 +203,7 @@ export const ListaTareas = () => {
       <div className="d-flex justify-content-center mt-4">
         <Stack direction="horizontal" gap={3}>
           <Button
-            variant="outline-primary"
+            variant="outline-danger"
             size="lg"
             onClick={() => handleIncrementPaginate(1)}
           >

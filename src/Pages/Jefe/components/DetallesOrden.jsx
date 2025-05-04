@@ -21,7 +21,7 @@ export const DetallesOrden = () => {
           <div className="alert alert-danger">
             No se encontró la orden solicitada
           </div>
-          <Button onClick={onBack} variant="primary">
+          <Button onClick={onBack} variant="danger">
             Volver al listado
           </Button>
         </div>
@@ -37,7 +37,7 @@ export const DetallesOrden = () => {
     <Layout>
       <div className="container-fluid px-4 py-3 animate__animated animate__fadeIn">
         <Button
-          variant="outline-primary"
+          variant="outline-danger"
           size="sm"
           className="mb-4 d-flex align-items-center gap-2"
           onClick={onBack}
@@ -57,7 +57,7 @@ export const DetallesOrden = () => {
           <div className="col-lg-6">
             {/* Tarjeta Cliente */}
             <div className="card shadow-sm mb-4">
-              <div className="card-header bg-primary text-white">
+              <div className="card-header bg-danger text-white">
                 <h3 className="h5 mb-0">
                   <i className="bi bi-person-circle me-2"></i> Información del
                   Cliente - ID # {orden.cliente.id}
@@ -88,7 +88,7 @@ export const DetallesOrden = () => {
 
             {/* Tarjeta Vehículo */}
             <div className="card shadow-sm">
-              <div className="card-header bg-primary text-white">
+              <div className="card-header bg-danger text-white">
                 <h3 className="h5 mb-0">
                   <i className="bi bi-car-front me-2"></i>
                   Información del Vehículo Cliente - ID # {orden.vehiculo.id}
@@ -134,7 +134,7 @@ export const DetallesOrden = () => {
 
             <Button
               className="mt-3"
-              variant="outline-primary"
+              variant="outline-danger"
               onClick={() =>
                 navigate("/jefe/imprimir-orden", { state: { orden } })
               }
@@ -147,7 +147,7 @@ export const DetallesOrden = () => {
           <div className="col-lg-6">
             {/* Tarjeta Detalles Orden */}
             <div className="card shadow-sm mb-4">
-              <div className="card-header bg-primary text-white">
+              <div className="card-header bg-danger text-white">
                 <h3 className="h5 mb-0">
                   <i className="bi bi-clipboard-data me-2"></i>
                   Detalles de la Orden
@@ -226,7 +226,7 @@ export const DetallesOrden = () => {
 
             {/* Sección Tareas */}
             {/* <div className="card shadow-sm">
-              <div className="card-header bg-primary text-white">
+              <div className="card-header bg-danger text-white">
                 <h3 className="h5 mb-0">
                   <i className="bi bi-exclamation"></i>
                   Información Importante
@@ -263,7 +263,7 @@ export const DetallesOrden = () => {
         {/* Botones de acción */}
         {/* <Stack direction="horizontal" gap={3} className="mt-4">
           <Button
-            variant="outline-primary"
+            variant="outline-danger"
             onClick={() =>
               navigate(`/jefe/orden/editar/${id}`, { state: { orden } })
             }

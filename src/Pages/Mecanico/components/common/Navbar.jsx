@@ -6,23 +6,23 @@ export const Navbar = () => {
   const navigate = useNavigate();
   const { startLogout } = useAuthStore();
   return (
-    <header className="navbar-main bg-gradient-primary">
-      <nav className="navbar navbar-expand-lg navbar-dark">
+    <header className="navbar-main">
+      <nav className="navbar navbar-expand-lg">
         <div className="container-fluid px-4">
-          {/* Brand */}
+          {/* Brand con Logo */}
           <NavLink
             to="/mecanico/dashboard"
-            className="navbar-brand d-flex align-items-center"
+            className="navbar-brand d-flex align-items-center gap-2"
           >
-            <div className="brand-logo me-2">
-              <i className="bi bi-gear-fill"></i>
-            </div>
-            {/* <span className="brand-text">
-              Taller<span className="text-accent">Mecanico</span>
-            </span> */}
+            <img
+              src="../../../../../public/logo final.png"
+              alt="DataSoft Logo"
+              className="brand-logo"
+              style={{ height: "80px", width: "250px" }}
+            />
           </NavLink>
 
-          {/* Toggle */}
+          {/* Toggler */}
           <button
             className="navbar-toggler"
             type="button"

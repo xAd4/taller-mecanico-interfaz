@@ -24,6 +24,7 @@ import { useTrenDelanteroStore } from "../hooks/useTrenDelanteroStore";
 import { useTrenTraseroStore } from "../hooks/useTrenTraseroStore";
 import { useFrenoStore } from "../hooks/useFrenoStore";
 import { useNeumaticoStore } from "../hooks/useNeumaticoStore";
+import { useProductoUsadoStore } from "../hooks/useProductoUsadoStore";
 
 export const DetalleTareas = () => {
   const [activeTab, setActiveTab] = useState("delantero");
@@ -53,6 +54,9 @@ export const DetalleTareas = () => {
 
   const { neumaticos, startLoadingNeumaticos, isLoadingNeumaticos } =
     useNeumaticoStore();
+
+  const { productos, startLoadingProducto, isLoadingProducto } =
+    useProductoUsadoStore();
 
   const navigate = useNavigate();
   const { state } = useLocation();
@@ -93,6 +97,10 @@ export const DetalleTareas = () => {
     startLoadingNeumaticos(tarea.id);
   }, []);
 
+  useEffect(() => {
+    startLoadingProducto(tarea.id);
+  }, []);
+
   const renderStatusIcon = (status) => (
     <span className={`fs-5 ${status ? "text-success" : "text-danger"}`}>
       {status ? (
@@ -105,7 +113,7 @@ export const DetalleTareas = () => {
 
   const TabButton = ({ id, title, icon }) => (
     <Button
-      variant={activeTab === id ? "primary" : "outline-primary"}
+      variant={activeTab === id ? "danger" : "outline-danger"}
       onClick={() => setActiveTab(id)}
       className="d-flex align-items-center gap-2"
     >
@@ -140,7 +148,7 @@ export const DetalleTareas = () => {
         ) : (
           <div className="container-fluid px-4 py-3 animate__animated animate__fadeIn">
             <Button
-              variant="outline-primary"
+              variant="outline-danger"
               size="sm"
               className="mb-4 d-flex align-items-center gap-2"
               onClick={onBack}
@@ -154,7 +162,7 @@ export const DetalleTareas = () => {
                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
                   {/* Título principal */}
                   <div>
-                    <h1 className="h2 fw-bold text-primary mb-1">
+                    <h1 className="h2 fw-bold text-danger mb-1">
                       <i className="bi bi-clipboard-check me-2"></i>
                       Detalles de la Tarea #{tarea?.id}
                     </h1>
@@ -264,7 +272,7 @@ export const DetalleTareas = () => {
                     {/* Notificación al cliente */}
                     {tarea?.notificacion_al_cliente && (
                       <div className="mt-3 p-3 bg-light rounded">
-                        <h6 className="text-primary mb-2">
+                        <h6 className="text-danger mb-2">
                           <i className="bi bi-chat-left-text me-2"></i>
                           Notificación al Cliente
                         </h6>
@@ -275,7 +283,7 @@ export const DetalleTareas = () => {
                     {/* Botón Editar */}
                     <div className="text-end mt-3">
                       <Button
-                        variant="primary"
+                        variant="danger"
                         onClick={() => {
                           setSelectedTarea(tarea);
                           setShowUpdateModal(true);
@@ -293,7 +301,7 @@ export const DetalleTareas = () => {
                   <Row className="align-items-center">
                     <Col md={8}>
                       <h5 className="mb-3 d-flex align-items-center gap-2">
-                        <i className="bi bi-info-circle text-primary"></i>
+                        <i className="bi bi-info-circle text-danger"></i>
                         Estado General de la Tarea
                       </h5>
                       <p className="mb-2">
@@ -353,7 +361,7 @@ export const DetalleTareas = () => {
                         responsive
                         className="shadow-sm"
                       >
-                        <thead className="bg-primary text-white">
+                        <thead className="bg-danger text-white">
                           <tr>
                             <th>Componente</th>
                             <th>Conv</th>
@@ -414,7 +422,7 @@ export const DetalleTareas = () => {
                         className="justify-content-end"
                       >
                         <Button
-                          variant="outline-primary"
+                          variant="outline-danger"
                           size="sm"
                           className="d-flex align-items-center gap-2"
                           onClick={() => {
@@ -445,7 +453,7 @@ export const DetalleTareas = () => {
                         responsive
                         className="shadow-sm"
                       >
-                        <thead className="bg-primary text-white">
+                        <thead className="bg-danger text-white">
                           <tr>
                             <th>Componente</th>
                             <th>Conv</th>
@@ -490,7 +498,7 @@ export const DetalleTareas = () => {
                         className="justify-content-end"
                       >
                         <Button
-                          variant="outline-primary"
+                          variant="outline-danger"
                           size="sm"
                           className="d-flex align-items-center gap-2"
                           onClick={() => {
@@ -521,7 +529,7 @@ export const DetalleTareas = () => {
                         responsive
                         className="shadow-sm"
                       >
-                        <thead className="bg-primary text-white">
+                        <thead className="bg-danger text-white">
                           <tr>
                             <th>Componente</th>
                             <th>Delanteros</th>
@@ -554,7 +562,7 @@ export const DetalleTareas = () => {
                         className="justify-content-end"
                       >
                         <Button
-                          variant="outline-primary"
+                          variant="outline-danger"
                           size="sm"
                           className="d-flex align-items-center gap-2"
                           onClick={() => {
@@ -585,7 +593,7 @@ export const DetalleTareas = () => {
                         responsive
                         className="shadow-sm"
                       >
-                        <thead className="bg-primary text-white">
+                        <thead className="bg-danger text-white">
                           <tr>
                             <th>Componente</th>
                             <th>Delanteros derechos</th>
@@ -620,7 +628,7 @@ export const DetalleTareas = () => {
                         className="justify-content-end"
                       >
                         <Button
-                          variant="outline-primary"
+                          variant="outline-danger"
                           size="sm"
                           className="d-flex align-items-center gap-2"
                           onClick={() => {
@@ -639,72 +647,75 @@ export const DetalleTareas = () => {
             )}
             {activeTab === "productos" && (
               <>
-                <div className="card shadow-sm">
-                  <div className="card-body">
-                    <h5 className="card-title mb-4">
-                      <i className="bi bi-box-seam me-2"></i>
-                      Productos Utilizados
-                    </h5>
-                    <Table hover className="mb-0">
-                      <thead>
-                        <tr>
-                          <th>Producto</th>
-                          <th>Cantidad</th>
-                          {/* <th className="text-end">P. Unitario</th> */}
-                          {/* <th className="text-end">Total</th> */}
-                          <th>Acciones</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {tarea?.productos_usados.map((producto) => (
-                          <tr key={producto.id}>
-                            <td>{producto.producto.nombre}</td>
-                            <td>{producto.cantidad}</td>
-                            {/* <td className="text-end">
+                {isLoadingProducto ? (
+                  <SpinnerComponent />
+                ) : (
+                  productos.map((producto) => (
+                    <>
+                      <div className="card shadow-sm">
+                        <div className="card-body">
+                          <h5 className="card-title mb-4">
+                            <i className="bi bi-box-seam me-2"></i>
+                            Productos Utilizados
+                          </h5>
+                          <Table hover className="mb-0">
+                            <thead>
+                              <tr>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                {/* <th className="text-end">P. Unitario</th> */}
+                                {/* <th className="text-end">Total</th> */}
+                                <th>Acciones</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr key={producto.id}>
+                                <td>{producto.producto.nombre}</td>
+                                <td>{producto.cantidad}</td>
+                                {/* <td className="text-end">
                           ${producto.producto.precio}
                         </td> */}
-                            {/* <td className="text-end fw-bold">
+                                {/* <td className="text-end fw-bold">
                           ${producto.total.toFixed(2)}
                         </td> */}
-                            <td className="pe-4">
-                              <td className="pe-4">
-                                <Stack
-                                  direction="horizontal"
-                                  gap={2}
-                                  className="justify-content-end"
-                                >
-                                  <Button
-                                    variant="outline-primary"
-                                    size="sm"
-                                    className="d-flex align-items-center gap-2"
-                                    onClick={() => {
-                                      setSelectedData(producto);
-                                      setShowProductosModal(true);
-                                    }}
-                                  >
-                                    <i className="bi bi-pencil"></i>
-                                    <span className="d-none d-md-inline">
-                                      Editar
-                                    </span>
-                                  </Button>
-                                  <Button
-                                    variant="outline-danger"
-                                    size="sm"
-                                    className="d-flex align-items-center gap-2"
-                                    onClick={() => setShowDeleteModal(true)}
-                                  >
-                                    <i className="bi bi-trash"></i>
-                                    <span className="d-none d-md-inline">
-                                      Eliminar
-                                    </span>
-                                  </Button>
-                                </Stack>
-                              </td>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                      {/* <tfoot className="fw-bold">
+                                <td className="pe-4">
+                                  <td className="pe-4">
+                                    <Stack
+                                      direction="horizontal"
+                                      gap={2}
+                                      className="justify-content-end"
+                                    >
+                                      <Button
+                                        variant="outline-danger"
+                                        size="sm"
+                                        className="d-flex align-items-center gap-2"
+                                        onClick={() => {
+                                          setSelectedData(producto);
+                                          setShowProductosModal(true);
+                                        }}
+                                      >
+                                        <i className="bi bi-pencil"></i>
+                                        <span className="d-none d-md-inline">
+                                          Editar
+                                        </span>
+                                      </Button>
+                                      <Button
+                                        variant="outline-danger"
+                                        size="sm"
+                                        className="d-flex align-items-center gap-2"
+                                        onClick={() => setShowDeleteModal(true)}
+                                      >
+                                        <i className="bi bi-trash"></i>
+                                        <span className="d-none d-md-inline">
+                                          Eliminar
+                                        </span>
+                                      </Button>
+                                    </Stack>
+                                  </td>
+                                </td>
+                              </tr>
+                            </tbody>
+                            {/* <tfoot className="fw-bold">
                     <tr>
                       <td colSpan="3" className="text-end">
                         Total General
@@ -717,26 +728,32 @@ export const DetalleTareas = () => {
                       </td>
                     </tr>
                   </tfoot> */}
-                    </Table>
-                  </div>
-                </div>
-                <Stack
-                  direction="horizontal"
-                  gap={2}
-                  className="justify-content-end"
-                >
-                  <Button
-                    variant="outline-success"
-                    size="sm"
-                    className="d-flex align-items-center gap-2 mt-2"
-                    onClick={() => {
-                      setShowModal(true);
-                    }}
-                  >
-                    <i className="bi bi-pencil"></i>
-                    <span className="d-none d-md-inline">Agregar producto</span>
-                  </Button>
-                </Stack>
+                          </Table>
+                        </div>
+                      </div>
+                      <Stack
+                        direction="horizontal"
+                        gap={2}
+                        className="justify-content-end"
+                      >
+                        <Button
+                          variant="outline-success"
+                          size="sm"
+                          className="d-flex align-items-center gap-2 mt-2"
+                          onClick={() => {
+                            setShowModal(true);
+                            setSelectedData(producto);
+                          }}
+                        >
+                          <i className="bi bi-pencil"></i>
+                          <span className="d-none d-md-inline">
+                            Agregar producto
+                          </span>
+                        </Button>
+                      </Stack>
+                    </>
+                  ))
+                )}
               </>
             )}
 
@@ -783,6 +800,7 @@ export const DetalleTareas = () => {
             <ModalCrearProducto
               showModal={showModal}
               handleClose={() => setShowModal(false)}
+              productoData={selectedData}
             />
             <ModalEliminarProducto
               showModal={showDeleteModal}

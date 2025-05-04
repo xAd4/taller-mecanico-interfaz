@@ -77,7 +77,7 @@ export const ModalActualizarTarea = ({ showModal, handleClose, tareaData }) => {
           <Button variant="secondary" onClick={handleClose}>
             Cancelar
           </Button>
-          <Button variant="primary" type="submit">
+          <Button variant="success" type="submit">
             Guardar Cambios
           </Button>
         </Modal.Footer>

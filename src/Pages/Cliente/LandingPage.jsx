@@ -89,7 +89,7 @@ export const LandingPage = () => {
                       onKeyPress={(e) => e.key === "Enter" && handleSearch()}
                     />
                     <Button
-                      variant="primary"
+                      variant="danger"
                       onClick={handleSearch}
                       disabled={loading || !searchTerm}
                     >

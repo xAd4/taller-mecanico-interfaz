@@ -13,13 +13,16 @@ import { trenDelanteroSlice } from "./mecanico/trenDelantero/trenDelanteroSlice"
 import { trenTraseroSlice } from "./mecanico/trenTrasero/trenTraseroSlice";
 import { frenoSlice } from "./mecanico/frenos/frenoSlice";
 import { neumaticoSlice } from "./mecanico/estadoNeumaticos/neumaticoSlice";
+import { productoUsado } from "./mecanico/productoUsado/productoUsadoSlice";
 
 export const store = configureStore({
   reducer: {
-    // Autenticacion para empleados
+    //TODO: Acciones del cliente
+
+    //* Autenticacion para empleados
     auth: authSlice.reducer,
 
-    // Acciones del dashboard del jefe
+    //* Acciones del dashboard del jefe
     cliente: clienteSlice.reducer,
     vehiculo: vehiculoSlice.reducer,
     orden: ordenSlice.reducer,
@@ -29,12 +32,13 @@ export const store = configureStore({
     producto: productoSlice.reducer,
     usuario: usuarioSlice.reducer,
 
-    // Acciones del dashboard del mecanico
+    //* Acciones del dashboard del mecanico
     tareaAsignada: tareaAsignadaSlice.reducer,
     trenDelantero: trenDelanteroSlice.reducer,
     trenTrasero: trenTraseroSlice.reducer,
     freno: frenoSlice.reducer,
     neumatico: neumaticoSlice.reducer,
+    productoUsado: productoUsado.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

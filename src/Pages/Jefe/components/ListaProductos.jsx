@@ -81,14 +81,14 @@ export const ListaProductos = () => {
       {/* Header */}
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
         <div>
-          <h1 className="h2 mb-1 fw-bold text-primary">
+          <h1 className="h2 mb-1 fw-bold text-danger">
             Inventario de Productos
           </h1>
           <p className="text-muted mb-0">Gestión de stock y precios</p>
         </div>
         <div className="d-flex gap-2">
           <Button
-            variant="primary"
+            variant="danger"
             onClick={() => setShowModal(true)}
             className="d-flex align-items-center gap-2"
           >
@@ -108,7 +108,7 @@ export const ListaProductos = () => {
 
       {/* Tabla de Categorías */}
       <div className="card shadow-sm border-0 overflow-hidden mb-4">
-        <div className="card-header bg-primary text-white">
+        <div className="card-header bg-danger text-white">
           <h3 className="h5 mb-0">Categorías Disponibles</h3>
         </div>
         {/* Buscador */}
@@ -190,7 +190,7 @@ export const ListaProductos = () => {
       {/* Tabla Responsive de Productos */}
       <div className="card shadow-sm border-0 overflow-hidden">
         {/* Buscador */}
-        <div className="card-header bg-primary text-white">
+        <div className="card-header bg-danger text-white">
           <h3 className="h5 mb-0">Productos Disponibles</h3>
         </div>
         <div className="mb-4">
@@ -209,7 +209,7 @@ export const ListaProductos = () => {
         </div>
         <div className="table-responsive rounded-3">
           <table className="table table-hover align-middle mb-0">
-            <thead className="bg-primary text-white">
+            <thead className="bg-danger text-white">
               <tr>
                 <th>ID</th>
                 <th scope="col" className="ps-4">
@@ -334,7 +334,7 @@ export const ListaProductos = () => {
       <div className="d-flex justify-content-center mt-4">
         <Stack direction="horizontal" gap={3}>
           <Button
-            variant="outline-primary"
+            variant="outline-danger"
             size="lg"
             onClick={() => handleIncrementPaginate(1)}
           >
