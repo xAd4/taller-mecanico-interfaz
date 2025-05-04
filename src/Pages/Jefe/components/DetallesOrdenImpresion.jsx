@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import { useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 export const DetallesOrdenImpresion = () => {
   // const { id } = useParams();
@@ -31,12 +31,26 @@ export const DetallesOrdenImpresion = () => {
 
       {/* Encabezado de la empresa */}
       <div className="company-header text-center mb-4">
-        <h1 className="mb-1" style={{ fontSize: "2.2rem", fontWeight: "700" }}>
-          Taller Mecánico Automotriz
-        </h1>
-        <p className="mb-0">Av. Principal 1234, Ciudad, País</p>
-        <p className="mb-0">Tel: (123) 456-7890 | Email: contacto@taller.com</p>
-        <p className="mb-0">RUT: 12.345.678-9</p>
+        <div className="d-flex flex-column align-items-center gap-3">
+          {/* Imagen del logo */}
+          <NavLink to="/jefe/dashboard" className="navbar-brand">
+            <img
+              src="../../../../../public/logo final.png" // Cambia esta ruta si es necesario
+              alt="DataSoft Logo"
+              className="brand-logo img-fluid"
+              style={{ maxWidth: "350px", height: "auto" }}
+            />
+          </NavLink>
+
+          {/* Encabezado y detalles */}
+          <div>
+            <p className="mb-0">Av. Principal 1234, Ciudad, País</p>
+            <p className="mb-0">
+              Tel: (123) 456-7890 | Email: contacto@taller.com
+            </p>
+            <p className="mb-0">RUT: 12.345.678-9</p>
+          </div>
+        </div>
       </div>
 
       {/* Encabezado del documento */}

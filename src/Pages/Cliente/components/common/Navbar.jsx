@@ -18,7 +18,6 @@ export const Navbar = () => {
               src="../../../../../public/logo final.png"
               alt="DataSoft Logo"
               className="brand-logo"
-              style={{ height: "80px", width: "250px" }}
             />
           </NavLink>
 
