@@ -13,10 +13,10 @@ export const useMecanicoStore = () => {
     dispatch(onSetActiveMecanico(mecanico));
   };
 
-  const startLoadingMecanico = async (page = 1) => {
+  const startLoadingMecanico = async () => {
     try {
-      const { data } = await tallerMecanicoApi.get(`/mecanicos?page=${page}`);
-      dispatch(onLoadMecanicos([...data.data.data]));
+      const { data } = await tallerMecanicoApi.get(`/mecanicos`);
+      dispatch(onLoadMecanicos([...data.data]));
     } catch (error) {
       console.log("Error al cargar", error);
     }

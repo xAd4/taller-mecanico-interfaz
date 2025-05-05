@@ -16,7 +16,7 @@ const createVehiculoField = {
   fecha_de_compra: "",
 };
 
-export const ModalCrearVehiculo = ({ showModal, handleShow, handleClose }) => {
+export const ModalCrearVehiculo = ({ showModal, handleClose }) => {
   const [formData, setFormData] = useState({
     modelo: "",
     marca: "",
@@ -56,7 +56,7 @@ export const ModalCrearVehiculo = ({ showModal, handleShow, handleClose }) => {
       fecha_de_compra,
     });
 
-    Swal.fire("Ok", "Cliente creado", "success");
+    Swal.fire("Ok", "Vehiculo creado", "success");
     setTimeout(() => {
       location.reload();
     }, 1000);
@@ -146,7 +146,7 @@ export const ModalCrearVehiculo = ({ showModal, handleShow, handleClose }) => {
               <Form.Label>Fecha de compra (Opcional)</Form.Label>
               <Form.Control
                 type="date"
-                name="fecha_de_compar"
+                name="fecha_de_compra"
                 value={fecha_de_compra}
                 onChange={onInputChange}
               />

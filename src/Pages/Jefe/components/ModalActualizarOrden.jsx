@@ -106,7 +106,6 @@ export const ModalActualizarOrden = ({ showModal, handleClose, ordenData }) => {
               name="prometido"
               value={formData.prometido}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3">

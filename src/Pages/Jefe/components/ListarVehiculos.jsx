@@ -12,11 +12,6 @@ export const ListaVehiculos = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedVehiculo, setSelectedVehiculo] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const handleIncrementPaginate = (paginate) => {
-    setCurrentPage((prev) => prev + paginate);
-  };
 
   const { vehiculos, startLoadingVehiculos, isLoadingVehiculos } =
     useVehiculoStore();
@@ -38,8 +33,8 @@ export const ListaVehiculos = () => {
   };
 
   useEffect(() => {
-    startLoadingVehiculos(currentPage);
-  }, [currentPage]);
+    startLoadingVehiculos();
+  }, []);
 
   return (
     <div className="container-fluid px-4 py-3 animate__animated animate__fadeIn">
@@ -177,17 +172,6 @@ export const ListaVehiculos = () => {
             </tbody>
           </table>
         </div>
-      </div>
-      <div className="d-flex justify-content-center mt-4">
-        <Stack direction="horizontal" gap={3}>
-          <Button
-            variant="outline-danger"
-            size="lg"
-            onClick={() => handleIncrementPaginate(1)}
-          >
-            Cargar siguientes vehiculos <i className="bi bi-arrow-right"></i>
-          </Button>
-        </Stack>
       </div>
 
       {/* Modal */}

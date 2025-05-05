@@ -21,11 +21,11 @@ export const useTareaStore = () => {
     dispatch(onSetactiveTarea(orden));
   };
 
-  const startLoadingTareas = async (page = 1) => {
+  const startLoadingTareas = async () => {
     try {
       dispatch(onStartLoading());
-      const { data } = await tallerMecanicoApi.get(`/tareas?page=${page}`);
-      dispatch(onLoadTareas([...data.data.data]));
+      const { data } = await tallerMecanicoApi.get(`/tareas`);
+      dispatch(onLoadTareas([...data.data]));
     } catch (error) {
       console.log("Error al cargar", error);
     }

@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { es } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 export const DetallesOrdenImpresion = () => {
@@ -8,7 +8,12 @@ export const DetallesOrdenImpresion = () => {
   const { orden } = location.state || {};
 
   const formatDate = (dateString) => {
-    return format(new Date(dateString), "dd MMMM yyyy", { locale: es });
+    const date = new Date(dateString);
+    // Ajustar la fecha para evitar problemas de zona horaria
+    const adjustedDate = new Date(
+      date.getTime() + date.getTimezoneOffset() * 60000
+    );
+    return format(adjustedDate, "dd MMMM yyyy", { locale: enUS });
   };
 
   if (!orden) return null;
@@ -151,21 +156,18 @@ export const DetallesOrdenImpresion = () => {
         <h3 className="section-title pb-2">Términos y Condiciones</h3>
         <div className="legal-text">
           <p>
-            1. El cliente autoriza expresamente la realización de las
-            reparaciones descritas y el uso de materiales necesarios para las
-            mismas.
+            Por la presente autorizo las reparaciones aquí descriptas utilizando
+            el material necsarios. Como así también a transitar con este
+            vehículo por las calles, carreteras, etc. a efectos de realizar las
+            priuebas o inspecciones pertinentes.
           </p>
+
+          <p>Es condición el pago contra entrega del vehículo.</p>
+
           <p>
-            2. El taller queda autorizado a realizar pruebas de circulación
-            necesarias para la verificación de las reparaciones.
-          </p>
-          <p>
-            3. El pago total deberá realizarse al momento de la entrega del
-            vehículo.
-          </p>
-          <p>
-            4. El taller no se responsabiliza por objetos personales dejados en
-            el vehículo.
+            Esta empresa no se responsabiliza por pérdida, daños, incencio,
+            robo, etc. causados a su vehículo y/o artículos dejados en el
+            interior del mismo o cualquier otro motivo.
           </p>
 
           <div className="mt-4">
@@ -174,14 +176,14 @@ export const DetallesOrdenImpresion = () => {
                 <p className="mb-1">Firma del Cliente:</p>
                 <div
                   className="signature-line"
-                  style={{ height: "30px" }}
+                  style={{ height: "120px" }}
                 ></div>
               </div>
               <div>
                 <p className="mb-1">Firma del Responsable:</p>
                 <div
                   className="signature-line"
-                  style={{ height: "30px" }}
+                  style={{ height: "120px" }}
                 ></div>
               </div>
             </div>

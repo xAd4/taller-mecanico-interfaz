@@ -6,7 +6,6 @@ import Swal from "sweetalert2";
 export const ModalActualizarVehiculo = ({
   showModal,
   handleClose,
-  handleUpdate,
   vehiculoData,
 }) => {
   const [formData, setFormData] = useState(
@@ -41,7 +40,7 @@ export const ModalActualizarVehiculo = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     startSavingVehiculo(formData);
-    Swal.fire("Ok", "Cliente actualizado", "success");
+    Swal.fire("Ok", "Vehiculo actualizado", "success");
     handleClose();
   };
 

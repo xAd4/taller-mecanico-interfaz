@@ -13,7 +13,7 @@ export const useSelectorMecanicos = (showModal) => {
     const grupos = {};
 
     mecanicos.forEach((mecanico) => {
-      const categoriaNombre = mecanico.rol;
+      const categoriaNombre = "";
 
       if (!grupos[categoriaNombre]) {
         grupos[categoriaNombre] = {

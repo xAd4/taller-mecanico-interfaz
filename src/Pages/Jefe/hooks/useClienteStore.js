@@ -20,15 +20,15 @@ export const useClienteStore = () => {
     dispatch(onSetActiveCliente(cliente));
   };
 
-  const startLoadingClientes = async (page = 1) => {
+  const startLoadingClientes = async () => {
     try {
       dispatch(onStartLoading());
-      console.log("🐛 Solicitando página:", page);
-      const { data } = await tallerMecanicoApi.get(`/clientes?page=${page}`);
+
+      const { data } = await tallerMecanicoApi.get(`/clientes`);
       console.log("🐛 Datos recibidos:", data);
       dispatch(
         onLoadClientes([
-          ...data.data.data,
+          ...data.data,
           // { actualPage: data.data.current_page },
           // { lastPage: data.data.last_page },
         ])

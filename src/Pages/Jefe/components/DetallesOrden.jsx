@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Layout } from "./common/Layout";
 import { Button, Badge, Stack } from "react-bootstrap";
 import { format } from "date-fns";
-import { es } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 
 export const DetallesOrden = () => {
   const navigate = useNavigate();
@@ -30,7 +30,12 @@ export const DetallesOrden = () => {
   }
 
   const formatDate = (dateString) => {
-    return format(new Date(dateString), "dd MMMM yyyy", { locale: es });
+    const date = new Date(dateString);
+    // Ajustar la fecha para evitar problemas de zona horaria
+    const adjustedDate = new Date(
+      date.getTime() + date.getTimezoneOffset() * 60000
+    );
+    return format(adjustedDate, "dd MMMM yyyy", { locale: enUS });
   };
 
   return (

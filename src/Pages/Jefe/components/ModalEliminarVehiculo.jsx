@@ -11,7 +11,7 @@ export const ModalEliminarVehiculo = ({
 
   const handleDeleteVehiculo = () => {
     startDeletingVehiculo(vehiculoData);
-    Swal.fire("Ok", "Usuario eliminado.", "success");
+    Swal.fire("Ok", "Vehiculo eliminado.", "success");
     setTimeout(() => {
       location.reload();
     }, 1000);

@@ -22,11 +22,11 @@ export const useProductoStore = () => {
     dispatch(onSetActiveProducto(producto));
   };
 
-  const startLoadingProducto = async (page = 1) => {
+  const startLoadingProducto = async () => {
     try {
       dispatch(onStartLoading());
-      const { data } = await tallerMecanicoApi.get(`/productos?page=${page}`);
-      dispatch(onLoadProductos([...data.data.data]));
+      const { data } = await tallerMecanicoApi.get(`/productos`);
+      dispatch(onLoadProductos([...data.data]));
     } catch (error) {
       console.log("Error al cargar", error);
     }

@@ -15,7 +15,7 @@ export const useSelectorVehiculos = (showModal) => {
     const grupos = {};
 
     vehiculos.forEach((vehiculo) => {
-      const categoriaNombre = vehiculo.matricula;
+      const categoriaNombre = "";
 
       if (!grupos[categoriaNombre]) {
         grupos[categoriaNombre] = {

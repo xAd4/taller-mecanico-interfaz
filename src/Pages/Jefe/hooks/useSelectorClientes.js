@@ -15,7 +15,7 @@ export const useSelectorClientes = (showModal) => {
     const grupos = {};
 
     clientes.forEach((cliente) => {
-      const categoriaNombre = cliente.telefono;
+      const categoriaNombre = "";
 
       if (!grupos[categoriaNombre]) {
         grupos[categoriaNombre] = {

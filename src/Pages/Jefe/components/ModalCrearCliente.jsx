@@ -93,8 +93,10 @@ export const ModalCrearCliente = ({ handleShow, handleClose, showModal }) => {
               <Form.Control
                 type="text"
                 name="domicilio"
+                placeholder="Máximo 255 carácteres"
                 value={domicilio}
                 onChange={onInputChange}
+                maxLength={250}
               />
             </Form.Group>
           </Modal.Body>

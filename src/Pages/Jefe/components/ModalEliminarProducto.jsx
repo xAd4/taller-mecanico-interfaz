@@ -5,7 +5,6 @@ import Swal from "sweetalert2";
 export const ModalEliminarProducto = ({
   showModal,
   handleClose,
-  handleDelete,
   productoData,
 }) => {
   const { startDeletingProducto } = useProductoStore();

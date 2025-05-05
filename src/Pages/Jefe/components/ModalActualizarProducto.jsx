@@ -1,6 +1,7 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useProductoStore } from "../hooks/useProductoStore";
+import Swal from "sweetalert2";
 
 export const ModalActualizarProducto = ({
   showModal,
@@ -49,6 +50,7 @@ export const ModalActualizarProducto = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     startSavingProducto(formData);
+    Swal.fire("Ok", "Producto actualizado", "success");
     handleClose(); // Cierra el modal
   };
 

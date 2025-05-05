@@ -58,7 +58,7 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
       detalles_de_entrada_del_vehiculo,
     });
 
-    Swal.fire("Ok", "Cliente creado", "success");
+    Swal.fire("Ok", "Orden creado", "success");
     setTimeout(() => {
       location.reload();
     }, 1000);
@@ -71,7 +71,13 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
       {/* Modal para agregar nueva orden */}
       <Modal show={showModal} onHide={handleClose} centered backdrop="static">
         <Modal.Header closeButton>
-          <Modal.Title>Crear nuevo cliente</Modal.Title>
+          <Modal.Title>
+            <h4>Crear Nueva Orden</h4>
+            <p className="text-danger small">
+              Advertencia: Si la página queda congelada después de cerrar el
+              modal, recárguela.
+            </p>
+          </Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleSubmit}>
           <Modal.Body>

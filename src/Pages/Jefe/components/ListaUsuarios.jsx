@@ -12,11 +12,6 @@ export const ListaUsuarios = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedUsuario, setSelectedUsuario] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const handleIncrementPaginate = (paginate) => {
-    setCurrentPage((prev) => prev + paginate);
-  };
 
   const { usuarios, isLoadingUsuarios, startLoadingUsuario } =
     useUsuarioStore();
@@ -28,8 +23,8 @@ export const ListaUsuarios = () => {
   ]);
 
   useEffect(() => {
-    startLoadingUsuario(currentPage);
-  }, [currentPage]);
+    startLoadingUsuario();
+  }, []);
 
   const getRolColor = (rol) => {
     switch (rol.toLowerCase()) {
@@ -173,17 +168,6 @@ export const ListaUsuarios = () => {
             </tbody>
           </table>
         </div>
-      </div>
-      <div className="d-flex justify-content-center mt-4">
-        <Stack direction="horizontal" gap={3}>
-          <Button
-            variant="outline-danger"
-            size="lg"
-            onClick={() => handleIncrementPaginate(1)}
-          >
-            Cargar siguientes usuarios <i className="bi bi-arrow-right"></i>
-          </Button>
-        </Stack>
       </div>
 
       {/* Modal */}

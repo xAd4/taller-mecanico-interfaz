@@ -22,11 +22,11 @@ export const useCategoriaStore = () => {
     dispatch(onSetActiveCategoria(categoria));
   };
 
-  const startLoadingCategoria = async (page = 1) => {
+  const startLoadingCategoria = async () => {
     try {
       dispatch(onStartLoading());
-      const { data } = await tallerMecanicoApi.get(`/categorias?page=${page}`);
-      dispatch(onLoadCategorias([...data.data.data]));
+      const { data } = await tallerMecanicoApi.get(`/categorias`);
+      dispatch(onLoadCategorias([...data.data]));
     } catch (error) {
       console.log("Error al cargar", error);
     }

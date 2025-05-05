@@ -15,7 +15,7 @@ export const useSelectorOrdenes = (showModal) => {
     const grupos = {};
 
     ordenes.forEach((orden) => {
-      const categoriaNombre = orden.recepcion;
+      const categoriaNombre = "";
 
       if (!grupos[categoriaNombre]) {
         grupos[categoriaNombre] = {

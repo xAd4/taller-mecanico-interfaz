@@ -8,7 +8,7 @@ export const useSelectorProductos = () => {
     const grupos = {};
 
     productos.forEach((producto) => {
-      const categoriaNombre = producto.categoria.nombre;
+      const categoriaNombre = "";
 
       if (!grupos[categoriaNombre]) {
         grupos[categoriaNombre] = {

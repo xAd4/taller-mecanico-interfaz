@@ -13,11 +13,6 @@ export const ListaTareas = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [selectedTarea, setSelectedTarea] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const handleIncrementPaginate = (paginate) => {
-    setCurrentPage((prev) => prev + paginate);
-  };
 
   const { tareas, startLoadingTareas, isLoadingTareas } = useTareaStore();
 
@@ -40,8 +35,8 @@ export const ListaTareas = () => {
   };
 
   useEffect(() => {
-    startLoadingTareas(currentPage);
-  }, [currentPage]);
+    startLoadingTareas();
+  }, []);
 
   const getEstadoColor = (estado) => {
     switch (estado) {
@@ -199,17 +194,6 @@ export const ListaTareas = () => {
             </tbody>
           </table>
         </div>
-      </div>
-      <div className="d-flex justify-content-center mt-4">
-        <Stack direction="horizontal" gap={3}>
-          <Button
-            variant="outline-danger"
-            size="lg"
-            onClick={() => handleIncrementPaginate(1)}
-          >
-            Cargar siguientes tareas <i className="bi bi-arrow-right"></i>
-          </Button>
-        </Stack>
       </div>
 
       {/* Modal */}

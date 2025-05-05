@@ -11,7 +11,7 @@ export const ModalEliminarCliente = ({
 
   const handleDeleteCliente = () => {
     startDeletingCliente(clienteData);
-    Swal.fire("Ok", "Usuario eliminado.", "success");
+    Swal.fire("Ok", "Cliente eliminado.", "success");
     setTimeout(() => {
       location.reload();
     }, 1000);

@@ -1,6 +1,7 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useUsuarioStore } from "../hooks/useUsuarioStore";
+import Swal from "sweetalert2";
 
 export const ModalActualizarUsuario = ({
   showModal,
@@ -36,6 +37,7 @@ export const ModalActualizarUsuario = ({
     e.preventDefault();
     const { password, ...dataToSend } = formData;
     startSavingUsuario(dataToSend);
+    Swal.fire("Ok", "Usuario actualizado", "success");
     handleClose(); // Cierra el modal
   };
 

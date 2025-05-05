@@ -21,11 +21,11 @@ export const useVehiculoStore = () => {
     dispatch(onSetActiveVehiculo(vehiculo));
   };
 
-  const startLoadingVehiculos = async (page = 1) => {
+  const startLoadingVehiculos = async () => {
     try {
       dispatch(onStartLoading());
-      const { data } = await tallerMecanicoApi.get(`/vehiculos?page=${page}`);
-      dispatch(onLoadVehiculos([...data.data.data]));
+      const { data } = await tallerMecanicoApi.get(`/vehiculos`);
+      dispatch(onLoadVehiculos([...data.data]));
     } catch (error) {
       console.log("Error al cargar", error);
     }

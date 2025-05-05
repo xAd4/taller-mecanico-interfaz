@@ -21,12 +21,11 @@ export const useOrdenStore = () => {
     dispatch(onSetActiveOrdenes(orden));
   };
 
-  const startLoadingOrdenes = async (page = 1) => {
+  const startLoadingOrdenes = async () => {
     try {
       dispatch(onStartLoading());
-      const { data } = await tallerMecanicoApi.get(`/ordenes?page=${page}`);
-      dispatch(onLoadOrdenes([...data.data.data]));
-      console.log([...data.data.data]);
+      const { data } = await tallerMecanicoApi.get(`/ordenes`);
+      dispatch(onLoadOrdenes([...data.data]));
     } catch (error) {
       console.log("Error al cargar", error);
     }

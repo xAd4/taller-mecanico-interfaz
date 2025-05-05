@@ -21,11 +21,11 @@ export const useUsuarioStore = () => {
     dispatch(onSetActiveUsuario(usuario));
   };
 
-  const startLoadingUsuario = async (page = 1) => {
+  const startLoadingUsuario = async () => {
     try {
       dispatch(onStartLoading());
-      const { data } = await tallerMecanicoApi.get(`/usuarios?page=${page}`);
-      dispatch(onLoadUsuarios([...data.data.data]));
+      const { data } = await tallerMecanicoApi.get(`/usuarios`);
+      dispatch(onLoadUsuarios([...data.data]));
     } catch (error) {
       console.log("Error al cargar", error);
     }
