@@ -7,10 +7,14 @@ export const ModalEliminarTarea = ({ showModal, handleClose, tareaData }) => {
 
   const handleDeleteTarea = () => {
     startDeletingTarea(tareaData);
-    Swal.fire("Ok", "Tarea eliminada.", "success");
+    Swal.fire(
+      "Ok",
+      "Tarea eliminada. Se recargará la página para guardar los cambios.",
+      "success"
+    );
     setTimeout(() => {
       location.reload();
-    }, 1000);
+    }, 1500);
     handleClose();
   };
 

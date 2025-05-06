@@ -9,7 +9,9 @@ export const Dashboard = () => {
       <Layout>
         <div className="animate__animated animate__fadeIn">
           <div className="container mt-4">
-            <h1 className="text-center mb-4">Dashboard del Jefe</h1>
+            <h1 className="text-center mb-4">
+              Panel de control administrativo
+            </h1>
             <Estadisticas />
           </div>
         </div>

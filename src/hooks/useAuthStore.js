@@ -76,7 +76,7 @@ export const useAuthStore = () => {
       dispatch(onLogin(data));
     } catch (error) {
       localStorage.removeItem("token");
-      dispatch(onAuthError("Token inválido o expirado", error));
+      dispatch(onAuthError("Token inválido o expirado. Inicie sesión", error));
     }
   };
 

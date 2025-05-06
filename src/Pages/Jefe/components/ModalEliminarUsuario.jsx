@@ -5,17 +5,20 @@ import { useUsuarioStore } from "../hooks/useUsuarioStore";
 export const ModalEliminarUsuario = ({
   showModal,
   handleClose,
-  handleDelete,
   usuarioData,
 }) => {
   const { startDeletingUsuario } = useUsuarioStore();
 
   const handleDeleteUsuario = () => {
     startDeletingUsuario(usuarioData);
-    Swal.fire("Ok", "Usuario eliminado.", "success");
+    Swal.fire(
+      "Ok",
+      "Usuario eliminado. Se recargará la página para guardar los cambios.",
+      "success"
+    );
     setTimeout(() => {
       location.reload();
-    }, 1000);
+    }, 1500);
     handleClose();
   };
 
@@ -25,9 +28,12 @@ export const ModalEliminarUsuario = ({
         <Modal.Title>Eliminar Usuario</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>
-          ¿Estás seguro de que deseas eliminar este usuario? Esta acción no se
-          puede deshacer.
+        <p className="text-danger fw-bold">
+          ¿Estás seguro de que deseas eliminar este usuario? Si borras el
+          usuario, todo rastro relacionado con él, como las tareas también serán
+          eliminados.
+          <br />
+          <u>Esta acción no se puede deshacer.</u>
         </p>
       </Modal.Body>
       <Modal.Footer>

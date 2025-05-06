@@ -11,10 +11,14 @@ export const ModalEliminarVehiculo = ({
 
   const handleDeleteVehiculo = () => {
     startDeletingVehiculo(vehiculoData);
-    Swal.fire("Ok", "Vehiculo eliminado.", "success");
+    Swal.fire(
+      "Ok",
+      "Vehiculo eliminado. Se recargará la página para guardar los cambios.",
+      "success"
+    );
     setTimeout(() => {
       location.reload();
-    }, 1000);
+    }, 1500);
     handleClose();
   };
 

@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { enUS } from "date-fns/locale";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 export const DetallesOrdenImpresion = () => {
   // const { id } = useParams();
@@ -9,6 +9,15 @@ export const DetallesOrdenImpresion = () => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
+
+    if (
+      dateString === "1899-12-31" ||
+      dateString === "1900-01-01" ||
+      isNaN(date.getTime())
+    ) {
+      return "No especificado";
+    }
+
     // Ajustar la fecha para evitar problemas de zona horaria
     const adjustedDate = new Date(
       date.getTime() + date.getTimezoneOffset() * 60000

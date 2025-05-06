@@ -1,15 +1,43 @@
+import { useEffect } from "react";
+import { useOrdenStore } from "../hooks/useOrdenStore";
+import { useClienteStore } from "../hooks/useClienteStore";
+import { useVehiculoStore } from "../hooks/useVehiculoStore";
+
 export const Estadisticas = () => {
+  const { ordenes, startLoadingOrdenes } = useOrdenStore();
+
+  const { clientes, startLoadingClientes } = useClienteStore();
+
+  const { vehiculos, startLoadingVehiculos } = useVehiculoStore();
+
+  useEffect(() => {
+    startLoadingOrdenes();
+  }, []);
+
+  useEffect(() => {
+    startLoadingClientes();
+  }, []);
+
+  useEffect(() => {
+    startLoadingVehiculos();
+  }, []);
+
   const stats = [
     {
       title: "Órdenes Activas",
-      value: 54,
+      value: ordenes.length,
       icon: "clipboard-check",
       trend: "up",
     },
-    { title: "Clientes Registrados", value: 102, icon: "people", trend: "up" },
+    {
+      title: "Clientes Registrados",
+      value: clientes.length,
+      icon: "people",
+      trend: "up",
+    },
     {
       title: "Vehículos en Sistema",
-      value: 106,
+      value: vehiculos.length,
       icon: "car-front",
       trend: "steady",
     },

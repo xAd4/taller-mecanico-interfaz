@@ -54,7 +54,7 @@ export const ModalActualizarOrden = ({ showModal, handleClose, ordenData }) => {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "Los campos no puede estar vacío. En los campos opcionales, coloca escriba 'N/A'.",
+        text: "Los campos no pueden estar vacíos. En los campos opcionales, escriba 'N/A'.",
       });
       return; // Detener el envío del formulario
     }
@@ -114,7 +114,11 @@ export const ModalActualizarOrden = ({ showModal, handleClose, ordenData }) => {
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Fecha Prometida</Form.Label>
+            <Form.Label>
+              Fecha prometida (Opcional: si no desea cambiarla, deje la fecha
+              actual. Esto no afectará el flujo ni el comportamiento del
+              sistema).
+            </Form.Label>
             <Form.Control
               type="date"
               name="prometido"

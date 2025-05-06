@@ -62,7 +62,14 @@ export const ModalCrearVehiculo = ({ showModal, handleClose }) => {
       fecha_de_compra,
     });
 
-    Swal.fire("Ok", "Vehiculo creado", "success");
+    Swal.fire(
+      "Ok",
+      "Vehiculo creado. Se recargará la página para guardar los cambios.",
+      "success"
+    );
+    setTimeout(() => {
+      location.reload();
+    }, 1500);
     handleClose();
   };
 

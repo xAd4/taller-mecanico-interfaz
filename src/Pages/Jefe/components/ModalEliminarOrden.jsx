@@ -7,10 +7,14 @@ export const ModalEliminarOrden = ({ showModal, handleClose, ordenData }) => {
 
   const handleDeleteOrden = () => {
     startDeletingOrden(ordenData);
-    Swal.fire("Ok", "Orden eliminada.", "success");
+    Swal.fire(
+      "Ok",
+      "Orden eliminada. Se recargará la página para guardar los cambios.",
+      "success"
+    );
     setTimeout(() => {
       location.reload();
-    }, 1000);
+    }, 1500);
     handleClose();
   };
 

@@ -65,12 +65,6 @@ export const ListaProductos = () => {
     // Aquí iría la lógica para hacer el DELETE a la API
   };
 
-  const getEstadoDisponibilidad = (disponibilidad) => {
-    return disponibilidad
-      ? { texto: "Disponible", color: "success" }
-      : { texto: "No disponible", color: "danger" };
-  };
-
   return (
     <div className="container-fluid px-4 py-3 animate__animated animate__fadeIn">
       {/* Header */}
@@ -127,7 +121,6 @@ export const ListaProductos = () => {
               <tr>
                 <th>ID</th>
                 <th>Nombre</th>
-                <th>Disponibilidad</th>
                 <th className="text-end">Acciones</th>
               </tr>
             </thead>
@@ -136,19 +129,11 @@ export const ListaProductos = () => {
                 <SpinnerComponent />
               ) : (
                 filteredCategories.map((categoria, index) => {
-                  const estado = getEstadoDisponibilidad(
-                    categoria?.disponibilidad
-                  );
-
                   return (
                     <tr key={index}>
                       <td>{categoria?.id}</td>
                       <td>{categoria?.nombre}</td>
-                      <td>
-                        <Badge bg={estado.color} className="text-capitalize">
-                          {estado.texto}
-                        </Badge>
-                      </td>
+
                       <td className="text-end">
                         <Stack direction="horizontal" gap={2}>
                           <Button
@@ -218,7 +203,6 @@ export const ListaProductos = () => {
                 <th scope="col" className="text-end">
                   Precio
                 </th>
-                <th scope="col">Estado</th>
                 <th scope="col" className="text-end pe-4">
                   Acciones
                 </th>
@@ -229,8 +213,6 @@ export const ListaProductos = () => {
                 <SpinnerComponent />
               ) : (
                 filteredProducts.map((producto, index) => {
-                  const estado = getEstadoDisponibilidad(producto?.disponible);
-
                   return (
                     <tr key={index} className="transition-all">
                       <td>{producto?.id}</td>
@@ -278,11 +260,6 @@ export const ListaProductos = () => {
                       </td>
                       <td className="text-end font-monospace">
                         ${producto?.precio}
-                      </td>
-                      <td>
-                        <Badge bg={estado.color} className="text-capitalize">
-                          {estado.texto}
-                        </Badge>
                       </td>
                       <td className="pe-4">
                         <Stack

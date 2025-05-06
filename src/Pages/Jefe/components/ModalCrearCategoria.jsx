@@ -5,27 +5,24 @@ import Swal from "sweetalert2";
 
 const createCategoriaField = {
   nombre: "",
-  disponibilidad: "",
 };
 
 export const ModalCrearCategoria = ({ showModal, handleClose }) => {
-  const { nombre, disponibilidad, onInputChange } =
-    useForm(createCategoriaField);
+  const { nombre, onInputChange } = useForm(createCategoriaField);
 
   const { startSavingCategoria } = useCategoriaStore();
 
-  const handleInputChangeCheckbox = (e) => {
-    const { name, checked } = e.target;
-    onInputChange({ target: { name, value: checked } });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    startSavingCategoria({ nombre, disponibilidad });
-    Swal.fire("Ok", "Cliente creado", "success");
-    setTimeout(() => {
-      location.reload();
-    }, 1000);
+    startSavingCategoria({ nombre });
+    Swal.fire(
+      "Ok",
+      "Cliente creado. Se recargará la página para guardar lo cambios.",
+      "success"
+    );
+    // setTimeout(() => {
+    //   location.reload();
+    // }, 1500);
     handleClose();
   };
 
@@ -44,15 +41,6 @@ export const ModalCrearCategoria = ({ showModal, handleClose }) => {
               value={nombre}
               onChange={onInputChange}
               required
-            />
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Check
-              type="checkbox"
-              name="disponibilidad"
-              label="Disponible"
-              checked={disponibilidad}
-              onChange={handleInputChangeCheckbox}
             />
           </Form.Group>
         </Modal.Body>

@@ -16,7 +16,6 @@ export const ModalActualizarProducto = ({
       marca: "",
       stock: "",
       precio: "",
-      disponible: "",
     }
   );
 
@@ -52,7 +51,7 @@ export const ModalActualizarProducto = ({
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "Los campos no puede estar vacío. En los campos opcionales, coloca escriba 'N/A'.",
+        text: "Los campos no pueden estar vacíos. En los campos opcionales, escriba 'N/A'.",
       });
       return; // Detener el envío del formulario
     }
@@ -91,7 +90,8 @@ export const ModalActualizarProducto = ({
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Detalles</Form.Label>
+            <Form.Label>Detalles (Si es opcional, escribir N/A)</Form.Label>
+
             <Form.Control
               type="textarea"
               name="detalles"
@@ -127,15 +127,6 @@ export const ModalActualizarProducto = ({
               value={formData.precio}
               onChange={handleInputChange}
               required
-            />
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Check
-              type="checkbox"
-              name="disponible"
-              label="Disponible"
-              checked={formData.disponible}
-              onChange={handleInputChangeCheckbox}
             />
           </Form.Group>
         </Modal.Body>

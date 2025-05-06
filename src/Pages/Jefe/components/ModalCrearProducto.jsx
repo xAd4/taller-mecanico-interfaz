@@ -47,10 +47,14 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
       precio,
     });
 
-    Swal.fire("Ok", "Producto creado", "success");
+    Swal.fire(
+      "Ok",
+      "Producto creado. Se recargará la página para guardar los cambios.",
+      "success"
+    );
     setTimeout(() => {
       location.reload();
-    }, 1000);
+    }, 1500);
 
     handleClose();
   };
@@ -95,14 +99,13 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
               <Form.Control
                 type="text"
                 name="nombre"
-                placeholder="Nombre del producto"
                 value={nombre}
                 onChange={onInputChange}
                 required
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Detalles</Form.Label>
+              <Form.Label>Detalles (Opcional)</Form.Label>
               <Form.Control
                 type="text"
                 name="detalles"
@@ -117,6 +120,7 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
                 name="marca"
                 value={marca}
                 onChange={onInputChange}
+                required
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -128,15 +132,23 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
                 onChange={onInputChange}
                 required
               />
+              <Form.Text className="text-muted">
+                Solo se permiten números enteros. No ingrese decimales.
+              </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Precio</Form.Label>
               <Form.Control
                 type="number"
+                placeholder=""
                 name="precio"
                 value={precio}
                 onChange={onInputChange}
+                required
               />
+              <Form.Text className="text-muted">
+                Si va a ingresar decimales, utilice el punto (.) como separador.
+              </Form.Text>
             </Form.Group>
           </Modal.Body>
 

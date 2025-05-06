@@ -18,13 +18,11 @@ export const useTareaAsignadaStore = () => {
     dispatch(onSetActiveTareaAsignada(orden));
   };
 
-  const startLoadingTareasAsignadas = async (page = 1) => {
+  const startLoadingTareasAsignadas = async () => {
     try {
       dispatch(onStartLoading());
-      const { data } = await tallerMecanicoApi.get(
-        `/tareas/mecanico?page=${page}`
-      );
-      dispatch(onLoadTareas([...data.data.data]));
+      const { data } = await tallerMecanicoApi.get(`/tareas/mecanico`);
+      dispatch(onLoadTareas([...data.data]));
       console.log(data);
     } catch (error) {
       console.log("Error al cargar", error);

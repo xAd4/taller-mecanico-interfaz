@@ -47,10 +47,15 @@ export const ModalCrearUsuario = ({ showModal, handleClose }) => {
       password_confirmation: registerPasswordConfirmation,
     });
 
-    Swal.fire("Ok", "Usuario creado", "success");
+    Swal.fire(
+      "Ok",
+      "Usuario creado. Se recargará la página para guardar cambios.",
+      "success"
+    );
     setTimeout(() => {
       location.reload();
-    }, 1000);
+    }, 1500);
+
     handleClose();
   };
 

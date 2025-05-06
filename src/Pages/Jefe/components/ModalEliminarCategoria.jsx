@@ -11,10 +11,14 @@ export const ModalEliminarCategoria = ({
 
   const handleDeleteCategory = () => {
     startDeletingCategoria(categoriaData);
-    Swal.fire("Ok", "Categoria eliminada.", "success");
+    Swal.fire(
+      "Ok",
+      "Categoria eliminada. Se recargará la página para guardar los cambios.",
+      "success"
+    );
     setTimeout(() => {
       location.reload();
-    }, 1000);
+    }, 1500);
     handleClose();
   };
 
@@ -24,9 +28,12 @@ export const ModalEliminarCategoria = ({
         <Modal.Title>Eliminar Categoria</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>
-          ¿Estás seguro de que deseas eliminar este producto? Esta acción no se
-          puede deshacer.
+        <p className="text-danger fw-bold">
+          ¿Estás seguro de que deseas eliminar esta categoría? Si borras la
+          categoría, todo rastro relacionado con ella, como los productosn
+          también serán eliminados.
+          <br />
+          <u>Esta acción no se puede deshacer.</u>
         </p>
       </Modal.Body>
       <Modal.Footer>

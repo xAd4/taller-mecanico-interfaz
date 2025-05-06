@@ -11,10 +11,14 @@ export const ModalEliminarProducto = ({
 
   const handleDeleteProducto = () => {
     startDeletingProducto(productoData);
-    Swal.fire("Ok", "Producto eliminado.", "success");
+    Swal.fire(
+      "Ok",
+      "Producto eliminado. Se recargará la página para guardar los cambios.",
+      "success"
+    );
     setTimeout(() => {
       location.reload();
-    }, 1000);
+    }, 1500);
     handleClose();
   };
 

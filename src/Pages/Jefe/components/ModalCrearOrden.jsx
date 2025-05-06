@@ -59,11 +59,14 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
       detalles_de_entrada_del_vehiculo,
     });
 
-    Swal.fire("Ok", "Orden creado", "success");
+    Swal.fire(
+      "Ok",
+      "Orden creada. Se recargará la página para guardar cambios.",
+      "success"
+    );
     setTimeout(() => {
       location.reload();
-    }, 1000);
-
+    }, 1500);
     handleClose();
   };
 

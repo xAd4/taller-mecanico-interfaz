@@ -69,10 +69,14 @@ export const ModalCrearTarea = ({ showModal, handleClose }) => {
       notificacion_al_cliente,
     });
 
-    Swal.fire("Ok", "Tarea creada", "success");
-    setTimeout(() => {
-      location.reload();
-    }, 1000);
+    Swal.fire(
+      "Ok",
+      "Tarea creada. Se recargará la página para guardar los cambios.",
+      "success"
+    );
+    // setTimeout(() => {
+    //   location.reload();
+    // }, 1500);
     handleClose();
   };
 
@@ -151,6 +155,9 @@ export const ModalCrearTarea = ({ showModal, handleClose }) => {
               <option value="pendiente_de_facturacion">Por Facturar</option>
               <option value="completado">Completado</option>
             </Form.Select>
+            <Form.Text className="text-muted">
+              Es obligatorio el ingreso de un estado de trabajo.
+            </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Notificación al Cliente (Opcional)</Form.Label>
