@@ -255,8 +255,16 @@ export const ListaProductos = () => {
                         </span>
                       </td>
                       <td className="text-end font-monospace">
-                        {producto?.stock}
-                        <small className="text-muted ms-2">unid.</small>
+                        {producto?.stock === 0 ? (
+                          <span className="text-danger fw-bold">
+                            No disponible
+                          </span>
+                        ) : (
+                          <>
+                            {producto?.stock}
+                            <small className="text-muted ms-2">unid.</small>
+                          </>
+                        )}
                       </td>
                       <td className="text-end font-monospace">
                         ${producto?.precio}

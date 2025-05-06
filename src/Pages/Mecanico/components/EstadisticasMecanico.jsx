@@ -1,28 +1,20 @@
+import { useEffect } from "react";
+import { useTareaAsignadaStore } from "../hooks/useTareaAsignadaStore";
+
 export const EstadisticasMecanico = () => {
+  const { tareasAsignadas, startLoadingTareasAsignadas } =
+    useTareaAsignadaStore();
+
+  useEffect(() => {
+    startLoadingTareasAsignadas();
+  }, []);
+
   const stats = [
     {
-      title: "Pendientes",
-      value: 15,
+      title: "Tareas en la lista",
+      value: tareasAsignadas.length,
       icon: "clipboard-data",
       trend: "steady",
-    },
-    {
-      title: "En proceso",
-      value: 5,
-      icon: "tools",
-      trend: "up",
-    },
-    {
-      title: "Pendiente por pagar",
-      value: 5,
-      icon: "tools",
-      trend: "up",
-    },
-    {
-      title: "Completados",
-      value: 5,
-      icon: "tools",
-      trend: "up",
     },
   ];
 

@@ -17,12 +17,12 @@ export const ModalCrearCategoria = ({ showModal, handleClose }) => {
     startSavingCategoria({ nombre });
     Swal.fire(
       "Ok",
-      "Cliente creado. Se recargará la página para guardar lo cambios.",
+      "Categoria creada. Se recargará la página para guardar lo cambios.",
       "success"
     );
-    // setTimeout(() => {
-    //   location.reload();
-    // }, 1500);
+    setTimeout(() => {
+      location.reload();
+    }, 1500);
     handleClose();
   };
 

@@ -119,15 +119,15 @@ export const ListaTareas = () => {
                   </td>
                 </tr>
               ) : (
-                filteredData.map((tarea) => (
-                  <tr key={tarea.id} className="transition-all">
+                filteredData.map((tarea, index) => (
+                  <tr key={index} className="transition-all">
                     {/* ID */}
-                    <td className="p-3 fw-semibold text-muted">#{tarea.id}</td>
+                    <td className="p-3 fw-semibold text-muted">#{tarea?.id}</td>
 
                     {/* Orden ID */}
                     <td className="p-3">
                       <Badge bg="dark" className="font-monospace">
-                        ORD-{tarea.orden_id}
+                        ORD-{tarea?.orden_id}
                       </Badge>
                     </td>
 
@@ -139,10 +139,10 @@ export const ListaTareas = () => {
                         </div>
                         <div>
                           <h6 className="mb-0 fw-semibold">
-                            {tarea.mecanico?.name || "Sin asignar"}
+                            {tarea?.mecanico?.name || "Sin asignar"}
                           </h6>
                           <small className="text-muted font-monospace">
-                            ID: {tarea.mecanico_id}
+                            ID: {tarea?.mecanico_id}
                           </small>
                         </div>
                       </div>
@@ -152,10 +152,10 @@ export const ListaTareas = () => {
                     <td className="p-3">
                       <Badge
                         pill
-                        bg={getEstadoColor(tarea.estado_de_trabajo)}
+                        bg={getEstadoColor(tarea?.estado_de_trabajo)}
                         className="text-uppercase"
                       >
-                        {tarea.estado_de_trabajo.replace(/_/g, " ")}
+                        {tarea?.estado_de_trabajo}
                       </Badge>
                     </td>
 
@@ -168,7 +168,7 @@ export const ListaTareas = () => {
                             className="text-truncate"
                             style={{ maxWidth: "200px" }}
                           >
-                            {tarea.notificacion_al_cliente ||
+                            {tarea?.notificacion_al_cliente ||
                               "Sin notificación"}
                           </span>
                         </div>
@@ -210,7 +210,7 @@ export const ListaTareas = () => {
                           size="sm"
                           className="d-flex align-items-center gap-1"
                           onClick={() =>
-                            navigate(`/jefe/tarea/${tarea.id}`, {
+                            navigate(`/jefe/tarea/${tarea?.id}`, {
                               state: { tarea },
                             })
                           }

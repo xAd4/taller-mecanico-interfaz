@@ -1,7 +1,10 @@
-import { Modal, Form, Button } from "react-bootstrap";
+import { Modal, Form, Button, InputGroup } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useOrdenStore } from "../hooks/useOrdenStore";
 import Swal from "sweetalert2";
+import Select from "react-select";
+import { useSelectorClientes } from "../hooks/useSelectorClientes";
+import { useSelectorVehiculos } from "../hooks/useSelectorVehiculos";
 
 export const ModalActualizarOrden = ({ showModal, handleClose, ordenData }) => {
   const [formData, setFormData] = useState(
@@ -27,6 +30,28 @@ export const ModalActualizarOrden = ({ showModal, handleClose, ordenData }) => {
       setFormData(ordenData);
     }
   }, [ordenData]);
+
+  // Usa los hooks para clientes y vehículos
+  const {
+    opcionesAgrupadas: opcionesClientes,
+    handleClienteChange,
+    setSearchTerm: setClienteSearchTerm,
+  } = useSelectorClientes(showModal);
+
+  const {
+    opcionesAgrupadas: opcionesVehiculos,
+    handleVehiculoChange,
+    setSearchTerm: setVehiculoSearchTerm,
+  } = useSelectorVehiculos(showModal);
+
+  // Encuentra las opciones seleccionadas iniciales
+  const selectedCliente = opcionesClientes
+    .flatMap((group) => group.options)
+    .find((opt) => opt.value === formData.cliente_id);
+
+  const selectedVehiculo = opcionesVehiculos
+    .flatMap((group) => group.options)
+    .find((opt) => opt.value === formData.vehiculo_id);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -74,21 +99,53 @@ export const ModalActualizarOrden = ({ showModal, handleClose, ordenData }) => {
         <Modal.Body>
           <Form.Group className="mb-3">
             <Form.Label>Cliente</Form.Label>
-            <Form.Control
-              type="number"
-              name="cliente_id"
-              value={formData.cliente_id}
-              onChange={handleInputChange}
-            />
+            <div className="mb-2">
+              <InputGroup className="mb-2">
+                <InputGroup.Text>
+                  <i className="bi bi-search"></i>
+                </InputGroup.Text>
+                <Form.Control
+                  type="text"
+                  placeholder="Buscar por el nombre o por el email, no ambos."
+                  onChange={(e) => setClienteSearchTerm(e.target.value)}
+                />
+              </InputGroup>
+              <Select
+                options={opcionesClientes}
+                value={selectedCliente}
+                onChange={(selected) =>
+                  handleClienteChange(selected, setFormData)
+                }
+                placeholder="Seleccione un cliente"
+                noOptionsMessage={() => "No se encontraron clientes"}
+              />
+            </div>
           </Form.Group>
+
+          {/* Select para Vehículo */}
           <Form.Group className="mb-3">
             <Form.Label>Vehículo</Form.Label>
-            <Form.Control
-              type="number"
-              name="vehiculo_id"
-              value={formData.vehiculo_id}
-              onChange={handleInputChange}
-            />
+            <div className="mb-2">
+              <InputGroup className="mb-2">
+                <InputGroup.Text>
+                  <i className="bi bi-search"></i>
+                </InputGroup.Text>
+                <Form.Control
+                  type="text"
+                  placeholder="Buscar por modelo, marca o matricula, no ambos."
+                  onChange={(e) => setVehiculoSearchTerm(e.target.value)}
+                />
+              </InputGroup>
+              <Select
+                options={opcionesVehiculos}
+                value={selectedVehiculo}
+                onChange={(selected) =>
+                  handleVehiculoChange(selected, setFormData)
+                }
+                placeholder="Seleccione un vehículo"
+                noOptionsMessage={() => "No se encontraron vehículos"}
+              />
+            </div>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>

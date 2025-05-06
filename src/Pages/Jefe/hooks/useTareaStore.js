@@ -34,9 +34,12 @@ export const useTareaStore = () => {
   const startSavingTarea = async (tarea) => {
     try {
       if (tarea.id) {
-        await tallerMecanicoApi.put(`/tareas/${tarea.id}`, tarea);
+        const { data } = await tallerMecanicoApi.put(
+          `/tareas/${tarea.id}`,
+          tarea
+        );
         dispatch(onUpdateTarea({ ...tarea, user }));
-        return;
+        console.log({ data });
       } else {
         const { data } = await tallerMecanicoApi.post("/tareas", tarea);
         dispatch(onAddNewTarea({ ...data }));

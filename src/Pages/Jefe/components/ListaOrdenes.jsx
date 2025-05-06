@@ -116,32 +116,32 @@ export const ListaOrdenes = () => {
                   </td>
                 </tr>
               ) : (
-                filteredData.map((orden) => (
+                filteredData.map((orden, index) => (
                   <tr
-                    key={orden.id}
+                    key={index}
                     className={`transition-all ${
-                      !orden.disponible ? "table-secondary" : ""
+                      !orden?.disponible ? "table-secondary" : ""
                     }`}
                   >
                     {/* ID */}
-                    <td className="p-3 fw-semibold text-muted">#{orden.id}</td>
+                    <td className="p-3 fw-semibold text-muted">#{orden?.id}</td>
 
                     {/* Cliente */}
                     <td className="p-3">
                       <div className="d-flex flex-column gap-2">
                         <Badge
                           pill
-                          bg={orden.disponible ? "success" : "danger"}
+                          bg={orden?.disponible ? "success" : "danger"}
                           className="align-self-start"
                         >
-                          {orden.disponible ? "Disponible" : "No disponible"}
+                          {orden?.disponible ? "Disponible" : "No disponible"}
                         </Badge>
                         <div>
                           <h6 className="mb-1 fw-semibold">
-                            {orden.cliente.nombre}
+                            {orden?.cliente.nombre}
                           </h6>
                           <small className="text-muted">
-                            ID: {orden.cliente.id}
+                            ID: {orden?.cliente.id}
                           </small>
                         </div>
                       </div>
@@ -153,11 +153,11 @@ export const ListaOrdenes = () => {
                         <i className="bi bi-car-front fs-4 text-muted"></i>
                         <div>
                           <h6 className="mb-1 fw-semibold">
-                            {orden.vehiculo.marca} {orden.vehiculo.modelo}
+                            {orden?.vehiculo.marca} {orden?.vehiculo.modelo}
                           </h6>
                           <div className="text-muted small">
-                            <div>ID: {orden.vehiculo.id}</div>
-                            <div>Matrícula: {orden.vehiculo.matricula}</div>
+                            <div>ID: {orden?.vehiculo.id}</div>
+                            <div>Matrícula: {orden?.vehiculo.matricula}</div>
                           </div>
                         </div>
                       </div>
@@ -173,7 +173,7 @@ export const ListaOrdenes = () => {
                           className="d-block text-truncate"
                           style={{ maxWidth: "200px" }}
                         >
-                          {orden.detalle_de_trabajos_a_realizar ||
+                          {orden?.detalle_de_trabajos_a_realizar ||
                             "Sin detalles"}
                         </span>
                       </div>
@@ -187,9 +187,9 @@ export const ListaOrdenes = () => {
                             Recepción:
                           </small>
                           <span className="text-nowrap d-block">
-                            {orden.recepcion === "1900-01-01"
+                            {orden?.recepcion === "1900-01-01"
                               ? "No especificada"
-                              : orden.recepcion || "N/A"}
+                              : orden?.recepcion || "N/A"}
                           </span>
                         </div>
                         <div className="bg-light p-2 rounded">
@@ -197,9 +197,9 @@ export const ListaOrdenes = () => {
                             Prometida:
                           </small>
                           <span className="text-nowrap d-block">
-                            {orden.prometido === "1900-01-01"
+                            {orden?.prometido === "1900-01-01"
                               ? "No especificada"
-                              : orden.prometido || "N/A"}
+                              : orden?.prometido || "N/A"}
                           </span>
                         </div>
                       </div>
@@ -211,7 +211,7 @@ export const ListaOrdenes = () => {
                         <div className="d-flex align-items-center gap-2">
                           <i
                             className={`bi ${
-                              orden.cambio_de_aceite
+                              orden?.cambio_de_aceite
                                 ? "bi-check-circle-fill text-success"
                                 : "bi-x-circle-fill text-danger"
                             }`}
@@ -221,7 +221,7 @@ export const ListaOrdenes = () => {
                         <div className="d-flex align-items-center gap-2">
                           <i
                             className={`bi ${
-                              orden.cambio_de_filtro
+                              orden?.cambio_de_filtro
                                 ? "bi-check-circle-fill text-success"
                                 : "bi-x-circle-fill text-danger"
                             }`}
@@ -241,7 +241,7 @@ export const ListaOrdenes = () => {
                           className="d-block text-truncate"
                           style={{ maxWidth: "200px" }}
                         >
-                          {orden.detalles_de_entrada_del_vehiculo ||
+                          {orden?.detalles_de_entrada_del_vehiculo ||
                             "Sin detalles"}
                         </span>
                       </div>
@@ -282,7 +282,7 @@ export const ListaOrdenes = () => {
                           size="sm"
                           className="d-flex align-items-center gap-1"
                           onClick={() =>
-                            navigate(`/jefe/orden/${orden.id}`, {
+                            navigate(`/jefe/orden/${orden?.id}`, {
                               state: { orden },
                             })
                           }

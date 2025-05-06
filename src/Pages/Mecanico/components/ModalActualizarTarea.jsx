@@ -2,6 +2,7 @@ import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useTareaAsignadaStore } from "../hooks/useTareaAsignadaStore";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 export const ModalActualizarTarea = ({ showModal, handleClose, tareaData }) => {
   const [formData, setFormData] = useState(
@@ -12,6 +13,8 @@ export const ModalActualizarTarea = ({ showModal, handleClose, tareaData }) => {
       notificacion_al_cliente: "",
     }
   );
+
+  const navigate = useNavigate();
 
   const { startSavingTareaAsignada } = useTareaAsignadaStore();
 
@@ -43,9 +46,12 @@ export const ModalActualizarTarea = ({ showModal, handleClose, tareaData }) => {
     startSavingTareaAsignada(dataToSend); // Llama a la función para actualizar los datos
     Swal.fire(
       "Ok",
-      "Tarea actualizada. Dale click al boton 'regresar' para guardar los cambios.",
+      "Tarea actualizada. Serás redirigido a la lista de tareas para que se guarden correctamente los cambios.",
       "success"
     );
+    setTimeout(() => {
+      navigate("/mecanico/tareas");
+    }, 1000);
     handleClose(); // Cierra el modal
   };
 

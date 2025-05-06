@@ -24,7 +24,9 @@ export const useSelectorOrdenes = (showModal) => {
         };
       }
 
-      if (orden.recepcion.toLowerCase().includes(searchTerm.toLowerCase())) {
+      if (
+        orden.cliente.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+      ) {
         grupos[categoriaNombre].options.push({
           value: orden.id,
           label: `${orden.id} - Orden para: ${orden.cliente.nombre} | ${

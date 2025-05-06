@@ -1,7 +1,10 @@
-import { Modal, Form, Button } from "react-bootstrap";
+import { Modal, Form, Button, InputGroup } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useTareaStore } from "../hooks/useTareaStore";
 import Swal from "sweetalert2";
+import Select from "react-select";
+import { useSelectorOrdenes } from "../hooks/useSelectorOrdenes";
+import { useSelectorMecanicos } from "../hooks/useSelectorMecanicos";
 
 export const ModalActualizarTarea = ({ showModal, handleClose, tareaData }) => {
   const [formData, setFormData] = useState(
@@ -21,6 +24,28 @@ export const ModalActualizarTarea = ({ showModal, handleClose, tareaData }) => {
       setFormData(tareaData);
     }
   }, [tareaData]);
+
+  // Usa los hooks para clientes y vehículos
+  const {
+    opcionesAgrupadas: opcionesOrdenes,
+    setSearchTerm: setOrdenSearch,
+    handleOrdenChange,
+  } = useSelectorOrdenes(showModal);
+
+  const {
+    opcionesAgrupadas: opcionesMecanicos,
+    setSearchTerm: setVehiculoSearchTerm,
+    handleMecanicoChange,
+  } = useSelectorMecanicos(showModal);
+
+  // Encuentra las opciones seleccionadas iniciales
+  const selectedOrdenes = opcionesOrdenes
+    .flatMap((group) => group.options)
+    .find((opt) => opt.value === formData.orden_id);
+
+  const selectedMecanicos = opcionesMecanicos
+    .flatMap((group) => group.options)
+    .find((opt) => opt.value === formData.mecanico_id);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -54,24 +79,54 @@ export const ModalActualizarTarea = ({ showModal, handleClose, tareaData }) => {
       <Form onSubmit={handleSubmit}>
         <Modal.Body>
           <Form.Group className="mb-3">
-            <Form.Label>Orden ID</Form.Label>
-            <Form.Control
-              type="number"
-              name="orden_id"
-              value={formData.orden_id}
-              onChange={handleInputChange}
-              required
-            />
+            <Form.Label>Orden</Form.Label>
+            <div className="mb-2">
+              <InputGroup className="mb-2">
+                <InputGroup.Text>
+                  <i className="bi bi-search"></i>
+                </InputGroup.Text>
+                <Form.Control
+                  type="text"
+                  placeholder="Buscar por nombre de cliente vinculado a una orden."
+                  onChange={(e) => setOrdenSearch(e.target.value)}
+                />
+              </InputGroup>
+              <Select
+                options={opcionesOrdenes}
+                value={selectedOrdenes}
+                onChange={(selected) =>
+                  handleOrdenChange(selected, setFormData)
+                }
+                placeholder="Seleccione una orden"
+                noOptionsMessage={() => "No se encontraron ordenes"}
+              />
+            </div>
           </Form.Group>
+
+          {/* Select para Vehículo */}
           <Form.Group className="mb-3">
-            <Form.Label>Mecánico ID</Form.Label>
-            <Form.Control
-              type="number"
-              name="mecanico_id"
-              value={formData.mecanico_id}
-              onChange={handleInputChange}
-              required
-            />
+            <Form.Label>Mecanicos</Form.Label>
+            <div className="mb-2">
+              <InputGroup className="mb-2">
+                <InputGroup.Text>
+                  <i className="bi bi-search"></i>
+                </InputGroup.Text>
+                <Form.Control
+                  type="text"
+                  placeholder="Buscar por nombre del mecanico."
+                  onChange={(e) => setVehiculoSearchTerm(e.target.value)}
+                />
+              </InputGroup>
+              <Select
+                options={opcionesMecanicos}
+                value={selectedMecanicos}
+                onChange={(selected) =>
+                  handleMecanicoChange(selected, setFormData)
+                }
+                placeholder="Seleccione un mecanico"
+                noOptionsMessage={() => "No se encontraron mecanicos"}
+              />
+            </div>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Estado de Trabajo</Form.Label>

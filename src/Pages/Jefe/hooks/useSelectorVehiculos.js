@@ -24,7 +24,11 @@ export const useSelectorVehiculos = (showModal) => {
         };
       }
 
-      if (vehiculo.matricula.toLowerCase().includes(searchTerm.toLowerCase())) {
+      if (
+        vehiculo.matricula.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        vehiculo.modelo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        vehiculo.marca.toLowerCase().includes(searchTerm.toLowerCase())
+      ) {
         grupos[categoriaNombre].options.push({
           value: vehiculo.id,
           label: `${vehiculo.modelo} ${vehiculo.marca} - ${
