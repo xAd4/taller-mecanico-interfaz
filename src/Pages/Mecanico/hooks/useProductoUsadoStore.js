@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
+  onAddNewProducto,
   onDeleteProducto,
   onLoadProductos,
   onSetActiveProducto,
@@ -27,7 +28,7 @@ export const useProductoUsadoStore = () => {
       const { data } = await tallerMecanicoApi.get(
         `/productos-usados/${tareaAsignada}`
       );
-      dispatch(onLoadProductos([{ ...data.data }]));
+      dispatch(onLoadProductos(data.data));
     } catch (error) {
       console.log("Error al cargar", error);
       Swal.fire("Error al borrar", error.response.data?.message, "error");
@@ -36,11 +37,23 @@ export const useProductoUsadoStore = () => {
 
   const startSavingProducto = async (producto) => {
     try {
-      await tallerMecanicoApi.put(`/productos-usados/${producto.id}`, producto);
-      dispatch(onUpdateProducto({ ...producto, user }));
+      if (producto.id) {
+        await tallerMecanicoApi.put(
+          `/productos-usados/${producto.id}`,
+          producto
+        );
+        dispatch(onUpdateProducto({ ...producto, user }));
+      } else {
+        const { data } = await tallerMecanicoApi.post(
+          "/productos-usados",
+          producto
+        );
+        console.log({ data });
+        dispatch(onAddNewProducto({ ...data }));
+      }
     } catch (error) {
       console.log(error);
-      Swal.fire("Error al guardar", "Error", "error");
+      Swal.fire("Error al guardar", error.response?.data.message, "error");
     }
   };
 

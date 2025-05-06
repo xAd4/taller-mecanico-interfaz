@@ -32,6 +32,14 @@ export const ModalActualizarTarea = ({ showModal, handleClose, tareaData }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { orden_id, mecanico_id, ...dataToSend } = formData;
+    if (!formData.notificacion_al_cliente.trim()) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Los campos no pueden estar vacíos. En los campos opcionales, escriba 'N/A'.",
+      });
+      return; // Detener el envío del formulario
+    }
     startSavingTareaAsignada(dataToSend); // Llama a la función para actualizar los datos
     Swal.fire(
       "Ok",
@@ -69,7 +77,6 @@ export const ModalActualizarTarea = ({ showModal, handleClose, tareaData }) => {
               name="notificacion_al_cliente"
               value={formData.notificacion_al_cliente}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
         </Modal.Body>

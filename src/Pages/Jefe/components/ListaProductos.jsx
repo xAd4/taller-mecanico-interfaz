@@ -121,7 +121,7 @@ export const ListaProductos = () => {
               <tr>
                 <th>ID</th>
                 <th>Nombre</th>
-                <th className="text-end">Acciones</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>

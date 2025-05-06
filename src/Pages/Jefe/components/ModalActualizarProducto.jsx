@@ -28,15 +28,15 @@ export const ModalActualizarProducto = ({
     }
   }, [productoData]);
 
-  const handleInputChangeCheckbox = (e) => {
-    const { name, type, checked } = e.target;
-    // Para checkboxes usamos 'checked', de lo contrario 'value'
-    const value = type === "checkbox" ? checked : e.target.value;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+  // const handleInputChangeCheckbox = (e) => {
+  //   const { name, type, checked } = e.target;
+  //   // Para checkboxes usamos 'checked', de lo contrario 'value'
+  //   const value = type === "checkbox" ? checked : e.target.value;
+  //   setFormData({
+  //     ...formData,
+  //     [name]: value,
+  //   });
+  // };
 
   const handleInputChange = (e) => {
     setFormData({

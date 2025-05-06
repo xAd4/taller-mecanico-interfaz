@@ -1,8 +1,14 @@
-import { useMemo, useState } from "react";
-import { productos } from "../../jefe/data/productos";
+import { useEffect, useMemo, useState } from "react";
+import { useProductoStore } from "../../jefe/hooks/useProductoStore";
 
-export const useSelectorProductos = () => {
+export const useSelectorProductos = (showModal) => {
   const [searchTerm, setSearchTerm] = useState("");
+
+  const { productos, startLoadingProducto } = useProductoStore();
+
+  useEffect(() => {
+    startLoadingProducto();
+  }, [showModal]);
 
   const opcionesAgrupadas = useMemo(() => {
     const grupos = {};
@@ -28,7 +34,7 @@ export const useSelectorProductos = () => {
     });
 
     return Object.values(grupos);
-  }, [searchTerm]);
+  }, [productos, searchTerm]);
 
   // Recibimos setFormData como argumento
   const handleProductoChange = (selectedOption, setFormData) => {

@@ -1,13 +1,11 @@
 import { Button, Form, Stack, Badge } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useTareaAsignadaStore } from "../hooks/useTareaAsignadaStore";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SpinnerComponent } from "../../../components/SpinnerComponent";
 import { useSearch } from "../../../hooks/useSearch";
 
 export const ListaTareas = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-
   const navigate = useNavigate();
 
   const {
@@ -22,12 +20,8 @@ export const ListaTareas = () => {
   );
 
   useEffect(() => {
-    startLoadingTareasAsignadas(currentPage);
-  }, [currentPage]);
-
-  const handleIncrementPaginate = (paginate) => {
-    setCurrentPage((prev) => prev + paginate);
-  };
+    startLoadingTareasAsignadas();
+  }, []);
 
   const getEstadoColor = (estado) => {
     switch (estado) {
@@ -153,17 +147,6 @@ export const ListaTareas = () => {
             </tbody>
           </table>
         </div>
-      </div>
-      <div className="d-flex justify-content-center mt-4">
-        <Stack direction="horizontal" gap={3}>
-          <Button
-            variant="outline-danger"
-            size="lg"
-            onClick={() => handleIncrementPaginate(1)}
-          >
-            Siguientes <i className="bi bi-arrow-right"></i>
-          </Button>
-        </Stack>
       </div>
     </div>
   );

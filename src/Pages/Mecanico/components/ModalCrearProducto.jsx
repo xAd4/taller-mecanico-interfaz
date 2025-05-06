@@ -1,34 +1,31 @@
-import { useState } from "react";
 import { Form, Modal, Button, InputGroup } from "react-bootstrap";
 import Select from "react-select";
 import { useSelectorProductos } from "../hooks/useSelectorProductos";
+import { useForm } from "../../../hooks/useForm";
+import { useProductoUsadoStore } from "../hooks/useProductoUsadoStore";
 
-export const ModalCrearProducto = ({
-  showModal,
-  handleClose,
-  productoData,
-}) => {
-  const [formData, setFormData] = useState({
-    tarea_id: "",
-    producto_id: "",
-    cantidad: "",
-  });
+const createProductoField = {
+  tarea_id: "",
+  producto_id: "",
+  cantidad: "",
+};
 
-  const { opcionesAgrupadas, handleProductoChange, setSearchTerm } =
-    useSelectorProductos();
+export const ModalCrearProducto = ({ showModal, handleClose, tareaId }) => {
+  const { tarea_id, producto_id, cantidad, onInputChange } =
+    useForm(createProductoField);
 
-  // Manejar cambios en otros campos
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const { opcionesAgrupadas, setSearchTerm } = useSelectorProductos(showModal);
+
+  const { startSavingProducto } = useProductoUsadoStore();
 
   // Manejar envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Datos enviados:", formData);
+    startSavingProducto({
+      tarea_id: tareaId,
+      producto_id,
+      cantidad,
+    });
     handleClose();
   };
 
@@ -57,7 +54,9 @@ export const ModalCrearProducto = ({
               <Select
                 options={opcionesAgrupadas}
                 onChange={(selected) =>
-                  handleProductoChange(selected, setFormData)
+                  onInputChange({
+                    target: { name: "producto_id", value: selected.value },
+                  })
                 }
                 placeholder="Seleccione un producto"
                 noOptionsMessage={() => "No se encontraron productos"}
@@ -70,8 +69,8 @@ export const ModalCrearProducto = ({
             <Form.Control
               type="number"
               name="cantidad"
-              value={formData.cantidad}
-              onChange={handleInputChange}
+              value={cantidad}
+              onChange={onInputChange}
               required
               min="1"
             />

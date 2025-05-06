@@ -649,111 +649,80 @@ export const DetalleTareas = () => {
               <>
                 {isLoadingProducto ? (
                   <SpinnerComponent />
+                ) : productos.length === 0 ? (
+                  <div className="alert alert-info mb-0">
+                    No se registraron productos utilizados
+                  </div>
                 ) : (
-                  productos.map((producto) => (
-                    <>
-                      <div className="card shadow-sm">
-                        <div className="card-body">
-                          <h5 className="card-title mb-4">
-                            <i className="bi bi-box-seam me-2"></i>
-                            Productos Utilizados
-                          </h5>
-                          <Table hover className="mb-0">
-                            <thead>
-                              <tr>
-                                <th>Producto</th>
-                                <th>Cantidad</th>
-                                {/* <th className="text-end">P. Unitario</th> */}
-                                {/* <th className="text-end">Total</th> */}
-                                <th>Acciones</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr key={producto.id}>
-                                <td>{producto.producto.nombre}</td>
-                                <td>{producto.cantidad}</td>
-                                {/* <td className="text-end">
-                          ${producto.producto.precio}
-                        </td> */}
-                                {/* <td className="text-end fw-bold">
-                          ${producto.total.toFixed(2)}
-                        </td> */}
-                                <td className="pe-4">
-                                  <td className="pe-4">
-                                    <Stack
-                                      direction="horizontal"
-                                      gap={2}
-                                      className="justify-content-end"
-                                    >
-                                      <Button
-                                        variant="outline-danger"
-                                        size="sm"
-                                        className="d-flex align-items-center gap-2"
-                                        onClick={() => {
-                                          setSelectedData(producto);
-                                          setShowProductosModal(true);
-                                        }}
-                                      >
-                                        <i className="bi bi-pencil"></i>
-                                        <span className="d-none d-md-inline">
-                                          Editar
-                                        </span>
-                                      </Button>
-                                      <Button
-                                        variant="outline-danger"
-                                        size="sm"
-                                        className="d-flex align-items-center gap-2"
-                                        onClick={() => setShowDeleteModal(true)}
-                                      >
-                                        <i className="bi bi-trash"></i>
-                                        <span className="d-none d-md-inline">
-                                          Eliminar
-                                        </span>
-                                      </Button>
-                                    </Stack>
-                                  </td>
-                                </td>
-                              </tr>
-                            </tbody>
-                            {/* <tfoot className="fw-bold">
-                    <tr>
-                      <td colSpan="3" className="text-end">
-                        Total General
-                      </td>
-                      <td className="text-end">
-                        $
-                        {tarea?.productos_usados
-                          .reduce((acc, curr) => acc + curr.total, 0)
-                          .toFixed(2)}
-                      </td>
-                    </tr>
-                  </tfoot> */}
-                          </Table>
-                        </div>
-                      </div>
-                      <Stack
-                        direction="horizontal"
-                        gap={2}
-                        className="justify-content-end"
-                      >
-                        <Button
-                          variant="outline-success"
-                          size="sm"
-                          className="d-flex align-items-center gap-2 mt-2"
-                          onClick={() => {
-                            setShowModal(true);
-                            setSelectedData(producto);
-                          }}
-                        >
-                          <i className="bi bi-pencil"></i>
-                          <span className="d-none d-md-inline">
-                            Agregar producto
-                          </span>
-                        </Button>
-                      </Stack>
-                    </>
-                  ))
+                  <div className="card shadow-sm">
+                    <div className="card-body">
+                      <h5 className="card-title mb-4">
+                        <i className="bi bi-box-seam me-2"></i>
+                        Productos Utilizados
+                      </h5>
+                      <Table hover className="mb-0">
+                        <thead>
+                          <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Acciones</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {productos.map((producto) => (
+                            <tr key={producto?.id}>
+                              <td>{producto?.producto?.nombre}</td>
+                              <td>{producto?.cantidad}</td>
+                              <td className="pe-4">
+                                <Stack direction="horizontal" gap={2}>
+                                  <Button
+                                    variant="outline-danger"
+                                    size="sm"
+                                    className="d-flex align-items-center gap-2"
+                                    onClick={() => {
+                                      setSelectedData(producto);
+                                      setShowProductosModal(true);
+                                    }}
+                                  >
+                                    <i className="bi bi-pencil"></i>
+                                    <span className="d-none d-md-inline">
+                                      Editar
+                                    </span>
+                                  </Button>
+                                  <Button
+                                    variant="outline-danger"
+                                    size="sm"
+                                    className="d-flex align-items-center gap-2"
+                                    onClick={() => {
+                                      setShowDeleteModal(true);
+                                      setSelectedData(producto);
+                                    }}
+                                  >
+                                    <i className="bi bi-trash"></i>
+                                    <span className="d-none d-md-inline">
+                                      Eliminar
+                                    </span>
+                                  </Button>
+                                </Stack>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </Table>
+                    </div>
+                  </div>
                 )}
+                <Button
+                  variant="outline-success"
+                  size="sm"
+                  className="d-flex align-items-center gap-2 mt-2"
+                  onClick={() => {
+                    setShowModal(true);
+                  }}
+                >
+                  <i className="bi bi-pencil"></i>
+                  <span className="d-none d-md-inline">Agregar producto</span>
+                </Button>
               </>
             )}
 
@@ -800,12 +769,13 @@ export const DetalleTareas = () => {
             <ModalCrearProducto
               showModal={showModal}
               handleClose={() => setShowModal(false)}
-              productoData={selectedData}
+              tareaId={tarea.id}
             />
             <ModalEliminarProducto
               showModal={showDeleteModal}
               handleClose={() => setShowDeleteModal(false)}
               handleDelete={handleDelete}
+              productosData={selectedData}
             />
           </div>
         )}

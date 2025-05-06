@@ -1,5 +1,8 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { useProductoStore } from "../../Jefe/hooks/useProductoStore";
+import Swal from "sweetalert2";
+import { useProductoUsadoStore } from "../hooks/useProductoUsadoStore";
 
 export const ModalActualizarProductos = ({
   showModal,
@@ -9,22 +12,13 @@ export const ModalActualizarProductos = ({
 }) => {
   const [formData, setFormData] = useState(
     productosData || {
+      tarea_id: "",
       producto_id: "",
       cantidad: "",
-      total: "",
-      producto: {
-        id: "",
-        categoria_id: "",
-        nombre: "",
-        detalles: "",
-        marca: "",
-        imagen: "",
-        stock: "",
-        precio: "",
-        disponibilidad: "",
-      },
     }
   );
+
+  const { startSavingProducto } = useProductoUsadoStore();
 
   // Actualizar el estado si productosData cambia
   useEffect(() => {
@@ -42,7 +36,10 @@ export const ModalActualizarProductos = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleUpdate(formData); // Llama a la función para actualizar los datos
+
+    const { tarea_id, ...dataToSend } = formData;
+    startSavingProducto(dataToSend);
+    Swal.fire("Ok", "Producto actualizado", "success");
     handleClose(); // Cierra el modal
   };
 
