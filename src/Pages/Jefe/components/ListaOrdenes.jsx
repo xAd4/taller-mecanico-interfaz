@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Form, Stack, Badge, Spinner } from "react-bootstrap";
+import { Button, Form, Stack, Badge } from "react-bootstrap";
 import { ModalCrearOrden } from "./ModalCrearOrden";
 import { ModalEliminarOrden } from "./ModalEliminarOrden";
 import { ModalActualizarOrden } from "./ModalActualizarOrden";
@@ -27,13 +27,13 @@ export const ListaOrdenes = () => {
 
   const handleUpdate = (updatedData) => {
     console.log("Datos actualizados:", updatedData);
-    // Aquí iría la lógica para hacer el PUT o PATCH a la API
+    // Lógica para actualizar la orden
   };
 
   const handleDelete = () => {
     console.log("Orden eliminada");
     setShowDeleteModal(false);
-    // Aquí iría la lógica para hacer el DELETE a la API
+    // Lógica para eliminar la orden
   };
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export const ListaOrdenes = () => {
 
   return (
     <div className="container-fluid px-4 py-3 animate__animated animate__fadeIn">
-      {/* Header */}
+      {/* Encabezado */}
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
         <div>
           <h1 className="h2 mb-1 fw-bold text-danger">Órdenes de Trabajo</h1>
@@ -74,168 +74,189 @@ export const ListaOrdenes = () => {
         </div>
       </div>
 
-      {/* Tabla Responsive */}
+      {/* Tabla de órdenes */}
       <div className="card shadow-sm border-0 overflow-hidden">
         <div className="table-responsive rounded-3">
-          <table className="table table-hover align-middle mb-0">
+          <table className="table table-hover align-middle mb-0 table-striped">
             <thead className="bg-danger text-white">
               <tr>
-                <th scope="col">ID</th>
-                <th scope="col" className="ps-4">
+                <th scope="col" className="p-3">
+                  ID
+                </th>
+                <th scope="col" className="p-3">
                   Cliente
                 </th>
-                <th scope="col">Vehículo</th>
-                <th scope="col">Trabajos a realizar</th>
-                <th scope="col">Fechas</th>
-                <th scope="col">Filtros y aceite</th>
-                <th scope="col">Entrada del vehiculo</th>
-                <th scope="col" className="text-end pe-4">
+                <th scope="col" className="p-3">
+                  Vehículo
+                </th>
+                <th scope="col" className="p-3">
+                  Trabajos
+                </th>
+                <th scope="col" className="p-3">
+                  Fechas
+                </th>
+                <th scope="col" className="p-3">
+                  Mantenimiento
+                </th>
+                <th scope="col" className="p-3">
+                  Entrada
+                </th>
+                <th scope="col" className="text-end p-3">
                   Acciones
                 </th>
               </tr>
             </thead>
             <tbody>
               {isLoadingOrdenes ? (
-                <SpinnerComponent colSpan={12} />
+                <SpinnerComponent colSpan={8} />
+              ) : filteredData.length === 0 ? (
+                <tr>
+                  <td colSpan={8} className="text-center p-4 text-muted">
+                    No se encontraron órdenes
+                  </td>
+                </tr>
               ) : (
-                filteredData.map((orden, index) => (
-                  <tr key={index} className="transition-all">
-                    <td className="ps-4">
-                      <div className="d-flex align-items-center gap-3">
+                filteredData.map((orden) => (
+                  <tr
+                    key={orden.id}
+                    className={`transition-all ${
+                      !orden.disponible ? "table-secondary" : ""
+                    }`}
+                  >
+                    {/* ID */}
+                    <td className="p-3 fw-semibold text-muted">#{orden.id}</td>
+
+                    {/* Cliente */}
+                    <td className="p-3">
+                      <div className="d-flex flex-column gap-2">
+                        <Badge
+                          pill
+                          bg={orden.disponible ? "success" : "danger"}
+                          className="align-self-start"
+                        >
+                          {orden.disponible ? "Disponible" : "No disponible"}
+                        </Badge>
                         <div>
-                          <h6 className="mb-0 fw-semibold">{orden?.id}</h6>
+                          <h6 className="mb-1 fw-semibold">
+                            {orden.cliente.nombre}
+                          </h6>
+                          <small className="text-muted">
+                            ID: {orden.cliente.id}
+                          </small>
                         </div>
                       </div>
                     </td>
-                    <td className="ps-4">
-                      <div className="d-flex align-items-center gap-3">
-                        <div>
-                          <h6 className="mb-0 fw-semibold">
-                            ID del cliente: {orden?.cliente.id}
-                          </h6>
-                          <br />
-                          <h6 className="mb-0 fw-semibold">
-                            Nombre del cliente: {orden?.cliente.nombre}
-                          </h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
+
+                    {/* Vehículo */}
+                    <td className="p-3">
                       <div className="d-flex align-items-center gap-3">
                         <i className="bi bi-car-front fs-4 text-muted"></i>
                         <div>
-                          <h6 className="mb-0 fw-semibold">
-                            ID del Vehiculo: {orden?.vehiculo.id}
+                          <h6 className="mb-1 fw-semibold">
+                            {orden.vehiculo.marca} {orden.vehiculo.modelo}
                           </h6>
-                          <br />
-                          <h6 className="mb-0 fw-semibold">
-                            Info del Vehiculo: {orden?.vehiculo.modelo} -{" "}
-                            {orden?.vehiculo.marca}
-                          </h6>
-                          <ul className="list-unstyled mb-0">
-                            <li>
-                              <code className="text-muted">Matrícula:</code>
-                              {orden?.vehiculo.matricula}
-                            </li>
-                          </ul>
+                          <div className="text-muted small">
+                            <div>ID: {orden.vehiculo.id}</div>
+                            <div>Matrícula: {orden.vehiculo.matricula}</div>
+                          </div>
                         </div>
                       </div>
                     </td>
-                    <td>
-                      <div className="d-flex flex-column gap-2">
-                        <div>
-                          <small className="text-muted d-block">
-                            Detalles de trabajos a realizar
-                          </small>
-                          <span
-                            className="d-inline-block text-truncate"
-                            style={{ maxWidth: "250px" }}
-                          >
-                            <i className="bi bi-calendar-check me-2"></i>
-                            {orden?.detalle_de_trabajos_a_realizar}
-                          </span>
-                        </div>
+
+                    {/* Trabajos */}
+                    <td className="p-3">
+                      <div className="bg-light p-2 rounded">
+                        <small className="text-muted d-block mb-1">
+                          Descripción:
+                        </small>
+                        <span
+                          className="d-block text-truncate"
+                          style={{ maxWidth: "200px" }}
+                        >
+                          {orden.detalle_de_trabajos_a_realizar ||
+                            "Sin detalles"}
+                        </span>
                       </div>
                     </td>
-                    <td>
+
+                    {/* Fechas */}
+                    <td className="p-3">
                       <div className="d-flex flex-column gap-2">
-                        <div>
+                        <div className="bg-light p-2 rounded">
                           <small className="text-muted d-block">
                             Recepción:
                           </small>
-                          <span className="text-nowrap">
-                            <i className="bi bi-calendar-check me-2"></i>
-                            {orden?.recepcion}
+                          <span className="text-nowrap d-block">
+                            {orden.recepcion === "1900-01-01"
+                              ? "No especificada"
+                              : orden.recepcion || "N/A"}
                           </span>
                         </div>
-                        <div>
+                        <div className="bg-light p-2 rounded">
                           <small className="text-muted d-block">
                             Prometida:
                           </small>
-                          <span className="text-nowrap">
-                            <i className="bi bi-calendar-event me-2"></i>
-                            {orden?.prometido}
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="d-flex flex-column gap-2">
-                        <small
-                          className={
-                            orden?.cambio_de_aceite
-                              ? "text-success"
-                              : "text-danger"
-                          }
-                        >
-                          {orden?.cambio_de_aceite ? (
-                            <i className="bi bi-check-circle-fill"> Aceite</i>
-                          ) : (
-                            <i className="bi bi-x-circle-fill"> Aceite</i>
-                          )}
-                        </small>
-                        <small
-                          className={
-                            orden?.cambio_de_filtro
-                              ? "text-success"
-                              : "text-danger"
-                          }
-                        >
-                          {orden?.cambio_de_filtro ? (
-                            <i className="bi bi-check-circle-fill"> Filtro</i>
-                          ) : (
-                            <i className="bi bi-x-circle-fill"> Filtro</i>
-                          )}
-                        </small>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="d-flex flex-column gap-2">
-                        <div>
-                          <small className="text-muted d-block">
-                            Detalles de entrada de vehiculo
-                          </small>
-                          <span
-                            className="d-inline-block text-truncate"
-                            style={{ maxWidth: "250px" }}
-                          >
-                            <i className="bi bi-calendar-check me-2"></i>
-                            {orden?.detalles_de_entrada_del_vehiculo}
+                          <span className="text-nowrap d-block">
+                            {orden.prometido === "1900-01-01"
+                              ? "No especificada"
+                              : orden.prometido || "N/A"}
                           </span>
                         </div>
                       </div>
                     </td>
 
-                    <td className="pe-4">
+                    {/* Mantenimiento */}
+                    <td className="p-3">
+                      <Stack gap={2}>
+                        <div className="d-flex align-items-center gap-2">
+                          <i
+                            className={`bi ${
+                              orden.cambio_de_aceite
+                                ? "bi-check-circle-fill text-success"
+                                : "bi-x-circle-fill text-danger"
+                            }`}
+                          ></i>
+                          <span className="small">Cambio de aceite</span>
+                        </div>
+                        <div className="d-flex align-items-center gap-2">
+                          <i
+                            className={`bi ${
+                              orden.cambio_de_filtro
+                                ? "bi-check-circle-fill text-success"
+                                : "bi-x-circle-fill text-danger"
+                            }`}
+                          ></i>
+                          <span className="small">Cambio de filtro</span>
+                        </div>
+                      </Stack>
+                    </td>
+
+                    {/* Entrada */}
+                    <td className="p-3">
+                      <div className="bg-light p-2 rounded">
+                        <small className="text-muted d-block mb-1">
+                          Detalles:
+                        </small>
+                        <span
+                          className="d-block text-truncate"
+                          style={{ maxWidth: "200px" }}
+                        >
+                          {orden.detalles_de_entrada_del_vehiculo ||
+                            "Sin detalles"}
+                        </span>
+                      </div>
+                    </td>
+
+                    {/* Acciones */}
+                    <td className="p-3">
                       <Stack
-                        direction="horizontal"
                         gap={2}
-                        className="justify-content-end"
+                        className="justify-content-end flex-md-row flex-column"
                       >
                         <Button
                           variant="outline-primary"
                           size="sm"
-                          className="d-flex align-items-center gap-2"
+                          className="d-flex align-items-center gap-1"
                           onClick={() => {
                             setSelectedOrden(orden);
                             setShowUpdateModal(true);
@@ -247,7 +268,7 @@ export const ListaOrdenes = () => {
                         <Button
                           variant="outline-danger"
                           size="sm"
-                          className="d-flex align-items-center gap-2"
+                          className="d-flex align-items-center gap-1"
                           onClick={() => {
                             setSelectedOrden(orden);
                             setShowDeleteModal(true);
@@ -259,9 +280,9 @@ export const ListaOrdenes = () => {
                         <Button
                           variant="outline-success"
                           size="sm"
-                          className="d-flex align-items-center gap-2"
+                          className="d-flex align-items-center gap-1"
                           onClick={() =>
-                            navigate(`/jefe/orden/${orden?.id}`, {
+                            navigate(`/jefe/orden/${orden.id}`, {
                               state: { orden },
                             })
                           }
@@ -279,19 +300,17 @@ export const ListaOrdenes = () => {
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Modals */}
       <ModalCrearOrden
         showModal={showModal}
         handleClose={() => setShowModal(false)}
       />
-      {/* Modal de eliminación */}
       <ModalEliminarOrden
         showModal={showDeleteModal}
         handleClose={() => setShowDeleteModal(false)}
         handleDelete={handleDelete}
         ordenData={selectedOrden}
       />
-      {/* Modal de actualización */}
       <ModalActualizarOrden
         showModal={showUpdateModal}
         handleClose={() => setShowUpdateModal(false)}

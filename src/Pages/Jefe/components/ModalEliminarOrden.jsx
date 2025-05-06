@@ -20,9 +20,11 @@ export const ModalEliminarOrden = ({ showModal, handleClose, ordenData }) => {
         <Modal.Title>Eliminar Orden</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>
-          ¿Estás seguro de que deseas eliminar este orden? Esta acción no se
-          puede deshacer.
+        <p className="text-danger fw-bold">
+          ¿Estás seguro de que deseas eliminar esta órden? Si borras la orden,
+          todo rastro relacionado con ella, como tareas, también será eliminada.
+          <br />
+          <u>Esta acción no se puede deshacer.</u>
         </p>
       </Modal.Body>
       <Modal.Footer>

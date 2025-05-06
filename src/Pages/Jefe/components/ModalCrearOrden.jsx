@@ -34,6 +34,7 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
     cambio_de_aceite,
     cambio_de_filtro,
     detalles_de_entrada_del_vehiculo,
+
     onInputChange,
   } = useForm(createOrdenField);
 
@@ -135,7 +136,9 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>Detalles de trabajos a realizar</Form.Label>
+              <Form.Label>
+                Detalles de trabajos a realizar (Opcional)
+              </Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
@@ -182,7 +185,9 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Detalles de entrada de vehiculo</Form.Label>
+              <Form.Label>
+                Detalles de entrada de vehiculo (Opcional)
+              </Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Form, Stack, Badge, Spinner } from "react-bootstrap";
+import { Button, Form, Stack, Badge } from "react-bootstrap";
 import { ModalCrearTarea } from "./ModalCrearTarea";
 import { ModalEliminarTarea } from "./ModalEliminarTarea";
 import { ModalActualizarTarea } from "./ModalActualizarTarea";
@@ -15,23 +15,19 @@ export const ListaTareas = () => {
   const [selectedTarea, setSelectedTarea] = useState(null);
 
   const { tareas, startLoadingTareas, isLoadingTareas } = useTareaStore();
-
   const { filteredData, searchTerm, handleSearchChange } = useSearch(tareas, [
     "mecanico.name",
     "estado_de_trabajo",
   ]);
-
   const navigate = useNavigate();
 
   const handleDelete = () => {
-    console.log("Cliente eliminado");
+    console.log("Tarea eliminada");
     setShowDeleteModal(false);
-    // Aquí iría la lógica para hacer el DELETE a la API
   };
 
   const handleUpdate = (updatedData) => {
     console.log("Datos actualizados:", updatedData);
-    // Aquí iría la lógica para hacer el PUT o PATCH a la API
   };
 
   useEffect(() => {
@@ -43,9 +39,9 @@ export const ListaTareas = () => {
       case "pendiente":
         return "danger";
       case "en_proceso":
-        return "secondary";
-      case "pendiente_de_facturacion":
         return "warning";
+      case "pendiente_de_facturacion":
+        return "info";
       case "completado":
         return "success";
       default:
@@ -55,7 +51,7 @@ export const ListaTareas = () => {
 
   return (
     <div className="container-fluid px-4 py-3 animate__animated animate__fadeIn">
-      {/* Header */}
+      {/* Encabezado */}
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
         <div>
           <h1 className="h2 mb-1 fw-bold text-danger">Gestión de Tareas</h1>
@@ -70,6 +66,7 @@ export const ListaTareas = () => {
           Nueva Tarea
         </Button>
       </div>
+
       {/* Buscador */}
       <div className="mb-4">
         <div className="input-group input-group-lg shadow-sm">
@@ -85,74 +82,109 @@ export const ListaTareas = () => {
           />
         </div>
       </div>
-      {/* Tabla Responsive */}
+
+      {/* Tabla de tareas */}
       <div className="card shadow-sm border-0 overflow-hidden">
         <div className="table-responsive rounded-3">
-          <table className="table table-hover align-middle mb-0">
+          <table className="table table-hover align-middle mb-0 table-striped">
             <thead className="bg-danger text-white">
               <tr>
-                <th scope="col">ID</th>
-                <th scope="col" className="ps-4">
-                  Orden ID
+                <th scope="col" className="p-3">
+                  ID
                 </th>
-                <th scope="col">Mecánico ID</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Notificación al Cliente</th>
-                <th scope="col" className="text-end pe-4">
+                <th scope="col" className="p-3">
+                  Orden
+                </th>
+                <th scope="col" className="p-3">
+                  Mecánico
+                </th>
+                <th scope="col" className="p-3">
+                  Estado
+                </th>
+                <th scope="col" className="p-3">
+                  Notificación
+                </th>
+                <th scope="col" className="text-end p-3">
                   Acciones
                 </th>
               </tr>
             </thead>
             <tbody>
               {isLoadingTareas ? (
-                <SpinnerComponent />
+                <SpinnerComponent colSpan={6} />
+              ) : filteredData.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="text-center p-4 text-muted">
+                    No se encontraron tareas
+                  </td>
+                </tr>
               ) : (
-                filteredData.map((tarea, index) => (
-                  <tr key={index} className="transition-all">
-                    <td className="ps-4 fw-semibold"> {tarea?.id}</td>
-                    <td className="ps-4 fw-semibold"> {tarea?.orden_id}</td>
-                    <td>
-                      <div className="d-flex align-items-center gap-2">
-                        <i className="bi bi-person-workspace"></i>
-                        {tarea?.mecanico ? (
-                          <span className="font-monospace">
-                            {tarea?.mecanico_id} - {tarea?.mecanico?.name}
-                          </span>
-                        ) : (
-                          <span className="font-monospace">
-                            Recarga la pagina...
-                          </span>
-                        )}
-                      </div>
-                    </td>
-                    <td>
-                      <Badge bg={getEstadoColor(tarea?.estado_de_trabajo)}>
-                        {tarea?.estado_de_trabajo}
+                filteredData.map((tarea) => (
+                  <tr key={tarea.id} className="transition-all">
+                    {/* ID */}
+                    <td className="p-3 fw-semibold text-muted">#{tarea.id}</td>
+
+                    {/* Orden ID */}
+                    <td className="p-3">
+                      <Badge bg="dark" className="font-monospace">
+                        ORD-{tarea.orden_id}
                       </Badge>
                     </td>
-                    <td>
-                      <div className="d-flex flex-column gap-2">
+
+                    {/* Mecánico */}
+                    <td className="p-3">
+                      <div className="d-flex align-items-center gap-3">
+                        <div className="bg-light rounded-circle p-2">
+                          <i className="bi bi-person-gear fs-5 text-danger"></i>
+                        </div>
                         <div>
+                          <h6 className="mb-0 fw-semibold">
+                            {tarea.mecanico?.name || "Sin asignar"}
+                          </h6>
+                          <small className="text-muted font-monospace">
+                            ID: {tarea.mecanico_id}
+                          </small>
+                        </div>
+                      </div>
+                    </td>
+
+                    {/* Estado */}
+                    <td className="p-3">
+                      <Badge
+                        pill
+                        bg={getEstadoColor(tarea.estado_de_trabajo)}
+                        className="text-uppercase"
+                      >
+                        {tarea.estado_de_trabajo.replace(/_/g, " ")}
+                      </Badge>
+                    </td>
+
+                    {/* Notificación */}
+                    <td className="p-3">
+                      <div className="bg-light p-2 rounded">
+                        <div className="d-flex align-items-center gap-2">
+                          <i className="bi bi-bell fs-5 text-primary"></i>
                           <span
-                            className="d-inline-block text-truncate"
-                            style={{ maxWidth: "250px" }}
+                            className="text-truncate"
+                            style={{ maxWidth: "200px" }}
                           >
-                            <i className="bi bi-calendar-check me-2"></i>
-                            {tarea?.notificacion_al_cliente}
+                            {tarea.notificacion_al_cliente ||
+                              "Sin notificación"}
                           </span>
                         </div>
                       </div>
                     </td>
-                    <td className="pe-4">
+
+                    {/* Acciones */}
+                    <td className="p-3">
                       <Stack
-                        direction="horizontal"
                         gap={2}
-                        className="justify-content-end"
+                        className="justify-content-end flex-md-row flex-column"
                       >
                         <Button
                           variant="outline-primary"
                           size="sm"
-                          className="d-flex align-items-center gap-2"
+                          className="d-flex align-items-center gap-1"
                           onClick={() => {
                             setSelectedTarea(tarea);
                             setShowUpdateModal(true);
@@ -164,7 +196,7 @@ export const ListaTareas = () => {
                         <Button
                           variant="outline-danger"
                           size="sm"
-                          className="d-flex align-items-center gap-2"
+                          className="d-flex align-items-center gap-1"
                           onClick={() => {
                             setSelectedTarea(tarea);
                             setShowDeleteModal(true);
@@ -176,7 +208,7 @@ export const ListaTareas = () => {
                         <Button
                           variant="outline-success"
                           size="sm"
-                          className="d-flex align-items-center gap-2"
+                          className="d-flex align-items-center gap-1"
                           onClick={() =>
                             navigate(`/jefe/tarea/${tarea.id}`, {
                               state: { tarea },
@@ -184,7 +216,7 @@ export const ListaTareas = () => {
                           }
                         >
                           <i className="bi bi-eye"></i>
-                          <span className="d-none d-lg-inline">Detalles</span>
+                          <span className="d-none d-md-inline">Detalles</span>
                         </Button>
                       </Stack>
                     </td>
@@ -196,19 +228,17 @@ export const ListaTareas = () => {
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Modals */}
       <ModalCrearTarea
         showModal={showModal}
         handleClose={() => setShowModal(false)}
       />
-      {/* Modal de eliminación */}
       <ModalEliminarTarea
         showModal={showDeleteModal}
         handleClose={() => setShowDeleteModal(false)}
         handleDelete={handleDelete}
         tareaData={selectedTarea}
       />
-      {/* Modal de actualización */}
       <ModalActualizarTarea
         showModal={showUpdateModal}
         handleClose={() => setShowUpdateModal(false)}

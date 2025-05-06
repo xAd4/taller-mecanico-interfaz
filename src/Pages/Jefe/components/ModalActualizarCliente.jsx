@@ -15,6 +15,7 @@ export const ModalActualizarCliente = ({
       rut: "",
       telefono: "",
       domicilio: "",
+      disponible: "",
     }
   );
 
@@ -27,6 +28,16 @@ export const ModalActualizarCliente = ({
     }
   }, [clienteData]);
 
+  const handleInputChangeCheckbox = (e) => {
+    const { name, type, checked } = e.target;
+    // Para checkboxes usamos 'checked', de lo contrario 'value'
+    const value = type === "checkbox" ? checked : e.target.value;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
@@ -36,6 +47,14 @@ export const ModalActualizarCliente = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!formData.domicilio.trim()) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Los campos no pueden estar vacíos. En los campos opcionales, escriba 'N/A'.",
+      });
+      return; // Detener el envío del formulario
+    }
     startSavingEvent(formData);
     Swal.fire("Ok", "Cliente actualizado", "success");
     handleClose();
@@ -87,12 +106,21 @@ export const ModalActualizarCliente = ({
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Domicilio</Form.Label>
+            <Form.Label>Domicilio (Si es opcional, escribir N/A)</Form.Label>
             <Form.Control
               type="text"
               name="domicilio"
               value={formData.domicilio}
               onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Check
+              type="checkbox"
+              name="disponible"
+              label="Disponible"
+              checked={formData.disponible}
+              onChange={handleInputChangeCheckbox}
             />
           </Form.Group>
         </Modal.Body>

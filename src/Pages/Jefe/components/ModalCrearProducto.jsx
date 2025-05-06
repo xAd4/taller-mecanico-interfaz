@@ -12,7 +12,6 @@ const createProductoField = {
   marca: "",
   stock: "",
   precio: "",
-  disponibilidad: "",
 };
 
 export const ModalCrearProducto = ({ showModal, handleClose }) => {
@@ -23,7 +22,6 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
     marca,
     stock,
     precio,
-    disponibilidad,
     onInputChange,
   } = useForm(createProductoField);
 
@@ -31,10 +29,10 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
 
   const { startSavingProducto } = useProductoStore();
 
-  const handleInputChangeCheckbox = (e) => {
-    const { name, checked } = e.target;
-    onInputChange({ target: { name, value: checked } });
-  };
+  // const handleInputChangeCheckbox = (e) => {
+  //   const { name, checked } = e.target;
+  //   onInputChange({ target: { name, value: checked } });
+  // };
 
   // Manejar envío del formulario
   const handleSubmit = async (e) => {
@@ -47,7 +45,6 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
       marca,
       stock,
       precio,
-      disponibilidad,
     });
 
     Swal.fire("Ok", "Producto creado", "success");
@@ -139,15 +136,6 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
                 name="precio"
                 value={precio}
                 onChange={onInputChange}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Check
-                type="checkbox"
-                name="disponibilidad"
-                label="Estado"
-                value={disponibilidad}
-                onChange={handleInputChangeCheckbox}
               />
             </Form.Group>
           </Modal.Body>

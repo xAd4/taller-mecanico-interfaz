@@ -24,9 +24,12 @@ export const ModalEliminarVehiculo = ({
         <Modal.Title>Eliminar Vehiculo</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>
-          ¿Estás seguro de que deseas eliminar este vehiculo? Esta acción no se
-          puede deshacer.
+        <p className="text-danger fw-bold">
+          ¿Estás seguro de que deseas eliminar este vehiculo? Si borras el
+          vehiculo, todo rastro relacionado con él, como órdenes y tareas,
+          también será eliminado.
+          <br />
+          <u>Esta acción no se puede deshacer.</u>
         </p>
       </Modal.Body>
       <Modal.Footer>

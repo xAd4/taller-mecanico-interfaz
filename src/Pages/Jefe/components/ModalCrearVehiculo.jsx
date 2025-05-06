@@ -28,6 +28,11 @@ export const ModalCrearVehiculo = ({ showModal, handleClose }) => {
     fecha_de_compra: "",
   });
 
+  // const handleInputChangeCheckbox = (e) => {
+  //   const { name, checked } = e.target;
+  //   onInputChange({ target: { name, value: checked } });
+  // };
+
   const { startSavingVehiculo } = useVehiculoStore();
 
   const {
@@ -45,6 +50,7 @@ export const ModalCrearVehiculo = ({ showModal, handleClose }) => {
   // Manejar envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     startSavingVehiculo({
       modelo,
       marca,
@@ -57,10 +63,6 @@ export const ModalCrearVehiculo = ({ showModal, handleClose }) => {
     });
 
     Swal.fire("Ok", "Vehiculo creado", "success");
-    setTimeout(() => {
-      location.reload();
-    }, 1000);
-
     handleClose();
   };
 

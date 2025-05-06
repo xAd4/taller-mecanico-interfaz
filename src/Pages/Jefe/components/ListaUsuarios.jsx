@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { Button, Form, Stack, Badge } from "react-bootstrap";
 import { ModalCrearUsuario } from "./ModalCrearUsuario";
 import { ModalEliminarUsuario } from "./ModalEliminarUsuario";
+import { ModalActualizarUsuario } from "./ModalActualizarUsuario";
 import { useUsuarioStore } from "../hooks/useUsuarioStore";
 import { SpinnerComponent } from "../../../components/SpinnerComponent";
-import { ModalActualizarUsuario } from "./ModalActualizarUsuario";
 import { useSearch } from "../../../hooks/useSearch";
 
 export const ListaUsuarios = () => {
@@ -41,7 +41,7 @@ export const ListaUsuarios = () => {
 
   return (
     <div className="container-fluid px-4 py-3 animate__animated animate__fadeIn">
-      {/* Header */}
+      {/* Encabezado */}
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
         <div>
           <h1 className="h2 mb-1 fw-bold text-danger">Gestión de Usuarios</h1>
@@ -73,73 +73,111 @@ export const ListaUsuarios = () => {
         </div>
       </div>
 
-      {/* Tabla Responsive */}
+      {/* Tabla de usuarios */}
       <div className="card shadow-sm border-0 overflow-hidden">
         <div className="table-responsive rounded-3">
-          <table className="table table-hover align-middle mb-0">
+          <table className="table table-hover align-middle mb-0 table-striped">
             <thead className="bg-danger text-white">
               <tr>
-                <th scope="col">ID</th>
-                <th scope="col" className="ps-4">
+                <th scope="col" className="p-3">
+                  ID
+                </th>
+                <th scope="col" className="p-3">
                   Usuario
                 </th>
-                <th scope="col">Contacto</th>
-                <th scope="col">Rol</th>
-                <th scope="col" className="text-end pe-4">
+                <th scope="col" className="p-3">
+                  Contacto
+                </th>
+                <th scope="col" className="p-3">
+                  Rol
+                </th>
+                <th scope="col" className="text-end p-3">
                   Acciones
                 </th>
               </tr>
             </thead>
             <tbody>
               {isLoadingUsuarios ? (
-                <SpinnerComponent />
+                <SpinnerComponent colSpan={5} />
+              ) : filteredData.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="text-center p-4 text-muted">
+                    No se encontraron usuarios
+                  </td>
+                </tr>
               ) : (
-                filteredData.map((usuario, index) => (
-                  <tr key={index} className="transition-all">
-                    <td>{usuario.id}</td>
-                    <td className="ps-4">
+                filteredData.map((usuario) => (
+                  <tr
+                    key={usuario.id}
+                    className={`transition-all ${
+                      !usuario.disponible ? "table-secondary" : ""
+                    }`}
+                  >
+                    {/* ID */}
+                    <td className="p-3 fw-semibold text-muted">
+                      #{usuario.id}
+                    </td>
+
+                    {/* Información del Usuario */}
+                    <td className="p-3">
                       <div className="d-flex align-items-center gap-3">
+                        <div className="avatar-circle bg-light text-danger">
+                          <i className="bi bi-person fs-5"></i>
+                        </div>
                         <div>
                           <h6 className="mb-0 fw-semibold">{usuario.name}</h6>
+                          {!usuario.disponible && (
+                            <Badge pill bg="danger" className="mt-1">
+                              Fuera de trabajo
+                            </Badge>
+                          )}
                         </div>
                       </div>
                     </td>
-                    <td>
-                      <div className="d-flex flex-column">
+
+                    {/* Contacto */}
+                    <td className="p-3">
+                      <div className="d-flex flex-column gap-2">
                         <a
                           href={`mailto:${usuario.email}`}
-                          className="text-decoration-none"
+                          className="text-decoration-none d-flex align-items-center gap-2"
                         >
+                          <i className="bi bi-envelope"></i>
                           {usuario.email}
                         </a>
                       </div>
                     </td>
-                    <td>
+
+                    {/* Rol */}
+                    <td className="p-3">
                       <Badge
+                        pill
                         bg={getRolColor(usuario.rol)}
-                        className="text-capitalize"
+                        className="d-flex align-items-center gap-2"
                       >
                         <i
                           className={`bi ${
                             usuario.rol === "Jefe"
                               ? "bi-shield-shaded"
-                              : "bi-tools"
-                          } me-2`}
+                              : usuario.rol === "Mecánico"
+                              ? "bi-tools"
+                              : "bi-gear"
+                          }`}
                         ></i>
-                        {usuario.rol}
+                        <span className="text-capitalize">{usuario.rol}</span>
                       </Badge>
                     </td>
 
-                    <td className="pe-4">
+                    {/* Acciones */}
+                    <td className="p-3">
                       <Stack
-                        direction="horizontal"
                         gap={2}
-                        className="justify-content-end"
+                        className="justify-content-end flex-md-row flex-column"
                       >
                         <Button
                           variant="outline-primary"
                           size="sm"
-                          className="d-flex align-items-center gap-2"
+                          className="d-flex align-items-center gap-1"
                           onClick={() => {
                             setSelectedUsuario(usuario);
                             setShowUpdateModal(true);
@@ -151,7 +189,7 @@ export const ListaUsuarios = () => {
                         <Button
                           variant="outline-danger"
                           size="sm"
-                          className="d-flex align-items-center gap-2"
+                          className="d-flex align-items-center gap-1"
                           onClick={() => {
                             setShowDeleteModal(true);
                             setSelectedUsuario(usuario);
@@ -170,52 +208,37 @@ export const ListaUsuarios = () => {
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Modals */}
       <ModalCrearUsuario
         showModal={showModal}
         handleClose={() => setShowModal(false)}
       />
-      {/* Modal de eliminación */}
       <ModalEliminarUsuario
         showModal={showDeleteModal}
         handleClose={() => setShowDeleteModal(false)}
         usuarioData={selectedUsuario}
       />
-      {/* Modal de actualización */}
       <ModalActualizarUsuario
         showModal={showUpdateModal}
         handleClose={() => setShowUpdateModal(false)}
         usuarioData={selectedUsuario}
       />
+
+      <style>{`
+        .avatar-circle {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 2px solid #dee2e6;
+        }
+        
+        .transition-all {
+          transition: all 0.2s ease;
+        }
+      `}</style>
     </div>
   );
 };
-
-// Estilos adicionales en CSS
-const styles = `
-  .avatar-circle {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 500;
-    border: 2px solid #dee2e6;
-  }
-  
-  .activity-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-  }
-  
-  .transition-all {
-    transition: all 0.2s ease;
-  }
-`;
-
-// Agregar estilos al documento
-const styleSheet = document.createElement("style");
-styleSheet.innerText = styles;
-document.head.appendChild(styleSheet);

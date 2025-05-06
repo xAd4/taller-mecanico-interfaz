@@ -24,9 +24,12 @@ export const ModalEliminarCliente = ({
         <Modal.Title>Eliminar al cliente {clienteData?.nombre}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>
-          ¿Estás seguro de que deseas eliminar este cliente? Esta acción no se
-          puede deshacer.
+        <p className="text-danger fw-bold">
+          ¿Estás seguro de que deseas eliminar este cliente? Si borras el
+          cliente, todo rastro relacionado con él, como órdenes y tareas,
+          también será eliminado.
+          <br />
+          <u>Esta acción no se puede deshacer.</u>
         </p>
       </Modal.Body>
       <Modal.Footer>

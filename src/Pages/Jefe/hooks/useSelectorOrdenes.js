@@ -27,7 +27,9 @@ export const useSelectorOrdenes = (showModal) => {
       if (orden.recepcion.toLowerCase().includes(searchTerm.toLowerCase())) {
         grupos[categoriaNombre].options.push({
           value: orden.id,
-          label: `${orden.id} - Orden para: ${orden.cliente.nombre}`,
+          label: `${orden.id} - Orden para: ${orden.cliente.nombre} | ${
+            orden.disponible ? "Disponible" : "No disponible"
+          }`,
         });
       }
     });

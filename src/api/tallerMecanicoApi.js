@@ -10,7 +10,6 @@ const tallerMecanicoApi = axios.create({
   headers: {
     "Content-Type": "application/json",
     Accept: "*/*",
-    "Access-Control-Allow-Origin": "*",
   },
 });
 

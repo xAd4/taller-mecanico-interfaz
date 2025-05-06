@@ -31,6 +31,14 @@ export const ModalActualizarTarea = ({ showModal, handleClose, tareaData }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!formData.notificacion_al_cliente.trim()) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Los campos no pueden estar vacíos. En los campos opcionales, escriba 'N/A'.",
+      });
+      return; // Detener el envío del formulario
+    }
     startSavingTarea(formData);
     Swal.fire("Ok", "Tarea actualizada", "success");
     handleClose();
@@ -82,7 +90,7 @@ export const ModalActualizarTarea = ({ showModal, handleClose, tareaData }) => {
             </Form.Select>
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Notificación al Cliente</Form.Label>
+            <Form.Label>Notificación al Cliente (Opcional)</Form.Label>
             <Form.Control
               type="text"
               name="notificacion_al_cliente"

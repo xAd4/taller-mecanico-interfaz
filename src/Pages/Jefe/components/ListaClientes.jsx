@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Form, Spinner, Stack } from "react-bootstrap";
+import { Button, Form, Stack, Badge } from "react-bootstrap";
 import { ModalCrearCliente } from "./ModalCrearCliente";
 import { ModalEliminarCliente } from "./ModalEliminarCliente";
 import { ModalActualizarCliente } from "./ModalActualizarCliente";
@@ -22,13 +22,11 @@ export const ListaClientes = () => {
 
   const handleUpdate = (updatedData) => {
     console.log("Datos actualizados:", updatedData);
-    // Aquí iría la lógica para hacer el PUT o PATCH a la API
   };
 
   const handleDelete = () => {
     console.log("Cliente eliminado");
     setShowDeleteModal(false);
-    // Aquí iría la lógica para hacer el DELETE a la API
   };
 
   useEffect(() => {
@@ -37,8 +35,7 @@ export const ListaClientes = () => {
 
   return (
     <div className="container-fluid px-4 py-3 animate__animated animate__fadeIn">
-      {/* Header */}
-
+      {/* Encabezado */}
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
         <div>
           <h1 className="h2 mb-1 fw-bold text-danger">Clientes</h1>
@@ -53,7 +50,7 @@ export const ListaClientes = () => {
           Nuevo Cliente
         </Button>
       </div>
-      <div></div>
+
       {/* Buscador */}
       <div className="mb-4">
         <div className="input-group input-group-lg shadow-sm">
@@ -69,71 +66,106 @@ export const ListaClientes = () => {
           />
         </div>
       </div>
-      {/* Tabla Responsive */}
+
+      {/* Tabla de clientes */}
       <div className="card shadow-sm border-0 overflow-hidden">
         <div className="table-responsive rounded-3">
-          <table className="table table-hover align-middle mb-0">
+          <table className="table table-hover align-middle mb-0 table-striped">
             <thead className="bg-danger text-white">
               <tr>
-                <th scope="col" className="ps-4">
+                <th scope="col" className="p-3">
                   ID
                 </th>
-                <th scope="col">Cliente</th>
-                <th scope="col">RUT</th>
-                <th scope="col">Teléfono</th>
-                <th scope="col" className="text-end pe-4">
+                <th scope="col" className="p-3">
+                  Cliente
+                </th>
+                <th scope="col" className="p-3">
+                  RUT
+                </th>
+                <th scope="col" className="p-3">
+                  Contacto
+                </th>
+                <th scope="col" className="text-end p-3">
                   Acciones
                 </th>
               </tr>
             </thead>
             <tbody>
               {isLoadingClientes ? (
-                <SpinnerComponent />
+                <SpinnerComponent colSpan={5} />
+              ) : filteredData.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="text-center p-4 text-muted">
+                    No se encontraron clientes
+                  </td>
+                </tr>
               ) : (
-                filteredData.map((cliente, index) => (
-                  <tr key={index} className="transition-all">
-                    <td className="ps-4 fw-semibold">{cliente.id}</td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <div className="ms-3">
-                          <h6 className="mb-1 fw-semibold">{cliente.nombre}</h6>
-                          <small className="text-muted d-block">
+                filteredData.map((cliente) => (
+                  <tr
+                    key={cliente.id}
+                    className={`transition-all ${
+                      !cliente.disponible ? "table-secondary" : ""
+                    }`}
+                  >
+                    {/* ID */}
+                    <td className="p-3 fw-semibold text-muted">
+                      #{cliente.id}
+                    </td>
+
+                    {/* Información del Cliente */}
+                    <td className="p-3">
+                      <div className="d-flex flex-column gap-2">
+                        <Badge
+                          pill
+                          bg={cliente.disponible ? "success" : "danger"}
+                          className="align-self-start"
+                        >
+                          {cliente.disponible ? "Disponible" : "No disponible"}
+                        </Badge>
+                        <h6 className="mb-0 fw-semibold">{cliente.nombre}</h6>
+                        <div className="d-flex flex-column gap-1">
+                          <div className="bg-light p-2 rounded small">
+                            <i className="bi bi-envelope me-2"></i>
                             {cliente.email}
-                          </small>
-                          <div
-                            className="text-truncate"
-                            style={{ maxWidth: "300px" }}
-                          >
-                            <small className="text-muted">
-                              {cliente.domicilio}
-                            </small>
+                          </div>
+                          <div className="bg-light p-2 rounded small">
+                            <i className="bi bi-geo-alt me-2"></i>
+                            {cliente.domicilio}
                           </div>
                         </div>
                       </div>
                     </td>
-                    <td>
-                      <span className="badge bg-light text-dark border">
+
+                    {/* RUT */}
+                    <td className="p-3">
+                      <Badge pill bg="primary" className="font-monospace">
                         {cliente.rut}
-                      </span>
+                      </Badge>
                     </td>
-                    <td>
-                      <a
-                        href={`tel:${cliente.telefono}`}
-                        className="text-decoration-none"
-                      >
-                        {cliente.telefono}
-                      </a>
+
+                    {/* Contacto */}
+                    <td className="p-3">
+                      <div className="d-flex flex-column gap-2">
+                        <a
+                          href={`tel:${cliente.telefono}`}
+                          className="text-decoration-none text-primary d-flex align-items-center gap-2"
+                        >
+                          <i className="bi bi-telephone"></i>
+                          {cliente.telefono}
+                        </a>
+                      </div>
                     </td>
-                    <td className="pe-4">
+
+                    {/* Acciones */}
+                    <td className="p-3">
                       <Stack
-                        direction="horizontal"
                         gap={2}
-                        className="justify-content-end"
+                        className="justify-content-end flex-md-row flex-column"
                       >
                         <Button
                           variant="outline-primary"
                           size="sm"
-                          className="d-flex align-items-center gap-2"
+                          className="d-flex align-items-center gap-1"
                           onClick={() => {
                             setSelectedCliente(cliente);
                             setShowUpdateModal(true);
@@ -145,7 +177,7 @@ export const ListaClientes = () => {
                         <Button
                           variant="outline-danger"
                           size="sm"
-                          className="d-flex align-items-center gap-2"
+                          className="d-flex align-items-center gap-1"
                           onClick={() => {
                             setSelectedCliente(cliente);
                             setShowDeleteModal(true);
@@ -164,21 +196,17 @@ export const ListaClientes = () => {
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Modals */}
       <ModalCrearCliente
         showModal={showModal}
         handleClose={() => setShowModal(false)}
       />
-
-      {/* Modal de eliminación */}
       <ModalEliminarCliente
         showModal={showDeleteModal}
         handleClose={() => setShowDeleteModal(false)}
         handleDelete={handleDelete}
         clienteData={selectedCliente}
       />
-
-      {/* Modal de actualización */}
       <ModalActualizarCliente
         showModal={showUpdateModal}
         handleClose={() => setShowUpdateModal(false)}

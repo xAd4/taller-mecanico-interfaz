@@ -13,10 +13,15 @@ const createClienteField = {
 };
 
 export const ModalCrearCliente = ({ handleShow, handleClose, showModal }) => {
-  const { nombre, email, rut, telefono, domicilio, onInputChange } =
+  const { nombre, email, rut, telefono, domicilio, disponible, onInputChange } =
     useForm(createClienteField);
 
   const { startSavingEvent } = useClienteStore();
+
+  // const handleInputChangeCheckbox = (e) => {
+  //   const { name, checked } = e.target;
+  //   onInputChange({ target: { name, value: checked } });
+  // };
 
   // Manejar envío del formulario
   const handleSubmit = async (e) => {
@@ -31,10 +36,6 @@ export const ModalCrearCliente = ({ handleShow, handleClose, showModal }) => {
     });
 
     Swal.fire("Ok", "Cliente creado", "success");
-    setTimeout(() => {
-      location.reload();
-    }, 1000);
-
     handleClose();
   };
   return (
@@ -96,7 +97,7 @@ export const ModalCrearCliente = ({ handleShow, handleClose, showModal }) => {
                 placeholder="Máximo 255 carácteres"
                 value={domicilio}
                 onChange={onInputChange}
-                maxLength={250}
+                maxLength={254}
               />
             </Form.Group>
           </Modal.Body>

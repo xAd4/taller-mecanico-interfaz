@@ -27,7 +27,9 @@ export const useSelectorVehiculos = (showModal) => {
       if (vehiculo.matricula.toLowerCase().includes(searchTerm.toLowerCase())) {
         grupos[categoriaNombre].options.push({
           value: vehiculo.id,
-          label: `${vehiculo.modelo} - ${vehiculo.marca} - ${vehiculo.matricula}`,
+          label: `${vehiculo.modelo} ${vehiculo.marca} - ${
+            vehiculo.matricula
+          } | ${vehiculo.disponible ? "Disponible" : "No disponible"}`,
         });
       }
     });

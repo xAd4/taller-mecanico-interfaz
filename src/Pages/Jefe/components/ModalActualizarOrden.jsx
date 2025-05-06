@@ -14,22 +14,13 @@ export const ModalActualizarOrden = ({ showModal, handleClose, ordenData }) => {
       cambio_de_aceite: "",
       cambio_de_filtro: "",
       detalles_de_entrada_del_vehiculo: "",
+      disponible: "",
     }
   );
 
   const { startSavingOrden } = useOrdenStore();
 
   // Convierte los datos del backend (0/1) a booleanos
-
-  const handleInputChangeCheckbox = (e) => {
-    const { name, type, checked } = e.target;
-    // Para checkboxes usamos 'checked', de lo contrario 'value'
-    const value = type === "checkbox" ? checked : e.target.value;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
 
   useEffect(() => {
     if (ordenData) {
@@ -44,8 +35,29 @@ export const ModalActualizarOrden = ({ showModal, handleClose, ordenData }) => {
     });
   };
 
+  const handleInputChangeCheckbox = (e) => {
+    const { name, type, checked } = e.target;
+    // Para checkboxes usamos 'checked', de lo contrario 'value'
+    const value = type === "checkbox" ? checked : e.target.value;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (
+      !formData.detalle_de_trabajos_a_realizar.trim() ||
+      !formData.detalles_de_entrada_del_vehiculo.trim()
+    ) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Los campos no puede estar vacío. En los campos opcionales, coloca escriba 'N/A'.",
+      });
+      return; // Detener el envío del formulario
+    }
     startSavingOrden(formData);
     Swal.fire("Ok", "Orden actualizada", "success");
     handleClose();
@@ -79,7 +91,9 @@ export const ModalActualizarOrden = ({ showModal, handleClose, ordenData }) => {
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Detalles de trabajos a realizar</Form.Label>
+            <Form.Label>
+              Detalles de trabajos a realizar (Si es opcional, escribir N/A)
+            </Form.Label>
             <Form.Control
               as="textarea"
               rows={3}
@@ -127,13 +141,24 @@ export const ModalActualizarOrden = ({ showModal, handleClose, ordenData }) => {
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Detalles de entrada de vehiculo</Form.Label>
+            <Form.Label>
+              Detalles de entrada de vehiculo (Si es opcional, escribir N/A)
+            </Form.Label>
             <Form.Control
               as="textarea"
               rows={3}
               name="detalles_de_entrada_del_vehiculo"
               value={formData.detalles_de_entrada_del_vehiculo}
               onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Check
+              type="checkbox"
+              name="disponible"
+              label="Disponible"
+              checked={formData.disponible}
+              onChange={handleInputChangeCheckbox}
             />
           </Form.Group>
         </Modal.Body>

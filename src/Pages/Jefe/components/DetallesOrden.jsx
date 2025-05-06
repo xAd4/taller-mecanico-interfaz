@@ -56,6 +56,13 @@ export const DetallesOrden = () => {
           <h1 className="h2 mb-0">Orden # {orden.id}</h1>
         </div>
 
+        {/* Cartel de disponibilidad */}
+        {!orden.disponible && (
+          <div className="alert alert-danger text-center fw-bold fs-5">
+            Esta orden ya no está disponible
+          </div>
+        )}
+
         {/* Sección principal */}
         <div className="row g-4">
           {/* Columna Izquierda - Cliente y Vehículo */}

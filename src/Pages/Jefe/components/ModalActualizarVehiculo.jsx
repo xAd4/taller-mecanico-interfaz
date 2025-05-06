@@ -18,6 +18,7 @@ export const ModalActualizarVehiculo = ({
       numero_de_serie: "",
       numero_de_motor: "",
       fecha_de_compra: "",
+      disponible: "",
     }
   );
 
@@ -30,6 +31,16 @@ export const ModalActualizarVehiculo = ({
     }
   }, [vehiculoData]);
 
+  const handleInputChangeCheckbox = (e) => {
+    const { name, type, checked } = e.target;
+    // Para checkboxes usamos 'checked', de lo contrario 'value'
+    const value = type === "checkbox" ? checked : e.target.value;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
@@ -39,6 +50,16 @@ export const ModalActualizarVehiculo = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!formData.numero_de_serie.trim() || !formData.numero_de_motor.trim()) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Los campos no pueden estar vacíos. En los campos opcionales, escriba 'N/A'.",
+      });
+      return; // Detener el envío del formulario
+    }
+
     startSavingVehiculo(formData);
     Swal.fire("Ok", "Vehiculo actualizado", "success");
     handleClose();
@@ -101,7 +122,9 @@ export const ModalActualizarVehiculo = ({
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Numero de serie (Opcional)</Form.Label>
+            <Form.Label>
+              Numero de serie (Si es opcional, escribir N/A)
+            </Form.Label>
             <Form.Control
               type="text"
               name="numero_de_serie"
@@ -110,7 +133,9 @@ export const ModalActualizarVehiculo = ({
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Numero de motor (Opcional)</Form.Label>
+            <Form.Label>
+              Numero de motor (Si es opcional, escribir N/A)
+            </Form.Label>
             <Form.Control
               type="text"
               name="numero_de_motor"
@@ -119,12 +144,27 @@ export const ModalActualizarVehiculo = ({
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Fecha de compra (Opcional)</Form.Label>
+            <Form.Label>
+              <Form.Label>
+                Fecha de compra (Opcional: si no desea cambiarla, deje la fecha
+                actual. Esto no afectará el flujo ni el comportamiento del
+                sistema).
+              </Form.Label>
+            </Form.Label>
             <Form.Control
               type="date"
               name="fecha_de_compra"
-              value={formData.fecha_de_compra}
+              value={formData.fecha_de_compra ?? ""}
               onChange={handleInputChange}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Check
+              type="checkbox"
+              name="disponible"
+              label="Disponible"
+              checked={formData.disponible}
+              onChange={handleInputChangeCheckbox}
             />
           </Form.Group>
         </Modal.Body>

@@ -41,7 +41,11 @@ export const useClienteStore = () => {
   const startSavingEvent = async (cliente) => {
     try {
       if (cliente.id) {
-        await tallerMecanicoApi.put(`/clientes/${cliente.id}`, cliente);
+        console.log(cliente.created_at);
+        const { data } = await tallerMecanicoApi.put(
+          `/clientes/${cliente.id}`,
+          cliente
+        );
         dispatch(onUpdateCliente({ ...cliente, user }));
         return;
       } else {

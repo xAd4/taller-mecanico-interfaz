@@ -6,7 +6,6 @@ import Swal from "sweetalert2";
 export const ModalActualizarProducto = ({
   showModal,
   handleClose,
-  handleUpdate,
   productoData,
 }) => {
   const [formData, setFormData] = useState(
@@ -17,7 +16,7 @@ export const ModalActualizarProducto = ({
       marca: "",
       stock: "",
       precio: "",
-      disponibilidad: "",
+      disponible: "",
     }
   );
 
@@ -49,6 +48,14 @@ export const ModalActualizarProducto = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!formData.detalles.trim()) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Los campos no puede estar vacío. En los campos opcionales, coloca escriba 'N/A'.",
+      });
+      return; // Detener el envío del formulario
+    }
     startSavingProducto(formData);
     Swal.fire("Ok", "Producto actualizado", "success");
     handleClose(); // Cierra el modal
@@ -90,7 +97,6 @@ export const ModalActualizarProducto = ({
               name="detalles"
               value={formData.detalles}
               onChange={handleInputChange}
-              required
             />
           </Form.Group>
           <Form.Group className="mb-3">
@@ -126,9 +132,9 @@ export const ModalActualizarProducto = ({
           <Form.Group className="mb-3">
             <Form.Check
               type="checkbox"
-              name="disponibilidad"
+              name="disponible"
               label="Disponible"
-              checked={formData.disponibilidad}
+              checked={formData.disponible}
               onChange={handleInputChangeCheckbox}
             />
           </Form.Group>

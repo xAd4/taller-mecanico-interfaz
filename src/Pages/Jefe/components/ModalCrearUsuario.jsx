@@ -22,12 +22,16 @@ export const ModalCrearUsuario = ({ showModal, handleClose }) => {
 
   const { startRegister, errorMessage } = useAuthStore();
 
-  // Manejar envío del formulario
   useEffect(() => {
     if (errorMessage !== undefined) {
       Swal.fire("Error", errorMessage, "error");
     }
   }, [errorMessage]);
+
+  // const handleInputChangeCheckbox = (e) => {
+  //   const { name, checked } = e.target;
+  //   onInputChange({ target: { name, value: checked } });
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();

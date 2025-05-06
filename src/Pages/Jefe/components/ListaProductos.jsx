@@ -229,9 +229,7 @@ export const ListaProductos = () => {
                 <SpinnerComponent />
               ) : (
                 filteredProducts.map((producto, index) => {
-                  const estado = getEstadoDisponibilidad(
-                    producto?.disponibilidad
-                  );
+                  const estado = getEstadoDisponibilidad(producto?.disponible);
 
                   return (
                     <tr key={index} className="transition-all">

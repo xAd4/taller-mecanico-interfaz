@@ -11,7 +11,7 @@ export const ModalActualizarCategoria = ({
   const [formData, setFormData] = useState(
     categoriaData || {
       nombre: "",
-      disponibilidad: true,
+      disponibilidad: "",
     }
   );
 

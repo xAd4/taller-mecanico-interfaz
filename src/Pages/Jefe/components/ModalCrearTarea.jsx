@@ -34,12 +34,41 @@ export const ModalCrearTarea = ({ showModal, handleClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validar campos requeridos
+    if (!orden_id) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Debe seleccionar una orden.",
+      });
+      return;
+    }
+
+    if (!mecanico_id) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Debe seleccionar un mecánico.",
+      });
+      return;
+    }
+
+    if (!estado_de_trabajo) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Debe seleccionar un estado de trabajo.",
+      });
+      return;
+    }
+
     startSavingTarea({
       orden_id,
       mecanico_id,
       estado_de_trabajo,
       notificacion_al_cliente,
     });
+
     Swal.fire("Ok", "Tarea creada", "success");
     setTimeout(() => {
       location.reload();

@@ -14,6 +14,7 @@ export const ModalActualizarUsuario = ({
       email: "",
       password: "",
       rol: "",
+      disponible: "",
     }
   );
 
@@ -25,6 +26,16 @@ export const ModalActualizarUsuario = ({
       setFormData(usuarioData);
     }
   }, [usuarioData]);
+
+  const handleInputChangeCheckbox = (e) => {
+    const { name, type, checked } = e.target;
+    // Para checkboxes usamos 'checked', de lo contrario 'value'
+    const value = type === "checkbox" ? checked : e.target.value;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
   const handleInputChange = (e) => {
     setFormData({
@@ -81,6 +92,15 @@ export const ModalActualizarUsuario = ({
               <option value="jefe">Jefe</option>
               <option value="mecanico">Mecánico</option>
             </Form.Select>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Check
+              type="checkbox"
+              name="disponible"
+              label="Disponible"
+              checked={formData.disponible}
+              onChange={handleInputChangeCheckbox}
+            />
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>

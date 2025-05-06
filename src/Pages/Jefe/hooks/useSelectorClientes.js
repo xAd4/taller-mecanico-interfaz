@@ -27,7 +27,9 @@ export const useSelectorClientes = (showModal) => {
       if (cliente.telefono.toLowerCase().includes(searchTerm.toLowerCase())) {
         grupos[categoriaNombre].options.push({
           value: cliente.id,
-          label: `${cliente.nombre} - ${cliente.email}`,
+          label: `${cliente.nombre} - ${cliente.email} - ${
+            cliente.disponible ? "Disponible" : "No disponible"
+          }`,
         });
       }
     });
