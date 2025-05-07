@@ -39,11 +39,11 @@ export const ModalActualizarTarea = ({ showModal, handleClose, tareaData }) => {
   } = useSelectorMecanicos(showModal);
 
   // Encuentra las opciones seleccionadas iniciales
-  const selectedOrdenes = opcionesOrdenes
+  const selectedOrden = opcionesOrdenes
     .flatMap((group) => group.options)
     .find((opt) => opt.value === formData.orden_id);
 
-  const selectedMecanicos = opcionesMecanicos
+  const selectedMecanico = opcionesMecanicos
     .flatMap((group) => group.options)
     .find((opt) => opt.value === formData.mecanico_id);
 
@@ -93,7 +93,7 @@ export const ModalActualizarTarea = ({ showModal, handleClose, tareaData }) => {
               </InputGroup>
               <Select
                 options={opcionesOrdenes}
-                value={selectedOrdenes}
+                value={selectedOrden}
                 onChange={(selected) =>
                   handleOrdenChange(selected, setFormData)
                 }
@@ -119,7 +119,7 @@ export const ModalActualizarTarea = ({ showModal, handleClose, tareaData }) => {
               </InputGroup>
               <Select
                 options={opcionesMecanicos}
-                value={selectedMecanicos}
+                value={selectedMecanico}
                 onChange={(selected) =>
                   handleMecanicoChange(selected, setFormData)
                 }

@@ -9,59 +9,24 @@ import {
   Badge,
 } from "react-bootstrap";
 import { Layout } from "./components/common/Layout";
+import { useBuscadorStore } from "./hooks/useBuscadorStore";
 
 export const LandingPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [results, setResults] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const { buscador, isLoadingBuscador, startLoadingBuscador } =
+    useBuscadorStore();
 
-  // Simulamos datos para la demostración
-  const sampleData = {
-    status: true,
-    data: {
-      results: [
-        {
-          id: 1,
-          datos_extras:
-            "Renault Twingo viene con choque en la puerta izquierda...",
-          recepcion: "2025-03-15",
-          cliente: {
-            nombre: "Carlos",
-            apellido: "Estarita",
-            telefono: "1234578944",
-          },
-          vehiculo: {
-            modelo: "Renault Twingo",
-            color: "Rojo",
-            matricula: "AB456CR",
-          },
-          tareas: [
-            {
-              estado_de_trabajo: "pendiente",
-              detalles_de_tarea: "El mecanico 1 tiene que hacer cosas",
-            },
-          ],
-        },
-      ],
-    },
-  };
+  const [error, setError] = useState("");
 
   const handleSearch = async () => {
     try {
-      setLoading(true);
+      if (!searchTerm) return;
+      await startLoadingBuscador(searchTerm);
       setError("");
-
-      // TODO: Implementar la llamada HTTP
-      // const response = await fetch(`${base_url}/search/ordenes/${searchTerm}`);
-      // const data = await response.json();
-
-      // Simulación temporal
-      setResults(sampleData.data.results);
-    } catch (err) {
-      setError("Error al realizar la búsqueda");
-    } finally {
-      setLoading(false);
+    } catch (error) {
+      setError(
+        "Error al buscar la orden. Verifica la matrícula e intenta nuevamente."
+      );
     }
   };
 
@@ -86,66 +51,60 @@ export const LandingPage = () => {
                       onChange={(e) =>
                         setSearchTerm(e.target.value.toUpperCase())
                       }
-                      onKeyPress={(e) => e.key === "Enter" && handleSearch()}
+                      onSubmit={(e) => e.key === "Enter" && handleSearch()}
                     />
-                    <Button
-                      variant="danger"
-                      onClick={handleSearch}
-                      disabled={loading || !searchTerm}
-                    >
-                      {loading ? <Spinner size="sm" /> : "Buscar"}
+                    <Button variant="danger" onClick={handleSearch}>
+                      Buscar
                     </Button>
                   </div>
 
                   {error && <Alert variant="danger">{error}</Alert>}
 
                   {/* Resultados */}
-                  {results &&
-                    results.map((orden) => (
-                      <Card key={orden.id} className="mb-4">
-                        <Card.Header className="d-flex justify-content-between align-items-center">
-                          <h4 className="mb-0">Orden #{orden.id}</h4>
-                          <Badge bg="info">
-                            Matrícula: {orden.vehiculo.matricula}
-                          </Badge>
-                        </Card.Header>
+                  {buscador?.results?.map((orden) => (
+                    <Card key={orden.id} className="mb-4">
+                      <Card.Header className="d-flex justify-content-between align-items-center">
+                        <h4 className="mb-0">Orden #{orden.id}</h4>
+                        <Badge bg="info">
+                          Matrícula: {orden.vehiculo?.matricula}
+                        </Badge>
+                      </Card.Header>
 
-                        <Card.Body>
-                          <ListGroup variant="flush">
-                            <ListGroup.Item>
-                              <strong>Vehículo:</strong> {orden.vehiculo.modelo}{" "}
-                              - {orden.vehiculo.color}
-                            </ListGroup.Item>
+                      <Card.Body>
+                        <ListGroup variant="flush">
+                          <ListGroup.Item>
+                            <strong>Vehículo:</strong> {orden.vehiculo?.modelo}{" "}
+                            - {orden.vehiculo?.color}
+                          </ListGroup.Item>
 
-                            <ListGroup.Item>
-                              <strong>Matricula:</strong>{" "}
-                              {orden.vehiculo.matricula}
-                            </ListGroup.Item>
+                          <ListGroup.Item>
+                            <strong>Matricula:</strong>{" "}
+                            {orden.vehiculo?.matricula}
+                          </ListGroup.Item>
 
-                            <ListGroup.Item>
-                              <strong>Cliente:</strong> {orden.cliente.nombre}{" "}
-                              {orden.cliente.apellido}
-                            </ListGroup.Item>
+                          <ListGroup.Item>
+                            <strong>Cliente:</strong> {orden.cliente?.nombre}
+                          </ListGroup.Item>
 
-                            <ListGroup.Item>
-                              <strong>Teléfono:</strong>{" "}
-                              {orden.cliente.telefono}
-                            </ListGroup.Item>
+                          <ListGroup.Item>
+                            <strong>Teléfono:</strong> {orden.cliente?.telefono}
+                          </ListGroup.Item>
 
-                            <ListGroup.Item>
-                              <strong>Recepción:</strong>{" "}
-                              {new Date(orden.recepcion).toLocaleDateString()}
-                            </ListGroup.Item>
+                          <ListGroup.Item>
+                            <strong>Recepción:</strong>{" "}
+                            {new Date(orden.recepcion).toLocaleDateString()}
+                          </ListGroup.Item>
 
-                            <ListGroup.Item>
-                              <strong>Detalles adicionales:</strong>{" "}
-                              {orden.datos_extras}
-                            </ListGroup.Item>
-                          </ListGroup>
+                          <ListGroup.Item>
+                            <strong>Detalles de entrada:</strong>{" "}
+                            {orden.detalles_de_entrada_del_vehiculo}
+                          </ListGroup.Item>
+                        </ListGroup>
 
-                          <h5 className="mt-4">Tareas en curso</h5>
-                          {orden.tareas.map((tarea, index) => (
-                            <Card key={index} className="mb-3">
+                        <h5 className="mt-4">Tareas en curso</h5>
+                        {orden.tareas?.length > 0 ? (
+                          orden.tareas.map((tarea) => (
+                            <Card key={tarea.id} className="mb-3">
                               <Card.Body>
                                 <div className="d-flex justify-content-between align-items-center">
                                   <div>
@@ -154,7 +113,7 @@ export const LandingPage = () => {
                                         tarea.estado_de_trabajo === "pendiente"
                                           ? "warning"
                                           : tarea.estado_de_trabajo ===
-                                            "en_progreso"
+                                            "en_proceso"
                                           ? "primary"
                                           : "success"
                                       }
@@ -165,19 +124,25 @@ export const LandingPage = () => {
                                       )}
                                     </Badge>
                                     <p className="mt-2 mb-0">
-                                      {tarea.detalles_de_tarea}
+                                      <strong>Notificación:</strong>{" "}
+                                      {tarea.notificacion_al_cliente}
                                     </p>
                                   </div>
                                 </div>
                               </Card.Body>
                             </Card>
-                          ))}
-                        </Card.Body>
-                      </Card>
-                    ))}
+                          ))
+                        ) : (
+                          <Alert variant="info" className="mt-3">
+                            No hay información hasta el momento.
+                          </Alert>
+                        )}
+                      </Card.Body>
+                    </Card>
+                  ))}
 
-                  {results && results.length === 0 && (
-                    <Alert variant="info">
+                  {buscador?.results?.length === 0 && (
+                    <Alert variant="info" className="mt-4">
                       No se encontraron resultados para esta matrícula
                     </Alert>
                   )}

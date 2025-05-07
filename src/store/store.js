@@ -14,10 +14,12 @@ import { trenTraseroSlice } from "./mecanico/trenTrasero/trenTraseroSlice";
 import { frenoSlice } from "./mecanico/frenos/frenoSlice";
 import { neumaticoSlice } from "./mecanico/estadoNeumaticos/neumaticoSlice";
 import { productoUsado } from "./mecanico/productoUsado/productoUsadoSlice";
+import { buscadorSlice } from "./cliente/buscadorSlice";
 
 export const store = configureStore({
   reducer: {
-    //TODO: Acciones del cliente
+    //* Acciones del cliente
+    buscador: buscadorSlice.reducer,
 
     //* Autenticacion para empleados
     auth: authSlice.reducer,
