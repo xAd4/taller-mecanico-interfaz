@@ -113,7 +113,7 @@ export const DetalleTareas = () => {
 
   const TabButton = ({ id, title, icon }) => (
     <Button
-      variant={activeTab === id ? "danger" : "outline-danger"}
+      variant={activeTab === id ? "primary" : "outline-primary"}
       onClick={() => setActiveTab(id)}
       className="d-flex align-items-center gap-2"
     >
@@ -148,7 +148,7 @@ export const DetalleTareas = () => {
         ) : (
           <div className="container-fluid px-4 py-3 animate__animated animate__fadeIn">
             <Button
-              variant="outline-danger"
+              variant="outline-primary"
               size="sm"
               className="mb-4 d-flex align-items-center gap-2"
               onClick={onBack}
@@ -162,7 +162,7 @@ export const DetalleTareas = () => {
                 <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
                   {/* Título principal */}
                   <div>
-                    <h1 className="h2 fw-bold text-danger mb-1">
+                    <h1 className="h2 fw-bold text-primary mb-1">
                       <i className="bi bi-clipboard-check me-2"></i>
                       Detalles de la Tarea #{tarea?.id}
                     </h1>
@@ -272,7 +272,7 @@ export const DetalleTareas = () => {
                     {/* Notificación al cliente */}
                     {tarea?.notificacion_al_cliente && (
                       <div className="mt-3 p-3 bg-light rounded">
-                        <h6 className="text-danger mb-2">
+                        <h6 className="text-primary mb-2">
                           <i className="bi bi-chat-left-text me-2"></i>
                           Notificación al Cliente
                         </h6>
@@ -283,7 +283,7 @@ export const DetalleTareas = () => {
                     {/* Botón Editar */}
                     <div className="text-end mt-3">
                       <Button
-                        variant="danger"
+                        variant="primary"
                         onClick={() => {
                           setSelectedTarea(tarea);
                           setShowUpdateModal(true);
@@ -301,7 +301,7 @@ export const DetalleTareas = () => {
                   <Row className="align-items-center">
                     <Col md={8}>
                       <h5 className="mb-3 d-flex align-items-center gap-2">
-                        <i className="bi bi-info-circle text-danger"></i>
+                        <i className="bi bi-info-circle text-primary"></i>
                         Estado General de la Tarea
                       </h5>
                       <p className="mb-2">
@@ -361,7 +361,7 @@ export const DetalleTareas = () => {
                         responsive
                         className="shadow-sm"
                       >
-                        <thead className="bg-danger text-white">
+                        <thead className="bg-primary text-white">
                           <tr>
                             <th>Componente</th>
                             <th>Conv</th>
@@ -422,7 +422,7 @@ export const DetalleTareas = () => {
                         className="justify-content-end"
                       >
                         <Button
-                          variant="outline-danger"
+                          variant="outline-primary"
                           size="sm"
                           className="d-flex align-items-center gap-2"
                           onClick={() => {
@@ -453,7 +453,7 @@ export const DetalleTareas = () => {
                         responsive
                         className="shadow-sm"
                       >
-                        <thead className="bg-danger text-white">
+                        <thead className="bg-primary text-white">
                           <tr>
                             <th>Componente</th>
                             <th>Conv</th>
@@ -498,7 +498,7 @@ export const DetalleTareas = () => {
                         className="justify-content-end"
                       >
                         <Button
-                          variant="outline-danger"
+                          variant="outline-primary"
                           size="sm"
                           className="d-flex align-items-center gap-2"
                           onClick={() => {
@@ -529,7 +529,7 @@ export const DetalleTareas = () => {
                         responsive
                         className="shadow-sm"
                       >
-                        <thead className="bg-danger text-white">
+                        <thead className="bg-primary text-white">
                           <tr>
                             <th>Componente</th>
                             <th>Delanteros</th>
@@ -562,7 +562,7 @@ export const DetalleTareas = () => {
                         className="justify-content-end"
                       >
                         <Button
-                          variant="outline-danger"
+                          variant="outline-primary"
                           size="sm"
                           className="d-flex align-items-center gap-2"
                           onClick={() => {
@@ -593,7 +593,7 @@ export const DetalleTareas = () => {
                         responsive
                         className="shadow-sm"
                       >
-                        <thead className="bg-danger text-white">
+                        <thead className="bg-primary text-white">
                           <tr>
                             <th>Componente</th>
                             <th>Delanteros derechos</th>
@@ -628,7 +628,7 @@ export const DetalleTareas = () => {
                         className="justify-content-end"
                       >
                         <Button
-                          variant="outline-danger"
+                          variant="outline-primary"
                           size="sm"
                           className="d-flex align-items-center gap-2"
                           onClick={() => {
@@ -676,7 +676,7 @@ export const DetalleTareas = () => {
                               <td className="pe-4">
                                 <Stack direction="horizontal" gap={2}>
                                   <Button
-                                    variant="outline-danger"
+                                    variant="outline-primary"
                                     size="sm"
                                     className="d-flex align-items-center gap-2"
                                     onClick={() => {

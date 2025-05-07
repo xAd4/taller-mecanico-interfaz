@@ -28,9 +28,19 @@ export const ModalEliminarProducto = ({
         <Modal.Title>Eliminar Producto</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>
-          ¿Estás seguro de que deseas eliminar este producto? Esta acción no se
-          puede deshacer.
+        <p className="text-danger fw-bold">
+          <p>
+            ¿Desea proceder con la eliminación definitiva de este producto? Esta
+            acción:
+          </p>
+          <br />
+          <p> • Eliminará todos los registros asociados del sistema </p>
+          <p>• Modificará irreversiblemente las tareas vinculadas </p>
+          <p>
+            • Actualizará los valores históricos en transacciones relacionadas
+          </p>
+          <br />
+          <u>Esta acción no se puede deshacer.</u>
         </p>
       </Modal.Body>
       <Modal.Footer>

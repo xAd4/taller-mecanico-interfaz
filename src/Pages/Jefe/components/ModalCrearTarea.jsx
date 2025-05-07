@@ -74,9 +74,9 @@ export const ModalCrearTarea = ({ showModal, handleClose }) => {
       "Tarea creada. Se recargará la página para guardar los cambios.",
       "success"
     );
-    // setTimeout(() => {
-    //   location.reload();
-    // }, 1500);
+    setTimeout(() => {
+      location.reload();
+    }, 1500);
     handleClose();
   };
 
@@ -173,6 +173,10 @@ export const ModalCrearTarea = ({ showModal, handleClose }) => {
               value={notificacion_al_cliente}
               onChange={onInputChange}
             />
+            <Form.Text className="text-muted">
+              Este campo es opcional, al dejarse vacío se colocará por defecto
+              un 'N/A'.
+            </Form.Text>
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>

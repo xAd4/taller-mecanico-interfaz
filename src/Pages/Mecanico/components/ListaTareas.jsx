@@ -43,7 +43,7 @@ export const ListaTareas = () => {
       {/* Header */}
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
         <div>
-          <h1 className="h2 mb-1 fw-bold text-danger">Gestión de Tareas</h1>
+          <h1 className="h2 mb-1 fw-bold text-primary">Gestión de Tareas</h1>
           <p className="text-muted mb-0">Seguimiento de trabajos en taller</p>
         </div>
       </div>
@@ -100,11 +100,8 @@ export const ListaTareas = () => {
                       </div>
                     </td>
                     <td>
-                      <Badge
-                        bg={getEstadoColor(tarea?.estado_de_trabajo)}
-                        className="text-capitalize"
-                      >
-                        {tarea?.estado_de_trabajo.replace("_", " ")}
+                      <Badge bg={getEstadoColor(tarea?.estado_de_trabajo)}>
+                        {tarea?.estado_de_trabajo}
                       </Badge>
                     </td>
                     <td>

@@ -20,10 +20,10 @@ export const DetallesTarea = () => {
     return (
       <Layout>
         <div className="container-fluid px-4 py-3">
-          <div className="alert alert-danger">
+          <div className="alert alert-primary">
             No se encontró la tarea solicitada
           </div>
-          <Button onClick={onBack} variant="danger">
+          <Button onClick={onBack} variant="primary">
             Volver al listado
           </Button>
         </div>
@@ -51,7 +51,7 @@ export const DetallesTarea = () => {
 
   const SectionButton = ({ sectionKey, title, icon }) => (
     <Button
-      variant={activeSection === sectionKey ? "danger" : "outline-danger"}
+      variant={activeSection === sectionKey ? "primary" : "outline-primary"}
       onClick={() => setActiveSection(sectionKey)}
       className="d-flex align-items-center gap-2"
     >
@@ -65,7 +65,7 @@ export const DetallesTarea = () => {
 
     return (
       <div className="card shadow-sm mb-4">
-        <div className="card-header bg-danger text-white">
+        <div className="card-header bg-primary text-white">
           <h3 className="h5 mb-0">
             <i className="bi bi-gear me-2"></i>
             {title}
@@ -106,7 +106,7 @@ export const DetallesTarea = () => {
     <Layout>
       <div className="container-fluid px-4 py-3 animate__animated animate__fadeIn">
         <Button
-          variant="outline-danger"
+          variant="outline-primary"
           size="sm"
           className="mb-4 d-flex align-items-center gap-2"
           onClick={onBack}
@@ -122,7 +122,7 @@ export const DetallesTarea = () => {
             bg={
               tarea?.estado_de_trabajo === "pendiente" ? "warning" : "success"
             }
-            className="text-capitalize fs-6"
+            className="fs-6"
           >
             {tarea?.estado_de_trabajo}
           </Badge>
@@ -134,7 +134,7 @@ export const DetallesTarea = () => {
           <div className="col-lg-6">
             {/* Tarjeta Detalles Tarea */}
             <div className="card shadow-sm mb-4">
-              <div className="card-header bg-danger text-white">
+              <div className="card-header bg-primary text-white">
                 <h3 className="h5 mb-0">
                   <i className="bi bi-clipboard-check me-2"></i>
                   Detalles de la Tarea
@@ -228,7 +228,7 @@ export const DetallesTarea = () => {
             {/* Sección de Productos */}
             {activeSection === "productos" && (
               <div className="card shadow-sm mb-4">
-                <div className="card-header bg-danger text-white">
+                <div className="card-header bg-primary text-white">
                   <h3 className="h5 mb-0">
                     <i className="bi bi-box-seam me-2"></i>
                     Productos Utilizados
@@ -266,7 +266,7 @@ export const DetallesTarea = () => {
           <div className="col-lg-6">
             {/* Orden Relacionada */}
             <div className="card shadow-sm mb-4">
-              <div className="card-header bg-danger text-white">
+              <div className="card-header bg-primary text-white">
                 <h3 className="h5 mb-0">
                   <i className="bi bi-file-text me-2"></i># {tarea?.orden.id} -
                   Orden Asociada
@@ -350,7 +350,7 @@ export const DetallesTarea = () => {
                   <dd className="col-sm-8">
                     {tarea?.orden.detalle_de_trabajos_a_realizar || "N/A"}
                   </dd>
-                  <div className="d-flex flex-column gap-2">
+                  <div className="d-flex flex-column gap-2 mt-3">
                     <small
                       className={
                         tarea?.orden.cambio_de_aceite

@@ -114,7 +114,7 @@ export const Login = () => {
 
                       {/* Botón de login */}
                       <Button
-                        variant="danger"
+                        variant="primary"
                         type="submit"
                         size="lg"
                         className="w-100 mb-4"

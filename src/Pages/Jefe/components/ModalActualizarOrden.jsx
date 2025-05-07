@@ -158,6 +158,10 @@ export const ModalActualizarOrden = ({ showModal, handleClose, ordenData }) => {
               value={formData.detalle_de_trabajos_a_realizar}
               onChange={handleInputChange}
             />
+            <Form.Text className="text-muted">
+              Este campo es opcional, al dejarse vacío se colocará por defecto
+              un 'N/A'.
+            </Form.Text>
           </Form.Group>
 
           <Form.Group className="mb-3">
@@ -171,17 +175,19 @@ export const ModalActualizarOrden = ({ showModal, handleClose, ordenData }) => {
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>
-              Fecha prometida (Opcional: si no desea cambiarla, deje la fecha
-              actual. Esto no afectará el flujo ni el comportamiento del
-              sistema).
-            </Form.Label>
+            <Form.Label>Fecha prometida (Opcional).</Form.Label>
             <Form.Control
               type="date"
               name="prometido"
               value={formData.prometido}
               onChange={handleInputChange}
             />
+            <Form.Text className="text-muted">
+              Si la fecha marca como 1/1/1900, considere que esto no afectará el
+              flujo ni el comportamiento del sistema, ya que es reconocido como
+              fecha no definida. No lo cambie para no alterar el flujo de
+              información, a menos que quiera colocar una fecha real.
+            </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Check
@@ -212,6 +218,10 @@ export const ModalActualizarOrden = ({ showModal, handleClose, ordenData }) => {
               value={formData.detalles_de_entrada_del_vehiculo}
               onChange={handleInputChange}
             />
+            <Form.Text className="text-muted">
+              Este campo es opcional, al dejarse vacío se colocará por defecto
+              un 'N/A'.
+            </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Check

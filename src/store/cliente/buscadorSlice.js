@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const buscadorSlice = createSlice({
   name: "buscador",
   initialState: {
-    isLoadingBuscador: true,
+    isLoadingBuscador: false,
     buscador: [],
     activeBuscador: null,
   },

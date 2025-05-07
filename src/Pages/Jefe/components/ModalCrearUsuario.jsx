@@ -64,7 +64,15 @@ export const ModalCrearUsuario = ({ showModal, handleClose }) => {
       {/* Modal para agregar nueva orden */}
       <Modal show={showModal} onHide={handleClose} centered backdrop="static">
         <Modal.Header closeButton>
-          <Modal.Title>Crear nuevo cliente</Modal.Title>
+          <Modal.Title>
+            <h4>Crear nuevo usuario</h4>
+            <p className="text-danger small">
+              Advertencia: Le recomendamos exigir a los usuarios gestionar sus
+              credenciales de acceso con especial cuidado. En caso de extravío,
+              sería necesario realizar una intervención manual en los registros
+              de la base de datos para restablecer el acceso.
+            </p>
+          </Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleSubmit}>
           <Modal.Body>
@@ -89,7 +97,7 @@ export const ModalCrearUsuario = ({ showModal, handleClose }) => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Password</Form.Label>
+              <Form.Label>Contraseña</Form.Label>
               <Form.Control
                 type="password"
                 name="registerPassword"
@@ -99,7 +107,7 @@ export const ModalCrearUsuario = ({ showModal, handleClose }) => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Password Confirmation</Form.Label>
+              <Form.Label>Confirmar contraseña</Form.Label>
               <Form.Control
                 type="password"
                 name="registerPasswordConfirmation"

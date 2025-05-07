@@ -49,7 +49,7 @@ export const DetallesOrdenImpresion = () => {
           {/* Imagen del logo */}
           <NavLink to="/jefe/dashboard" className="navbar-brand">
             <img
-              src="../../../../../public/logo final.png" // Cambia esta ruta si es necesario
+              src="../../../../public/TecnoLogo.jpg" // Cambia esta ruta si es necesario
               alt="DataSoft Logo"
               className="brand-logo img-fluid"
               style={{ maxWidth: "350px", height: "auto" }}

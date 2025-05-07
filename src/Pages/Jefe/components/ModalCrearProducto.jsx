@@ -112,6 +112,10 @@ export const ModalCrearProducto = ({ showModal, handleClose }) => {
                 value={detalles}
                 onChange={onInputChange}
               />
+              <Form.Text className="text-muted">
+                Este campo es opcional, al dejarse vacío se colocará por defecto
+                un 'N/A'.
+              </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Marca</Form.Label>

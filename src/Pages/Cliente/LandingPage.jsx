@@ -10,6 +10,7 @@ import {
 } from "react-bootstrap";
 import { Layout } from "./components/common/Layout";
 import { useBuscadorStore } from "./hooks/useBuscadorStore";
+import { SpinnerComponent } from "../../components/SpinnerComponent";
 
 export const LandingPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -53,7 +54,7 @@ export const LandingPage = () => {
                       }
                       onSubmit={(e) => e.key === "Enter" && handleSearch()}
                     />
-                    <Button variant="danger" onClick={handleSearch}>
+                    <Button variant="primary" onClick={handleSearch}>
                       Buscar
                     </Button>
                   </div>
@@ -61,85 +62,93 @@ export const LandingPage = () => {
                   {error && <Alert variant="danger">{error}</Alert>}
 
                   {/* Resultados */}
-                  {buscador?.results?.map((orden) => (
-                    <Card key={orden.id} className="mb-4">
-                      <Card.Header className="d-flex justify-content-between align-items-center">
-                        <h4 className="mb-0">Orden #{orden.id}</h4>
-                        <Badge bg="info">
-                          Matrícula: {orden.vehiculo?.matricula}
-                        </Badge>
-                      </Card.Header>
+                  {isLoadingBuscador ? (
+                    <SpinnerComponent />
+                  ) : (
+                    buscador?.results?.map((orden) => (
+                      <Card key={orden.id} className="mb-4">
+                        <Card.Header className="d-flex justify-content-between align-items-center">
+                          <h4 className="mb-0">Orden #{orden.id}</h4>
+                          <Badge bg="info">
+                            Matrícula: {orden.vehiculo?.matricula}
+                          </Badge>
+                        </Card.Header>
 
-                      <Card.Body>
-                        <ListGroup variant="flush">
-                          <ListGroup.Item>
-                            <strong>Vehículo:</strong> {orden.vehiculo?.modelo}{" "}
-                            - {orden.vehiculo?.color}
-                          </ListGroup.Item>
+                        <Card.Body>
+                          <ListGroup variant="flush">
+                            <ListGroup.Item>
+                              <strong>Vehículo:</strong>{" "}
+                              {orden.vehiculo?.modelo} - {orden.vehiculo?.color}
+                            </ListGroup.Item>
 
-                          <ListGroup.Item>
-                            <strong>Matricula:</strong>{" "}
-                            {orden.vehiculo?.matricula}
-                          </ListGroup.Item>
+                            <ListGroup.Item>
+                              <strong>Matricula:</strong>{" "}
+                              {orden.vehiculo?.matricula}
+                            </ListGroup.Item>
 
-                          <ListGroup.Item>
-                            <strong>Cliente:</strong> {orden.cliente?.nombre}
-                          </ListGroup.Item>
+                            <ListGroup.Item>
+                              <strong>Cliente:</strong> {orden.cliente?.nombre}
+                            </ListGroup.Item>
 
-                          <ListGroup.Item>
-                            <strong>Teléfono:</strong> {orden.cliente?.telefono}
-                          </ListGroup.Item>
+                            <ListGroup.Item>
+                              <strong>Teléfono:</strong>{" "}
+                              {orden.cliente?.telefono}
+                            </ListGroup.Item>
 
-                          <ListGroup.Item>
-                            <strong>Recepción:</strong>{" "}
-                            {new Date(orden.recepcion).toLocaleDateString()}
-                          </ListGroup.Item>
+                            <ListGroup.Item>
+                              <strong>Recepción:</strong>{" "}
+                              {new Date(orden.recepcion).toLocaleDateString()}
+                            </ListGroup.Item>
 
-                          <ListGroup.Item>
-                            <strong>Detalles de entrada:</strong>{" "}
-                            {orden.detalles_de_entrada_del_vehiculo}
-                          </ListGroup.Item>
-                        </ListGroup>
+                            <ListGroup.Item>
+                              <strong>Detalles de entrada:</strong>{" "}
+                              {orden.detalles_de_entrada_del_vehiculo}
+                            </ListGroup.Item>
+                          </ListGroup>
 
-                        <h5 className="mt-4">Tareas en curso</h5>
-                        {orden.tareas?.length > 0 ? (
-                          orden.tareas.map((tarea) => (
-                            <Card key={tarea.id} className="mb-3">
-                              <Card.Body>
-                                <div className="d-flex justify-content-between align-items-center">
-                                  <div>
-                                    <Badge
-                                      bg={
-                                        tarea.estado_de_trabajo === "pendiente"
-                                          ? "warning"
-                                          : tarea.estado_de_trabajo ===
-                                            "en_proceso"
-                                          ? "primary"
-                                          : "success"
-                                      }
-                                    >
-                                      {tarea.estado_de_trabajo.replace(
-                                        "_",
-                                        " "
-                                      )}
-                                    </Badge>
-                                    <p className="mt-2 mb-0">
-                                      <strong>Notificación:</strong>{" "}
-                                      {tarea.notificacion_al_cliente}
-                                    </p>
+                          <h5 className="mt-4">Tareas en curso</h5>
+                          {isLoadingBuscador ? (
+                            <SpinnerComponent />
+                          ) : orden.tareas?.length > 0 ? (
+                            orden.tareas.map((tarea) => (
+                              <Card key={tarea.id} className="mb-3">
+                                <Card.Body>
+                                  <div className="d-flex justify-content-between align-items-center">
+                                    <div>
+                                      <Badge
+                                        bg={
+                                          tarea.estado_de_trabajo ===
+                                          "pendiente"
+                                            ? "warning"
+                                            : tarea.estado_de_trabajo ===
+                                              "en_proceso"
+                                            ? "primary"
+                                            : "success"
+                                        }
+                                      >
+                                        {tarea.estado_de_trabajo.replace(
+                                          "_",
+                                          " "
+                                        )}
+                                      </Badge>
+                                      <p className="mt-2 mb-0">
+                                        <strong>Notificación:</strong>{" "}
+                                        {tarea.notificacion_al_cliente}
+                                      </p>
+                                    </div>
                                   </div>
-                                </div>
-                              </Card.Body>
-                            </Card>
-                          ))
-                        ) : (
-                          <Alert variant="info" className="mt-3">
-                            No hay información hasta el momento.
-                          </Alert>
-                        )}
-                      </Card.Body>
-                    </Card>
-                  ))}
+                                </Card.Body>
+                              </Card>
+                            ))
+                          ) : (
+                            <Alert variant="info" className="mt-3">
+                              No hay información hasta el momento.
+                            </Alert>
+                          )}
+                        </Card.Body>
+                      </Card>
+                    ))
+                  )}
 
                   {buscador?.results?.length === 0 && (
                     <Alert variant="info" className="mt-4">

@@ -141,6 +141,10 @@ export const ModalCrearVehiculo = ({ showModal, handleClose }) => {
                 value={numero_de_serie}
                 onChange={onInputChange}
               />
+              <Form.Text className="text-muted">
+                Este campo es opcional, al dejarse vacío se colocará por defecto
+                un 'N/A'.
+              </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Numero de motor (Opcional)</Form.Label>
@@ -150,6 +154,10 @@ export const ModalCrearVehiculo = ({ showModal, handleClose }) => {
                 value={numero_de_motor}
                 onChange={onInputChange}
               />
+              <Form.Text className="text-muted">
+                Este campo es opcional, al dejarse vacío se colocará por defecto
+                un 'N/A'.
+              </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Fecha de compra (Opcional)</Form.Label>
@@ -159,6 +167,10 @@ export const ModalCrearVehiculo = ({ showModal, handleClose }) => {
                 value={fecha_de_compra}
                 onChange={onInputChange}
               />
+              <Form.Text className="text-muted">
+                Este campo es opcional, al dejarse vacío se colocará por defecto
+                una fecha que el sistema detectará como no definida.
+              </Form.Text>
             </Form.Group>
           </Modal.Body>
 

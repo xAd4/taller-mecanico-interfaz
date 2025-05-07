@@ -29,9 +29,32 @@ export const ModalEliminarUsuario = ({
       </Modal.Header>
       <Modal.Body>
         <p className="text-danger fw-bold">
-          ¿Estás seguro de que deseas eliminar este usuario? Si borras el
-          usuario, todo rastro relacionado con él, como las tareas también serán
-          eliminados.
+          <p>
+            ¿Desea eliminar permanentemente este registro de usuario? Esta
+            acción:
+          </p>
+          <br />
+          <p>
+            • Eliminará todas las tareas asociadas al perfil y sus cálculos de
+            costos asociados
+          </p>
+          <p>• Borrará el historial de actividades relacionadas </p>
+          <p>• Actualizará los registros de auditoría del sistema</p>
+          <br />
+          <p>Impactos críticos: </p>
+          <p>⚠️ Pérdida de trazabilidad en procesos vinculados</p>
+          <p>⚠️ Alteración de métricas históricas de productividad</p>
+          <p>⚠️ Requerirá ajustes manuales en dependencias activas</p>
+          <br />
+          <p>Nota técnica:</p>
+          <p>
+            La eliminación es irreversible y afectará integridad referencial de
+            la base de datos y consistencia de registros transaccionales.
+          </p>
+          <p>
+            Recomendación: En vez de eliminar, deshabilite el registro en el
+            botón de editar.
+          </p>
           <br />
           <u>Esta acción no se puede deshacer.</u>
         </p>

@@ -44,11 +44,11 @@ export const ListaUsuarios = () => {
       {/* Encabezado */}
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
         <div>
-          <h1 className="h2 mb-1 fw-bold text-danger">Gestión de Usuarios</h1>
+          <h1 className="h2 mb-1 fw-bold text-primary">Gestión de Usuarios</h1>
           <p className="text-muted mb-0">Administración de acceso y permisos</p>
         </div>
         <Button
-          variant="danger"
+          variant="primary"
           onClick={() => setShowModal(true)}
           className="d-flex align-items-center gap-2"
         >
@@ -77,7 +77,7 @@ export const ListaUsuarios = () => {
       <div className="card shadow-sm border-0 overflow-hidden">
         <div className="table-responsive rounded-3">
           <table className="table table-hover align-middle mb-0 table-striped">
-            <thead className="bg-danger text-white">
+            <thead className="bg-primary text-white">
               <tr>
                 <th scope="col" className="p-3">
                   ID
@@ -121,7 +121,7 @@ export const ListaUsuarios = () => {
                     {/* Información del Usuario */}
                     <td className="p-3">
                       <div className="d-flex align-items-center gap-3">
-                        <div className="avatar-circle bg-light text-danger">
+                        <div className="avatar-circle bg-light text-primary">
                           <i className="bi bi-person fs-5"></i>
                         </div>
                         <div>

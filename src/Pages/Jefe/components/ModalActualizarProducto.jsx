@@ -90,7 +90,7 @@ export const ModalActualizarProducto = ({
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Detalles (Si es opcional, escribir N/A)</Form.Label>
+            <Form.Label>Detalles (Opcional)</Form.Label>
 
             <Form.Control
               type="textarea"
@@ -98,6 +98,10 @@ export const ModalActualizarProducto = ({
               value={formData.detalles}
               onChange={handleInputChange}
             />
+            <Form.Text className="text-muted">
+              Este campo es opcional, al dejarse vacío se colocará por defecto
+              un 'N/A'.
+            </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Marca</Form.Label>

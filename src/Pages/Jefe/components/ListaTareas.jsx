@@ -54,11 +54,11 @@ export const ListaTareas = () => {
       {/* Encabezado */}
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
         <div>
-          <h1 className="h2 mb-1 fw-bold text-danger">Gestión de Tareas</h1>
+          <h1 className="h2 mb-1 fw-bold text-primary">Gestión de Tareas</h1>
           <p className="text-muted mb-0">Seguimiento de trabajos en taller</p>
         </div>
         <Button
-          variant="danger"
+          variant="primary"
           onClick={() => setShowModal(true)}
           className="d-flex align-items-center gap-2"
         >
@@ -87,7 +87,7 @@ export const ListaTareas = () => {
       <div className="card shadow-sm border-0 overflow-hidden">
         <div className="table-responsive rounded-3">
           <table className="table table-hover align-middle mb-0 table-striped">
-            <thead className="bg-danger text-white">
+            <thead className="bg-primary text-white">
               <tr>
                 <th scope="col" className="p-3">
                   ID
@@ -135,7 +135,7 @@ export const ListaTareas = () => {
                     <td className="p-3">
                       <div className="d-flex align-items-center gap-3">
                         <div className="bg-light rounded-circle p-2">
-                          <i className="bi bi-person-gear fs-5 text-danger"></i>
+                          <i className="bi bi-person-gear fs-5 text-primary"></i>
                         </div>
                         <div>
                           <h6 className="mb-0 fw-semibold">

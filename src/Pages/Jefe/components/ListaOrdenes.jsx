@@ -45,11 +45,11 @@ export const ListaOrdenes = () => {
       {/* Encabezado */}
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
         <div>
-          <h1 className="h2 mb-1 fw-bold text-danger">Órdenes de Trabajo</h1>
+          <h1 className="h2 mb-1 fw-bold text-primary">Órdenes de Trabajo</h1>
           <p className="text-muted mb-0">Gestión de órdenes activas</p>
         </div>
         <Button
-          variant="danger"
+          variant="primary"
           onClick={() => setShowModal(true)}
           className="d-flex align-items-center gap-2"
         >
@@ -78,7 +78,7 @@ export const ListaOrdenes = () => {
       <div className="card shadow-sm border-0 overflow-hidden">
         <div className="table-responsive rounded-3">
           <table className="table table-hover align-middle mb-0 table-striped">
-            <thead className="bg-danger text-white">
+            <thead className="bg-primary text-white">
               <tr>
                 <th scope="col" className="p-3">
                   ID
@@ -131,17 +131,17 @@ export const ListaOrdenes = () => {
                       <div className="d-flex flex-column gap-2">
                         <Badge
                           pill
-                          bg={orden?.disponible ? "success" : "danger"}
+                          bg={orden?.disponible ? "success" : "primary"}
                           className="align-self-start"
                         >
                           {orden?.disponible ? "Disponible" : "No disponible"}
                         </Badge>
                         <div>
                           <h6 className="mb-1 fw-semibold">
-                            {orden?.cliente.nombre}
+                            {orden?.cliente?.nombre}
                           </h6>
                           <small className="text-muted">
-                            ID: {orden?.cliente.id}
+                            ID: {orden?.cliente?.id}
                           </small>
                         </div>
                       </div>
@@ -153,11 +153,11 @@ export const ListaOrdenes = () => {
                         <i className="bi bi-car-front fs-4 text-muted"></i>
                         <div>
                           <h6 className="mb-1 fw-semibold">
-                            {orden?.vehiculo.marca} {orden?.vehiculo.modelo}
+                            {orden?.vehiculo?.marca} {orden?.vehiculo?.modelo}
                           </h6>
                           <div className="text-muted small">
-                            <div>ID: {orden?.vehiculo.id}</div>
-                            <div>Matrícula: {orden?.vehiculo.matricula}</div>
+                            <div>ID: {orden?.vehiculo?.id}</div>
+                            <div>Matrícula: {orden?.vehiculo?.matricula}</div>
                           </div>
                         </div>
                       </div>

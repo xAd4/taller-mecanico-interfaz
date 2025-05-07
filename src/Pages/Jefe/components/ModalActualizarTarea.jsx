@@ -152,6 +152,10 @@ export const ModalActualizarTarea = ({ showModal, handleClose, tareaData }) => {
               value={formData.notificacion_al_cliente}
               onChange={handleInputChange}
             />
+            <Form.Text className="text-muted">
+              Este campo es opcional, al dejarse vacío se colocará por defecto
+              un 'N/A'.
+            </Form.Text>
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>

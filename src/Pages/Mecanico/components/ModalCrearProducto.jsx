@@ -3,6 +3,7 @@ import Select from "react-select";
 import { useSelectorProductos } from "../hooks/useSelectorProductos";
 import { useForm } from "../../../hooks/useForm";
 import { useProductoUsadoStore } from "../hooks/useProductoUsadoStore";
+import Swal from "sweetalert2";
 
 const createProductoField = {
   tarea_id: "",
@@ -26,6 +27,14 @@ export const ModalCrearProducto = ({ showModal, handleClose, tareaId }) => {
       producto_id,
       cantidad,
     });
+    Swal.fire(
+      "Ok",
+      "Producto agregado. Se recargará la página para guardar los cambios.",
+      "success"
+    );
+    setTimeout(() => {
+      location.reload();
+    }, 1500);
     handleClose();
   };
 

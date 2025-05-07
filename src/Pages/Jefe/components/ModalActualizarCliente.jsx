@@ -113,6 +113,10 @@ export const ModalActualizarCliente = ({
               value={formData.domicilio}
               onChange={handleInputChange}
             />
+            <Form.Text className="text-muted">
+              Este campo es opcional, al dejarse vacío se colocará por defecto
+              un 'N/A'.
+            </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Check

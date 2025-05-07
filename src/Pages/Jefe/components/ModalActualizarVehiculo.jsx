@@ -131,6 +131,10 @@ export const ModalActualizarVehiculo = ({
               value={formData.numero_de_serie}
               onChange={handleInputChange}
             />
+            <Form.Text className="text-muted">
+              Este campo es opcional, al dejarse vacío se colocará por defecto
+              un 'N/A'.
+            </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>
@@ -142,14 +146,14 @@ export const ModalActualizarVehiculo = ({
               value={formData.numero_de_motor}
               onChange={handleInputChange}
             />
+            <Form.Text className="text-muted">
+              Este campo es opcional, al dejarse vacío se colocará por defecto
+              un 'N/A'.
+            </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>
-              <Form.Label>
-                Fecha de compra (Opcional: si no desea cambiarla, deje la fecha
-                actual. Esto no afectará el flujo ni el comportamiento del
-                sistema).
-              </Form.Label>
+              <Form.Label>Fecha de compra (Opcional)</Form.Label>
             </Form.Label>
             <Form.Control
               type="date"
@@ -157,6 +161,12 @@ export const ModalActualizarVehiculo = ({
               value={formData.fecha_de_compra ?? ""}
               onChange={handleInputChange}
             />
+            <Form.Text className="text-muted">
+              Si la fecha marca como 1/1/1900, considere que esto no afectará el
+              flujo ni el comportamiento del sistema, ya que es reconocido como
+              fecha no definida. No lo cambie para no alterar el flujo de
+              información, a menos que quiera colocar una fecha real.
+            </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Check

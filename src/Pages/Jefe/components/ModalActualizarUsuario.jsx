@@ -57,7 +57,7 @@ export const ModalActualizarUsuario = ({
   return (
     <Modal show={showModal} onHide={handleClose} centered backdrop="static">
       <Modal.Header closeButton>
-        <Modal.Title>Actualizar Usuario</Modal.Title>
+        <Modal.Title>Actualizar usuario</Modal.Title>
       </Modal.Header>
       <Form onSubmit={handleSubmit}>
         <Modal.Body>

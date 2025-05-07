@@ -48,6 +48,25 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
   // Manejar envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!cliente_id) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Debe seleccionar un cliente.",
+      });
+      return;
+    }
+
+    if (!vehiculo_id) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Debe seleccionar un vehiculo.",
+      });
+      return;
+    }
+
     startSavingOrden({
       cliente_id,
       vehiculo_id,
@@ -149,6 +168,10 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
                 value={detalle_de_trabajos_a_realizar}
                 onChange={onInputChange}
               />
+              <Form.Text className="text-muted">
+                Este campo es opcional, al dejarse vacío se colocará por defecto
+                un 'N/A'.
+              </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Fecha de Recepción</Form.Label>
@@ -168,6 +191,10 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
                 value={prometido}
                 onChange={onInputChange}
               />
+              <Form.Text className="text-muted">
+                Este campo es opcional, al dejarse vacío se colocará por defecto
+                una fecha que el sistema detectará como no definida.
+              </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Check
@@ -198,6 +225,10 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
                 value={detalles_de_entrada_del_vehiculo}
                 onChange={onInputChange}
               />
+              <Form.Text className="text-muted">
+                Este campo es opcional, al dejarse vacío se colocará por defecto
+                un 'N/A'.
+              </Form.Text>
             </Form.Group>
           </Modal.Body>
 
