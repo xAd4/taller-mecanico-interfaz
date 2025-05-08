@@ -58,11 +58,15 @@ export const DetallesOrdenImpresion = () => {
 
           {/* Encabezado y detalles */}
           <div>
-            <p className="mb-0">Av. Principal 1234, Ciudad, País</p>
             <p className="mb-0">
-              Tel: (123) 456-7890 | Email: contacto@taller.com
+              Gral. Flores 2366/68 entre Blandengues y Marcelino Berthelot
             </p>
-            <p className="mb-0">RUT: 12.345.678-9</p>
+            <p className="mb-0">
+              Horario de atención Lunes a Viernes 8:00 a 12:00 y 14:00 a 19:00
+            </p>
+            <p className="mb-0">
+              Tel: 2208 2468 | Email: info@tecnomotors.com.uy
+            </p>
           </div>
         </div>
       </div>

@@ -133,7 +133,7 @@ export const ListaVehiculos = () => {
                       <div className="d-flex flex-column gap-2">
                         <Badge
                           pill
-                          bg={vehiculo.disponible ? "success" : "primary"}
+                          bg={vehiculo.disponible ? "success" : "danger"}
                           className="align-self-start"
                         >
                           {vehiculo.disponible ? "Disponible" : "No disponible"}

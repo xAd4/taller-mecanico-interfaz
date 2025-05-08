@@ -131,7 +131,7 @@ export const ListaOrdenes = () => {
                       <div className="d-flex flex-column gap-2">
                         <Badge
                           pill
-                          bg={orden?.disponible ? "success" : "primary"}
+                          bg={orden?.disponible ? "success" : "danger"}
                           className="align-self-start"
                         >
                           {orden?.disponible ? "Disponible" : "No disponible"}

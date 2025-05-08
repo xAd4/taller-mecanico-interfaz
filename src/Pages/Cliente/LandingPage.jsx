@@ -91,11 +91,6 @@ export const LandingPage = () => {
                             </ListGroup.Item>
 
                             <ListGroup.Item>
-                              <strong>Teléfono:</strong>{" "}
-                              {orden.cliente?.telefono}
-                            </ListGroup.Item>
-
-                            <ListGroup.Item>
                               <strong>Recepción:</strong>{" "}
                               {new Date(orden.recepcion).toLocaleDateString()}
                             </ListGroup.Item>
@@ -132,7 +127,9 @@ export const LandingPage = () => {
                                         )}
                                       </Badge>
                                       <p className="mt-2 mb-0">
-                                        <strong>Notificación:</strong>{" "}
+                                        <strong>
+                                          Notificación al cliente:
+                                        </strong>{" "}
                                         {tarea.notificacion_al_cliente}
                                       </p>
                                     </div>

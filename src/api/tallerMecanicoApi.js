@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getEnvVariables } from "../helpers/getEnvVariables";
-
+//
 // Obtengo las variables de entorno
 const { VITE_API_URL } = getEnvVariables();
 

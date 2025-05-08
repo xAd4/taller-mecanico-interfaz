@@ -96,10 +96,10 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
         <Modal.Header closeButton>
           <Modal.Title>
             <h4>Crear Nueva Orden</h4>
-            <p className="text-danger small">
+            {/* <p className="text-danger small">
               Advertencia: Si la página queda congelada después de cerrar el
               modal, recárguela.
-            </p>
+            </p> */}
           </Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleSubmit}>

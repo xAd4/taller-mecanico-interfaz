@@ -117,7 +117,7 @@ export const ListaClientes = () => {
                       <div className="d-flex flex-column gap-2">
                         <Badge
                           pill
-                          bg={cliente.disponible ? "success" : "primary"}
+                          bg={cliente.disponible ? "success" : "danger"}
                           className="align-self-start"
                         >
                           {cliente.disponible ? "Disponible" : "No disponible"}

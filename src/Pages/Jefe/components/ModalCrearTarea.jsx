@@ -84,11 +84,11 @@ export const ModalCrearTarea = ({ showModal, handleClose }) => {
     <Modal show={showModal} onHide={handleClose} centered backdrop="static">
       <Modal.Header closeButton>
         <Modal.Title>
-          <h4>Crear Nueva Orden</h4>
-          <p className="text-danger small">
+          <h4>Crear Nueva Tarea</h4>
+          {/* <p className="text-danger small">
             Advertencia: Si la página queda congelada después de cerrar el
             modal, recárguela.
-          </p>
+          </p> */}
         </Modal.Title>
       </Modal.Header>
       <Form onSubmit={handleSubmit}>
