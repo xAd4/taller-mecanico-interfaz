@@ -67,10 +67,11 @@ export const ModalCrearUsuario = ({ showModal, handleClose }) => {
           <Modal.Title>
             <h4>Crear nuevo usuario</h4>
             <p className="text-danger small">
-              Advertencia: Le recomendamos exigir a los usuarios gestionar sus
-              credenciales de acceso con especial cuidado. En caso de extravío,
-              sería necesario realizar una intervención manual en los registros
-              de la base de datos para restablecer el acceso.
+              Advertencia: Como medida de seguridad, las contraseñas serán
+              hasheadas automáticamente en la base de datos, lo que significa
+              que no se podrá conocer su valor real si se olvidan. Por favor,
+              asegúrese de gestionarlas con especial cuidado, ya que en caso de
+              extravío será necesario cambiarlas.
             </p>
           </Modal.Title>
         </Modal.Header>

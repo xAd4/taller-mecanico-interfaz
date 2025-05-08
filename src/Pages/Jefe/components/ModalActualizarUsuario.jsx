@@ -13,12 +13,21 @@ export const ModalActualizarUsuario = ({
       name: "",
       email: "",
       password: "",
+      password_confirmation: "",
       rol: "",
       disponible: "",
     }
   );
 
   const { startSavingUsuario } = useUsuarioStore();
+
+  useEffect(() => {
+    // Sincronizar password_confirmation con password
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      password_confirmation: prevFormData.password,
+    }));
+  }, [formData.password]);
 
   // Actualizar el estado si usuarioData cambia
   useEffect(() => {
@@ -46,8 +55,8 @@ export const ModalActualizarUsuario = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { password, ...dataToSend } = formData;
-    startSavingUsuario(dataToSend);
+    // const { password, password_confirmation, ...dataToSend } = formData;
+    startSavingUsuario(formData);
     Swal.fire("Ok", "Usuario actualizado", "success");
     handleClose(); // Cierra el modal
   };
@@ -80,6 +89,32 @@ export const ModalActualizarUsuario = ({
               onChange={handleInputChange}
               required
             />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Contraseña</Form.Label>
+            <Form.Control
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              required
+            />
+            <Form.Text className="text-muted">
+              La contraseña al ser cambiada, será hasheada automáticamente.
+            </Form.Text>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Confirmar contraseña</Form.Label>
+            <Form.Control
+              type="password"
+              name="password_confirmation"
+              value={formData.password_confirmation}
+              onChange={handleInputChange}
+              required
+            />
+            <Form.Text className="text-muted">
+              La contraseña al ser cambiada, será hasheada automáticamente.
+            </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Rol</Form.Label>
