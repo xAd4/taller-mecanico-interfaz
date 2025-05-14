@@ -345,7 +345,6 @@ export const DetalleTareas = () => {
                 </div>
               </div>
             </div>
-
             {/* Contenido de las pestañas */}
             {activeTab === "delantero" && (
               <>
@@ -725,7 +724,6 @@ export const DetalleTareas = () => {
                 </Button>
               </>
             )}
-
             {/* Resto de las pestañas se mantienen igual... */}
 
             {/* Modal Actualizar Tarea */}

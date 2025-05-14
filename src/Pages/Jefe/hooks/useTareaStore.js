@@ -39,6 +39,7 @@ export const useTareaStore = () => {
           tarea
         );
         dispatch(onUpdateTarea({ ...tarea, user }));
+        location.reload();
         console.log({ data });
       } else {
         const { data } = await tallerMecanicoApi.post("/tareas", tarea);

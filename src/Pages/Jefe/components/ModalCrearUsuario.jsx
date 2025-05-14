@@ -28,13 +28,16 @@ export const ModalCrearUsuario = ({ showModal, handleClose }) => {
     }
   }, [errorMessage]);
 
-  // const handleInputChangeCheckbox = (e) => {
-  //   const { name, checked } = e.target;
-  //   onInputChange({ target: { name, value: checked } });
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (registerPassword.length < 8) {
+      Swal.fire(
+        "Error",
+        "La contraseña debe tener al menos 8 caracteres",
+        "error"
+      );
+      return;
+    }
     if (registerPassword !== registerPasswordConfirmation) {
       Swal.fire("Error", "Las contraseñas no coinciden", "error");
       return;

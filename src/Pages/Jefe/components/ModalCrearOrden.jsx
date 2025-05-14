@@ -107,16 +107,13 @@ export const ModalCrearOrden = ({ showModal, handleClose }) => {
             <Form.Group className="mb-3">
               <Form.Label>Cliente</Form.Label>
               <div className="mb-2">
-                <InputGroup className="mb-2">
-                  <InputGroup.Text>
-                    <i className="bi bi-search"></i>
-                  </InputGroup.Text>
+                {/* <InputGroup className="mb-2">
                   <Form.Control
                     type="text"
                     placeholder="Buscar cliente..."
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
-                </InputGroup>
+                </InputGroup> */}
 
                 <Select
                   options={opcionesAgrupadas}
