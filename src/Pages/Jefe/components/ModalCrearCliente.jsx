@@ -77,14 +77,17 @@ export const ModalCrearCliente = ({ handleShow, handleClose, showModal }) => {
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label>RUT</Form.Label>
+              <Form.Label>RUT (Opcional)</Form.Label>
               <Form.Control
                 type="text"
                 name="rut"
                 value={rut}
                 onChange={onInputChange}
-                required
               />
+              <Form.Text className="text-muted">
+                Este campo es opcional, al dejarse vacío se colocará por defecto
+                un 'N/A'.
+              </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Telefono</Form.Label>

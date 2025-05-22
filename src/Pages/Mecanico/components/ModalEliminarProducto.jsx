@@ -16,9 +16,9 @@ export const ModalEliminarProducto = ({
       "Producto eliminado. Se recargará la página para guardar los cambios.",
       "success"
     );
-    setTimeout(() => {
-      location.reload();
-    }, 1500);
+    // setTimeout(() => {
+    //   location.reload();
+    // }, 1500);
     handleClose();
   };
 

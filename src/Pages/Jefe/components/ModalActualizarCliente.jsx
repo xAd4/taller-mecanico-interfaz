@@ -88,13 +88,17 @@ export const ModalActualizarCliente = ({
             />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>RUT</Form.Label>
+            <Form.Label>RUT (Si es opcional, escribir N/A)</Form.Label>
             <Form.Control
               type="text"
               name="rut"
               value={formData.rut}
               onChange={handleInputChange}
             />
+            <Form.Text className="text-muted">
+              Este campo es opcional, al dejarse vacío se colocará por defecto
+              un 'N/A'.
+            </Form.Text>
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Teléfono</Form.Label>

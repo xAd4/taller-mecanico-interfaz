@@ -226,6 +226,7 @@ export const DetallesTarea = () => {
           variant="outline-primary"
           size="sm"
           className="mb-4 d-flex align-items-center gap-2"
+          onClick={() => navigate(-1)}
         >
           <i className="bi bi-arrow-left"></i>
           <span className="d-none d-md-inline">Regresar</span>
